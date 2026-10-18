@@ -1,0 +1,29 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/account
+  X-Robots-Tag: noindex, nofollow
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/coaches/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/flyers/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/lakeshore-lanes.avif
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

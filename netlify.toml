@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# React Router handles every route in the browser, so unknown paths must serve index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Response headers live in public/_headers so drag-and-drop deploys of dist/ ship them too.
+# Defining them here as well would send duplicate values on Git-based deploys.
