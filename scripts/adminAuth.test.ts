@@ -74,6 +74,7 @@ describe("admin dashboard foundation", () => {
       "Volunteers",
       "Fundraisers",
       "Payment Settings",
+      "Email Announcements",
       "Staff Accounts",
       "Media Library",
       "Publishing History",
@@ -85,6 +86,7 @@ describe("admin dashboard foundation", () => {
     assert.ok(available.has("staff-accounts"))
     assert.ok(available.has("website-pages"))
     assert.ok(available.has("payment-settings"))
+    assert.ok(available.has("email-announcements"))
     assert.ok(available.has("tournament-management"))
   })
 })

@@ -59,7 +59,11 @@ export function TeamAdminDashboard() {
           <li className="admin-section-list__item">
             <div>
               <h3>Propose team announcements</h3>
-              <p>{hasPermission(roles, "propose_announcements") ? "Permitted — submit for approval." : "Not permitted."}</p>
+              <p>
+                {hasPermission(roles, "propose_announcements")
+                  ? "Permitted — prep dashboard is at Admin → Announcements. Outbound email send is not wired until a verified email connection is live."
+                  : "Not permitted."}
+              </p>
             </div>
             <span className="admin-badge">{hasPermission(roles, "propose_announcements") ? "Allowed" : "Blocked"}</span>
           </li>

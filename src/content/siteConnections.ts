@@ -41,6 +41,7 @@ export type SiteConnections = {
   sharing: {
     publicWebsiteUrl: string | null
     publicFundraiserUrl: string | null
+    publicSponsorshipUrl: string | null
   }
   payments: {
     paypalDonationUrl: string | null
@@ -72,6 +73,7 @@ export const siteConnections: SiteConnections = {
   sharing: {
     publicWebsiteUrl: approvedPublicHttps(siteConnectionsConfig.sharing.publicWebsiteUrl),
     publicFundraiserUrl: approvedPublicHttps(siteConnectionsConfig.sharing.publicFundraiserUrl),
+    publicSponsorshipUrl: approvedPublicHttps(siteConnectionsConfig.sharing.publicSponsorshipUrl),
   },
   payments: {
     paypalDonationUrl: livePaymentUrl("paypal"),

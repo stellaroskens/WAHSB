@@ -57,6 +57,14 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     href: "/admin/connections",
   },
   {
+    id: "email-announcements",
+    title: "Email Announcements",
+    description: "Prepare club announcements. Sending stays off until email is verified.",
+    status: "available",
+    statusLabel: "Open",
+    href: "/admin/announcements",
+  },
+  {
     id: "staff-accounts",
     title: "Staff Accounts",
     description: "Invite and manage staff Identity accounts.",

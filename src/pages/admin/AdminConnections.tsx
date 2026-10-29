@@ -287,6 +287,63 @@ export function AdminConnections() {
           />
         </label>
 
+        <h3>Public sharing URLs</h3>
+        <p className="admin-help">
+          HTTPS destinations only. The sponsorship QR page shows a code only when Public sponsorship URL is set to an
+          approved https link — it never invents payment confirmation.
+        </p>
+        <label>
+          Public website URL
+          <input
+            value={config.sharing.publicWebsiteUrl ?? ""}
+            onChange={(event) =>
+              setConfig((current) => ({
+                ...current,
+                sharing: {
+                  ...current.sharing,
+                  publicWebsiteUrl: event.target.value.trim() || null,
+                },
+              }))
+            }
+            placeholder="https://…"
+            autoComplete="off"
+          />
+        </label>
+        <label>
+          Public fundraiser URL
+          <input
+            value={config.sharing.publicFundraiserUrl ?? ""}
+            onChange={(event) =>
+              setConfig((current) => ({
+                ...current,
+                sharing: {
+                  ...current.sharing,
+                  publicFundraiserUrl: event.target.value.trim() || null,
+                },
+              }))
+            }
+            placeholder="https://…"
+            autoComplete="off"
+          />
+        </label>
+        <label>
+          Public sponsorship URL (QR target)
+          <input
+            value={config.sharing.publicSponsorshipUrl ?? ""}
+            onChange={(event) =>
+              setConfig((current) => ({
+                ...current,
+                sharing: {
+                  ...current.sharing,
+                  publicSponsorshipUrl: event.target.value.trim() || null,
+                },
+              }))
+            }
+            placeholder="https://…"
+            autoComplete="off"
+          />
+        </label>
+
         <h3>Social media</h3>
         {config.social.map((network, index) => (
           <fieldset key={network.id} className="admin-fieldset">

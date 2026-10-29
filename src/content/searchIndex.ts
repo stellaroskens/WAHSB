@@ -24,6 +24,7 @@ const publicEntries: SearchEntry[] = [
   { to: "/tournaments", label: "Tournaments", detail: "Dates and venues", keywords: `${pages.tournaments.description} schedule directions venue` },
   { to: "/team-gear", label: "Team Gear", detail: "BSN SPORTS team shop", keywords: `${pages.teamGear.description} apparel clothing store shop bsn` },
   { to: "/sponsors", label: "Sponsors", detail: "Support the team", keywords: `${pages.sponsors.description} sponsorship donate lakeshore lanes` },
+  { to: "/sponsor-qr", label: "Sponsorship QR", detail: "Printable QR when configured", keywords: "sponsorship qr code sponsor print" },
   { to: "/fundraisers", label: "Fundraisers", detail: "Upcoming fundraisers", keywords: pages.fundraisers.description },
   { to: "/bowl-a-thon", label: "Bowl-A-Thon", detail: "Donate or pledge", keywords: `${pages.bowlathon.description} donate pledge bowlathon` },
   { to: "/resources", label: "Bowling Resources", detail: "Local services and links", keywords: `${pages.resources.description} equipment pro shop` },

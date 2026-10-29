@@ -38,6 +38,7 @@ export type SiteConnectionsConfig = {
   sharing: {
     publicWebsiteUrl: string | null
     publicFundraiserUrl: string | null
+    publicSponsorshipUrl: string | null
   }
 }
 
@@ -148,6 +149,22 @@ export function validateSiteConnections(input: unknown): ConnectionsIssue[] {
     }
     if (typeof input.email.publicFromAddress === "string" && looksLikeSecret(input.email.publicFromAddress)) {
       issues.push({ path: "email.publicFromAddress", message: "Secrets are not allowed." })
+    }
+  }
+
+  if (!isRecord(input.sharing)) issues.push({ path: "sharing", message: "sharing is required." })
+  else {
+    for (const key of ["publicWebsiteUrl", "publicFundraiserUrl", "publicSponsorshipUrl"] as const) {
+      const value = input.sharing[key]
+      if (typeof value === "string") {
+        if (looksLikeSecret(value)) {
+          issues.push({ path: `sharing.${key}`, message: "Secrets are not allowed." })
+        } else if (value && !approvedPublicHttps(value)) {
+          issues.push({ path: `sharing.${key}`, message: "Must be a public https URL." })
+        }
+      } else if (value !== null && value !== undefined) {
+        issues.push({ path: `sharing.${key}`, message: "Must be string or null." })
+      }
     }
   }
 

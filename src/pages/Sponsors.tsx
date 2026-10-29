@@ -1,4 +1,5 @@
 import { type MouseEvent } from "react"
+import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { SponsorInquiry } from "../components/SponsorInquiry"
@@ -92,6 +93,10 @@ export function Sponsors() {
               </div>
             </article>
           </div>
+          <p className="sw-sponsors__qr-note">
+            <Link to="/sponsor-qr">Sponsorship QR</Link> is available only after staff configure an approved public
+            sponsorship URL. This site does not take payment.
+          </p>
 
           <div className="sw-sponsors__grid">
             <div className="sw-panel sw-sponsors__form">

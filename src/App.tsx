@@ -3,6 +3,7 @@ import { AuthCallbackRedirect } from "./components/AuthCallbackRedirect"
 import { Layout } from "./components/Layout"
 import { RequireStaff } from "./lib/auth/RequireStaff"
 import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
+import { AdminAnnouncements } from "./pages/admin/AdminAnnouncements"
 import { AdminConnections } from "./pages/admin/AdminConnections"
 import { AdminContent } from "./pages/admin/AdminContent"
 import { AdminDashboard } from "./pages/admin/AdminDashboard"
@@ -21,6 +22,7 @@ import { OurClub } from "./pages/OurClub"
 import { Practices } from "./pages/Practices"
 import { Resources } from "./pages/Resources"
 import { SignInUnavailable } from "./pages/SignInUnavailable"
+import { SponsorQr } from "./pages/SponsorQr"
 import { Sponsors } from "./pages/Sponsors"
 import { StaffLogin } from "./pages/staff/StaffLogin"
 import { TeamAdminDashboard } from "./pages/teamAdmin/TeamAdminDashboard"
@@ -46,6 +48,7 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="content" element={<AdminContent />} />
           <Route path="connections" element={<AdminConnections />} />
+          <Route path="announcements" element={<AdminAnnouncements />} />
           <Route path="tournaments" element={<AdminTournaments />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="staff" element={<AdminStaff />} />
@@ -75,6 +78,7 @@ export default function App() {
           <Route path="practices" element={<Practices />} />
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="sponsors" element={<Sponsors />} />
+          <Route path="sponsor-qr" element={<SponsorQr />} />
           <Route path="fundraisers" element={<Fundraisers />} />
           <Route path="resources" element={<Resources />} />
           <Route path="volunteer" element={<Volunteer />} />

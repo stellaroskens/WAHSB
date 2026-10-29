@@ -23,6 +23,7 @@ describe("site connections", () => {
     assert.ok(config.payments.every((item) => item.status === "disabled"))
     assert.equal(anyPaymentsLive(config), false)
     assert.deepEqual(livePaymentDestinations(config), [])
+    assert.equal(config.sharing.publicSponsorshipUrl, null)
   })
 
   it("rejects secrets and live payments that are not verified", () => {
