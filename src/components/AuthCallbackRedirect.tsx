@@ -4,21 +4,27 @@ import { useAuth } from "../lib/auth/AuthProvider"
 
 /** Route invite / recovery callbacks to the staff login surface. */
 export function AuthCallbackRedirect() {
-  const { callbackKind, inviteToken, loading } = useAuth()
+  const { callbackKind, callbackProblem, inviteToken, loading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
     if (loading) return
-    if (location.pathname.startsWith("/staff/login")) return
+    const onStaffLogin = location.pathname.startsWith("/staff/login")
+    const onSignIn = location.pathname.startsWith("/sign-in")
+    if (callbackProblem && !onStaffLogin && !onSignIn) {
+      navigate("/sign-in", { replace: true })
+      return
+    }
+    if (onStaffLogin) return
     if (callbackKind === "invite" && inviteToken) {
       navigate("/staff/login", { replace: true })
       return
     }
-    if (callbackKind === "recovery") {
+    if (callbackKind === "recovery" || callbackKind === "confirmation") {
       navigate("/staff/login", { replace: true })
     }
-  }, [callbackKind, inviteToken, loading, location.pathname, navigate])
+  }, [callbackKind, callbackProblem, inviteToken, loading, location.pathname, navigate])
 
   return null
 }

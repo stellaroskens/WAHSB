@@ -180,6 +180,11 @@
   outline-offset: 1px;
 }
 
+.admin-form input[readonly] {
+  background: #f4f6fb;
+  color: var(--text);
+}
+
 .admin-btn {
   appearance: none;
   border: 0;

@@ -102,6 +102,9 @@ export function StaffSignInPanel() {
           >
             Forgot Password?
           </button>
+          <a className="signin-link" href="#activate-account">
+            Activate your account
+          </a>
         </form>
       ) : (
         <PasswordRecoveryForm

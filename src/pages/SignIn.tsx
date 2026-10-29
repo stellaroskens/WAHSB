@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
+import { ActivateAccountSection } from "./signIn/ActivateAccountSection"
 import { FamilyAccessPanel } from "./signIn/FamilyAccessPanel"
 import { StaffSignInPanel } from "./signIn/StaffSignInPanel"
 
@@ -39,6 +40,7 @@ export function SignIn() {
 
       <section className="section signin">
         <div className="wrap signin__wrap">
+          <ActivateAccountSection />
           <div className="signin__tabs" role="tablist" aria-label="Choose how to sign in">
             {OPTIONS.map((option) => (
               <button

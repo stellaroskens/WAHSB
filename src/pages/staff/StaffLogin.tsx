@@ -1,8 +1,9 @@
-import { AuthError } from "@netlify/identity"
 import { useState, type FormEvent } from "react"
+import type { User } from "@netlify/identity"
 import { Link, useLocation } from "react-router-dom"
 import { PasswordRecoveryForm } from "../../components/auth/PasswordRecoveryForm"
 import { PageMeta } from "../../components/PageMeta"
+import { PROFILE_SAVE_FAILED, passwordSetupProblem } from "../../lib/auth/activation"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import {
   STAFF_PASSWORD_HELP,
@@ -11,6 +12,7 @@ import {
 } from "../../lib/auth/passwordPolicy"
 import { guardReasonMessage, loginErrorMessage } from "../../lib/auth/postLogin"
 import { useStaffAccessCheck } from "../../lib/auth/useStaffAccessCheck"
+import { StaffInviteSetup } from "./StaffInviteSetup"
 
 export function StaffLogin() {
   const {
@@ -18,10 +20,13 @@ export function StaffLogin() {
     authUiEnabled,
     user,
     callbackKind,
+    callbackProblem,
     inviteToken,
     login,
     logout,
     acceptStaffInvite,
+    saveDisplayName,
+    completeInviteSetup,
     setNewPassword,
   } = useAuth()
   const location = useLocation()
@@ -34,6 +39,7 @@ export function StaffLogin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [profileUser, setProfileUser] = useState<User | null>(null)
   const [mode, setMode] = useState<"login" | "recovery">("login")
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -82,12 +88,6 @@ export function StaffLogin() {
 
   const blockedMessage = access.blockedMessage ?? guardMessage
 
-  const fail = (err: unknown) => {
-    if (err instanceof AuthError) setError(err.message)
-    else if (err instanceof Error) setError(err.message)
-    else setError("Something went wrong.")
-  }
-
   const onLogin = async (event: FormEvent) => {
     event.preventDefault()
     setBusy(true)
@@ -105,28 +105,39 @@ export function StaffLogin() {
     }
   }
 
-  const onAcceptInvite = async (event: FormEvent) => {
-    event.preventDefault()
+  const onAcceptInvite = async (nextPassword: string) => {
     if (!inviteToken) return
-    const passwordCheck = validateStaffPasswordPair(password, confirmPassword)
-    if (!passwordCheck.ok) {
-      setError(passwordCheck.error)
-      return
-    }
     setBusy(true)
     setError(null)
     try {
-      await acceptStaffInvite(password)
-      setMessage(
-        "Password saved with Netlify Identity. Invitation accepted. Your username and role are assigned by an administrator after email verification — usernames alone are never proof of access.",
-      )
-      setPassword("")
-      setConfirmPassword("")
+      const next = await acceptStaffInvite(nextPassword)
+      setProfileUser(next)
+      setMessage("Password saved. Confirm your display name, then continue to the dashboard for your approved role.")
     } catch (err) {
-      fail(err)
+      setError(passwordSetupProblem(err))
     } finally {
       setBusy(false)
     }
+  }
+
+  const onSaveProfile = async (fullName: string) => {
+    if (!profileUser) return
+    setBusy(true)
+    setError(null)
+    try {
+      await saveDisplayName(profileUser, fullName)
+      setProfileUser(null)
+      completeInviteSetup()
+    } catch {
+      setError(PROFILE_SAVE_FAILED)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const onContinueProfile = () => {
+    setProfileUser(null)
+    completeInviteSetup()
   }
 
   const onCompleteRecovery = async (event: FormEvent) => {
@@ -142,7 +153,7 @@ export function StaffLogin() {
       await setNewPassword(password)
       setMessage("Password saved with Netlify Identity. Sign in with your new password.")
     } catch (err) {
-      fail(err)
+      setError(passwordSetupProblem(err))
     } finally {
       setBusy(false)
     }
@@ -177,6 +188,11 @@ export function StaffLogin() {
             ) : null}
           </div>
         )}
+        {callbackProblem && !error ? (
+          <p className="admin-alert admin-alert--error" role="alert">
+            {callbackProblem}
+          </p>
+        ) : null}
         {error && (
           <p className="admin-alert admin-alert--error" role="alert">
             {error}
@@ -188,41 +204,17 @@ export function StaffLogin() {
           </p>
         )}
 
-        {callbackKind === "invite" && inviteToken ? (
-          <form className="admin-form" onSubmit={onAcceptInvite}>
-            <h2>Accept invitation</h2>
-            <p>Confirm email ownership by choosing a password from your invite link.</p>
-            <p className="admin-help" id="staff-password-help">
-              {STAFF_PASSWORD_HELP}
-            </p>
-            <label>
-              New password
-              <input
-                type="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                minLength={STAFF_PASSWORD_MIN_LENGTH}
-                aria-describedby="staff-password-help"
-              />
-            </label>
-            <label>
-              Confirm password
-              <input
-                type="password"
-                autoComplete="new-password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                required
-                minLength={STAFF_PASSWORD_MIN_LENGTH}
-                aria-describedby="staff-password-help"
-              />
-            </label>
-            <button className="admin-btn" type="submit" disabled={busy}>
-              {busy ? "Saving…" : "Set password"}
-            </button>
-          </form>
+        {callbackKind === "invite" && (inviteToken || profileUser) ? (
+          <StaffInviteSetup
+            key={profileUser ? "profile" : "password"}
+            mode={profileUser ? "profile" : "password"}
+            user={profileUser}
+            busy={busy}
+            onInvalidPassword={setError}
+            onAcceptPassword={onAcceptInvite}
+            onSaveProfile={onSaveProfile}
+            onContinue={onContinueProfile}
+          />
         ) : callbackKind === "recovery" ? (
           <form className="admin-form" onSubmit={onCompleteRecovery}>
             <h2>Choose a new password</h2>

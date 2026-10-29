@@ -19,6 +19,7 @@ import {
   useState,
   type ReactNode,
 } from "react"
+import { activationProblemFromError, displayNameUpdate } from "./activation"
 import { isAdminAuthUiEnabled } from "./config"
 import { isSuperAdmin, primaryStaffRole } from "./roles"
 import { rolesFromUser, usernameFromUser } from "./session"
@@ -30,13 +31,16 @@ type AuthContextValue = {
   loading: boolean
   authUiEnabled: boolean
   callbackKind: AuthCallbackKind
+  callbackProblem: string | null
   inviteToken: string | null
   isSuperAdminUser: boolean
   username: string | null
   primaryRole: ReturnType<typeof primaryStaffRole>
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
-  acceptStaffInvite: (password: string) => Promise<void>
+  acceptStaffInvite: (password: string) => Promise<User>
+  saveDisplayName: (source: User, fullName: string) => Promise<User>
+  completeInviteSetup: () => void
   requestRecovery: (email: string) => Promise<void>
   setNewPassword: (password: string) => Promise<void>
   clearCallback: () => void
@@ -55,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [callbackKind, setCallbackKind] = useState<AuthCallbackKind>(null)
+  const [callbackProblem, setCallbackProblem] = useState<string | null>(null)
   const [inviteToken, setInviteToken] = useState<string | null>(null)
   const authUiEnabled = isAdminAuthUiEnabled()
 
@@ -68,6 +73,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let cancelled = false
 
     ;(async () => {
+      const hasAuthLink =
+        typeof window !== "undefined" &&
+        /invite_token|recovery_token|confirmation_token|email_change_token|access_token/.test(window.location.hash)
       try {
         const result = await handleAuthCallback()
         if (cancelled) return
@@ -81,6 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         await refreshUser()
       } catch (error) {
+        if (!cancelled && hasAuthLink) setCallbackProblem(activationProblemFromError(error))
         if (!(error instanceof AuthError) && import.meta.env.DEV) {
           console.warn("Auth bootstrap:", messageFromUnknown(error))
         }
@@ -115,10 +124,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const next = await acceptInvite(inviteToken, password)
       setUser(next)
       setInviteToken(null)
-      setCallbackKind(null)
+      return next
     },
     [inviteToken],
   )
+
+  const saveDisplayName = useCallback(async (source: User, fullName: string) => {
+    const updates = displayNameUpdate(source, fullName)
+    if (!updates) return source
+    const next = await updateUser(updates)
+    setUser(next)
+    return next
+  }, [])
+
+  const completeInviteSetup = useCallback(() => {
+    setCallbackKind(null)
+    setInviteToken(null)
+  }, [])
 
   const requestRecovery = useCallback(async (email: string) => {
     await requestPasswordRecovery(email.trim())
@@ -133,6 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const clearCallback = useCallback(() => {
     setCallbackKind(null)
     setInviteToken(null)
+    setCallbackProblem(null)
   }, [])
 
   const roles = rolesFromUser(user)
@@ -142,6 +165,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading,
       authUiEnabled,
       callbackKind,
+      callbackProblem,
       inviteToken,
       isSuperAdminUser: isSuperAdmin(roles),
       username: usernameFromUser(user),
@@ -149,6 +173,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       logout,
       acceptStaffInvite,
+      saveDisplayName,
+      completeInviteSetup,
       requestRecovery,
       setNewPassword,
       clearCallback,
@@ -159,11 +185,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading,
       authUiEnabled,
       callbackKind,
+      callbackProblem,
       inviteToken,
       roles,
       login,
       logout,
       acceptStaffInvite,
+      saveDisplayName,
+      completeInviteSetup,
       requestRecovery,
       setNewPassword,
       clearCallback,

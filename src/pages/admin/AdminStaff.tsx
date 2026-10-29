@@ -130,6 +130,11 @@ export function AdminStaff() {
         <button className="admin-btn" type="submit" disabled={busy}>
           {busy ? "Sending…" : "Send secure invitation"}
         </button>
+        <p className="admin-help">
+          Identity emails the invitation only when this administrator form succeeds. It does not resend an invitation
+          that was already created, and the public sign-in page cannot send one either. If the message is missing,
+          resend it from Netlify’s Identity user list.
+        </p>
       </form>
 
       <div className="admin-page__intro" style={{ marginTop: "2rem" }}>
