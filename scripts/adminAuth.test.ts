@@ -2,6 +2,7 @@ import assert from "node:assert/strict"
 import { existsSync, readFileSync } from "node:fs"
 import { describe, it } from "node:test"
 import { ADMIN_SECTIONS } from "../src/lib/auth/adminSections.ts"
+import { parseAdminAuthUiFlag } from "../src/lib/auth/config.ts"
 import {
   isAuthorizedSuperAdmin,
   isSuperAdmin,
@@ -117,10 +118,37 @@ describe("auth source safety", () => {
     }
   })
 
-  it("keeps staff login UI gated off by default in netlify.toml", () => {
+  it("keeps staff login UI gated off unless the flag is exactly true", () => {
+    assert.equal(parseAdminAuthUiFlag(undefined), false)
+    assert.equal(parseAdminAuthUiFlag(""), false)
+    assert.equal(parseAdminAuthUiFlag("false"), false)
+    assert.equal(parseAdminAuthUiFlag("True"), false)
+    assert.equal(parseAdminAuthUiFlag(" true"), false)
+    assert.equal(parseAdminAuthUiFlag("true"), true)
+  })
+
+  it("does not hardcode VITE_ADMIN_AUTH_ENABLED in netlify.toml (UI must control it)", () => {
     const toml = readFileSync(new URL("../netlify.toml", import.meta.url), "utf8")
-    assert.match(toml, /VITE_ADMIN_AUTH_ENABLED\s*=\s*"false"/)
+    assert.equal(
+      /^\s*VITE_ADMIN_AUTH_ENABLED\s*=/m.test(toml),
+      false,
+      "netlify.toml must not assign VITE_ADMIN_AUTH_ENABLED — it overrides Netlify UI env vars",
+    )
+    assert.equal(
+      /^\s*ADMIN_AUTH_ENABLED\s*=/m.test(toml),
+      false,
+      "netlify.toml must not assign ADMIN_AUTH_ENABLED",
+    )
     assert.match(toml, /Role\s*=\s*\["super_admin"\]/)
+  })
+
+  it("server auth helpers still require ADMIN_AUTH_ENABLED exact true and super_admin", () => {
+    const requireAuth = readFileSync(new URL("../netlify/functions/_shared/requireAuth.ts", import.meta.url), "utf8")
+    assert.match(requireAuth, /ADMIN_AUTH_ENABLED"\)\s*===\s*"true"/)
+    assert.match(requireAuth, /export async function requireSuperAdmin/)
+    assert.match(requireAuth, /super_admin role required/)
+    const adminSession = readFileSync(new URL("../netlify/functions/admin-session.ts", import.meta.url), "utf8")
+    assert.match(adminSession, /requireSuperAdmin/)
   })
 
   it("does not ship a duplicate AdminAuthContext design", () => {
