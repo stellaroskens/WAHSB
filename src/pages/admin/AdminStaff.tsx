@@ -114,7 +114,7 @@ export function AdminStaff() {
         </label>
         <p className="admin-help">
           Role to assign after acceptance: <code>{selected?.role}</code>. Access is inactive until they confirm email
-          ownership and set a password.
+          ownership and set a password (at least 12 characters; letters and numbers are enough — symbols optional).
         </p>
         <label>
           Staff email (required — enter the person’s real address)

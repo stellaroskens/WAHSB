@@ -4,6 +4,12 @@ import { describe, it } from "node:test"
 import { ADMIN_SECTIONS } from "../src/lib/auth/adminSections.ts"
 import { parseAdminAuthUiFlag } from "../src/lib/auth/config.ts"
 import {
+  STAFF_PASSWORD_HELP,
+  STAFF_PASSWORD_MIN_LENGTH,
+  STAFF_PASSWORD_TOO_SHORT,
+  validateStaffPassword,
+} from "../src/lib/auth/passwordPolicy.ts"
+import {
   isAuthorizedSuperAdmin,
   isSuperAdmin,
   normalizeEmail,
@@ -11,6 +17,29 @@ import {
   parseEmailAllowlist,
   SUPER_ADMIN_ROLE,
 } from "../src/lib/auth/roles.ts"
+
+describe("staff password policy", () => {
+  it("keeps a 12-character minimum without requiring special symbols", () => {
+    assert.equal(STAFF_PASSWORD_MIN_LENGTH, 12)
+    assert.match(STAFF_PASSWORD_HELP, /Letters and numbers are enough/i)
+    assert.match(STAFF_PASSWORD_HELP, /optional/i)
+    assert.deepEqual(validateStaffPassword("short"), { ok: false, error: STAFF_PASSWORD_TOO_SHORT })
+    assert.deepEqual(validateStaffPassword("elevenchars"), { ok: false, error: STAFF_PASSWORD_TOO_SHORT })
+    assert.deepEqual(validateStaffPassword("twelvechars1"), { ok: true })
+    assert.deepEqual(validateStaffPassword("AlbanyBowling"), { ok: true })
+    assert.deepEqual(validateStaffPassword("lettersnums1"), { ok: true })
+    assert.deepEqual(validateStaffPassword("WithSymbols!1"), { ok: true })
+  })
+
+  it("wires the shared policy into staff login forms", () => {
+    const login = readFileSync(new URL("../src/pages/staff/StaffLogin.tsx", import.meta.url), "utf8")
+    assert.match(login, /validateStaffPassword/)
+    assert.match(login, /STAFF_PASSWORD_HELP/)
+    assert.match(login, /STAFF_PASSWORD_MIN_LENGTH/)
+    assert.equal(/password\.length\s*<\s*12/.test(login), false)
+    assert.equal(/require[sd]?\s+special|special symbols? (are )?required|must include.*(symbol|punctuation)/i.test(login), false)
+  })
+})
 
 describe("admin role helpers", () => {
   it("recognizes only super_admin as privileged for Phase 1 dashboards", () => {

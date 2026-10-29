@@ -3,6 +3,11 @@ import { useState, type FormEvent } from "react"
 import { Link, Navigate } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
+import {
+  STAFF_PASSWORD_HELP,
+  STAFF_PASSWORD_MIN_LENGTH,
+  validateStaffPassword,
+} from "../../lib/auth/passwordPolicy"
 import { dashboardPathForRole, primaryStaffRole } from "../../lib/auth/roles"
 import { rolesFromUser } from "../../lib/auth/session"
 
@@ -92,8 +97,9 @@ export function StaffLogin() {
       setError("Passwords do not match.")
       return
     }
-    if (password.length < 12) {
-      setError("Use a password with at least 12 characters.")
+    const passwordCheck = validateStaffPassword(password)
+    if (!passwordCheck.ok) {
+      setError(passwordCheck.error)
       return
     }
     setBusy(true)
@@ -134,8 +140,9 @@ export function StaffLogin() {
       setError("Passwords do not match.")
       return
     }
-    if (password.length < 12) {
-      setError("Use a password with at least 12 characters.")
+    const passwordCheck = validateStaffPassword(password)
+    if (!passwordCheck.ok) {
+      setError(passwordCheck.error)
       return
     }
     setBusy(true)
@@ -172,7 +179,10 @@ export function StaffLogin() {
         {callbackKind === "invite" && inviteToken ? (
           <form className="admin-form" onSubmit={onAcceptInvite}>
             <h2>Accept invitation</h2>
-            <p>Confirm email ownership by setting a secure password from your invite link.</p>
+            <p>Confirm email ownership by choosing a password from your invite link.</p>
+            <p className="admin-help" id="staff-password-help">
+              {STAFF_PASSWORD_HELP}
+            </p>
             <label>
               New password
               <input
@@ -181,7 +191,8 @@ export function StaffLogin() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
-                minLength={12}
+                minLength={STAFF_PASSWORD_MIN_LENGTH}
+                aria-describedby="staff-password-help"
               />
             </label>
             <label>
@@ -192,7 +203,8 @@ export function StaffLogin() {
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 required
-                minLength={12}
+                minLength={STAFF_PASSWORD_MIN_LENGTH}
+                aria-describedby="staff-password-help"
               />
             </label>
             <button className="admin-btn" type="submit" disabled={busy}>
@@ -202,6 +214,9 @@ export function StaffLogin() {
         ) : callbackKind === "recovery" ? (
           <form className="admin-form" onSubmit={onCompleteRecovery}>
             <h2>Choose a new password</h2>
+            <p className="admin-help" id="staff-password-help">
+              {STAFF_PASSWORD_HELP}
+            </p>
             <label>
               New password
               <input
@@ -210,7 +225,8 @@ export function StaffLogin() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
-                minLength={12}
+                minLength={STAFF_PASSWORD_MIN_LENGTH}
+                aria-describedby="staff-password-help"
               />
             </label>
             <label>
@@ -221,7 +237,8 @@ export function StaffLogin() {
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 required
-                minLength={12}
+                minLength={STAFF_PASSWORD_MIN_LENGTH}
+                aria-describedby="staff-password-help"
               />
             </label>
             <button className="admin-btn" type="submit" disabled={busy}>
