@@ -1,6 +1,7 @@
 import { AuthError } from "@netlify/identity"
 import { useState, type FormEvent } from "react"
 import { Link, Navigate } from "react-router-dom"
+import { PasswordRecoveryForm } from "../../components/auth/PasswordRecoveryForm"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import {
@@ -20,7 +21,6 @@ export function StaffLogin() {
     inviteToken,
     login,
     acceptStaffInvite,
-    requestRecovery,
     setNewPassword,
   } = useAuth()
 
@@ -107,22 +107,6 @@ export function StaffLogin() {
       )
       setPassword("")
       setConfirmPassword("")
-    } catch (err) {
-      fail(err)
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  const onRequestRecovery = async (event: FormEvent) => {
-    event.preventDefault()
-    setBusy(true)
-    setError(null)
-    setMessage(null)
-    try {
-      await requestRecovery(email)
-      setMessage("If that account exists, a recovery email was sent.")
-      setMode("login")
     } catch (err) {
       fail(err)
     } finally {
@@ -238,25 +222,10 @@ export function StaffLogin() {
             </button>
           </form>
         ) : mode === "recovery" ? (
-          <form className="admin-form" onSubmit={onRequestRecovery}>
+          <>
             <h2>Password recovery</h2>
-            <label>
-              Email
-              <input
-                type="email"
-                autoComplete="username"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              />
-            </label>
-            <button className="admin-btn" type="submit" disabled={busy}>
-              {busy ? "Sending…" : "Send recovery link"}
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" onClick={() => setMode("login")}>
-              Back to sign in
-            </button>
-          </form>
+            <PasswordRecoveryForm variant="admin" initialEmail={email} onBack={() => setMode("login")} />
+          </>
         ) : (
           <form className="admin-form" onSubmit={onLogin}>
             <label>
@@ -282,7 +251,15 @@ export function StaffLogin() {
             <button className="admin-btn" type="submit" disabled={busy}>
               {busy ? "Signing in…" : "Sign in"}
             </button>
-            <button className="admin-btn admin-btn--ghost" type="button" onClick={() => setMode("recovery")}>
+            <button
+              className="admin-btn admin-btn--ghost"
+              type="button"
+              onClick={() => {
+                setMode("recovery")
+                setError(null)
+                setMessage(null)
+              }}
+            >
               Forgot password
             </button>
           </form>
