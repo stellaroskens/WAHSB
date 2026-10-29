@@ -65,7 +65,7 @@ describe("admin role helpers", () => {
 })
 
 describe("admin dashboard foundation", () => {
-  it("lists the required Phase 1 sections as unavailable", () => {
+  it("lists the required admin sections with Staff Accounts available", () => {
     const titles = ADMIN_SECTIONS.map((section) => section.title)
     assert.deepEqual(titles, [
       "Website Pages",
@@ -79,7 +79,13 @@ describe("admin dashboard foundation", () => {
       "Publishing History",
       "Site Settings",
     ])
-    assert.ok(ADMIN_SECTIONS.every((section) => section.status === "unavailable"))
+    const staff = ADMIN_SECTIONS.find((section) => section.id === "staff-accounts")
+    assert.equal(staff?.status, "available")
+    assert.ok(
+      ADMIN_SECTIONS.filter((section) => section.id !== "staff-accounts").every(
+        (section) => section.status === "unavailable",
+      ),
+    )
   })
 })
 

@@ -57,8 +57,9 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     id: "staff-accounts",
     title: "Staff Accounts",
     description: "Invite and manage staff Identity accounts.",
-    status: "unavailable",
-    statusLabel: "Unavailable until implemented",
+    status: "available",
+    statusLabel: "Open",
+    href: "/admin/staff",
   },
   {
     id: "media-library",

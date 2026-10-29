@@ -15,7 +15,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# CDN role gate for /admin (requires nf_jwt with super_admin). Fallback sends visitors to login.
+# CDN role gates. Fallbacks send unauthorized visitors to staff login.
 [[redirects]]
   from = "/admin"
   to = "/index.html"
@@ -35,6 +35,50 @@
 
 [[redirects]]
   from = "/admin/*"
+  to = "/staff/login"
+  status = 302
+
+[[redirects]]
+  from = "/coach"
+  to = "/index.html"
+  status = 200
+  conditions = { Role = ["coach", "super_admin"] }
+
+[[redirects]]
+  from = "/coach/*"
+  to = "/index.html"
+  status = 200
+  conditions = { Role = ["coach", "super_admin"] }
+
+[[redirects]]
+  from = "/coach"
+  to = "/staff/login"
+  status = 302
+
+[[redirects]]
+  from = "/coach/*"
+  to = "/staff/login"
+  status = 302
+
+[[redirects]]
+  from = "/team-administrator"
+  to = "/index.html"
+  status = 200
+  conditions = { Role = ["team_administrator", "super_admin"] }
+
+[[redirects]]
+  from = "/team-administrator/*"
+  to = "/index.html"
+  status = 200
+  conditions = { Role = ["team_administrator", "super_admin"] }
+
+[[redirects]]
+  from = "/team-administrator"
+  to = "/staff/login"
+  status = 302
+
+[[redirects]]
+  from = "/team-administrator/*"
   to = "/staff/login"
   status = 302
 

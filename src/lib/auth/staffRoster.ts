@@ -1,4 +1,4 @@
-import { COACH_ROLE, TEAM_ADMINISTRATOR_ROLE, type StaffRole } from "./roles"
+import { COACH_ROLE, TEAM_ADMINISTRATOR_ROLE, type StaffRole } from "./roles.ts"
 
 /**
  * Planned staff accounts — usernames and roles only.

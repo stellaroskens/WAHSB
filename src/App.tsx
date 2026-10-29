@@ -1,11 +1,14 @@
 import { Route, Routes } from "react-router-dom"
 import { AuthCallbackRedirect } from "./components/AuthCallbackRedirect"
 import { Layout } from "./components/Layout"
+import { RequireStaff } from "./lib/auth/RequireStaff"
 import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
 import { AdminDashboard } from "./pages/admin/AdminDashboard"
 import { AdminLayout } from "./pages/admin/AdminLayout"
 import { AdminSettings } from "./pages/admin/AdminSettings"
+import { AdminStaff } from "./pages/admin/AdminStaff"
 import { Bowlathon } from "./pages/Bowlathon"
+import { CoachDashboard } from "./pages/coach/CoachDashboard"
 import { Contact } from "./pages/Contact"
 import { Faq } from "./pages/Faq"
 import { Fundraisers } from "./pages/Fundraisers"
@@ -17,6 +20,7 @@ import { Resources } from "./pages/Resources"
 import { SignInUnavailable } from "./pages/SignInUnavailable"
 import { Sponsors } from "./pages/Sponsors"
 import { StaffLogin } from "./pages/staff/StaffLogin"
+import { TeamAdminDashboard } from "./pages/teamAdmin/TeamAdminDashboard"
 import { TeamGear } from "./pages/TeamGear"
 import { Tournaments } from "./pages/Tournaments"
 import { Volunteer } from "./pages/Volunteer"
@@ -38,7 +42,26 @@ export default function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="staff" element={<AdminStaff />} />
         </Route>
+
+        <Route
+          path="coach"
+          element={
+            <RequireStaff allow={["coach", "super_admin"]}>
+              <CoachDashboard />
+            </RequireStaff>
+          }
+        />
+
+        <Route
+          path="team-administrator"
+          element={
+            <RequireStaff allow={["team_administrator", "super_admin"]}>
+              <TeamAdminDashboard />
+            </RequireStaff>
+          }
+        />
 
         <Route element={<Layout />}>
           <Route index element={<HomeReview />} />
