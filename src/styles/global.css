@@ -2603,6 +2603,77 @@ textarea[aria-invalid="true"] {
   padding: 0.65rem;
 }
 
+.home-review .review-volunteers {
+  position: relative;
+  padding: 0.35rem 0 1.35rem;
+  background:
+    linear-gradient(180deg, #fff 0 1.1rem, #0b1d45 1.1rem 100%);
+}
+
+.home-review .review-volunteers__inner {
+  width: min(var(--max), calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.home-review .review-volunteers__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 1.15rem 1.2rem 1.25rem;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(7, 24, 51, 0.18);
+}
+
+.home-review .review-volunteers__card h2 {
+  margin: 0;
+  color: #10224f;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.home-review .review-volunteers__card p {
+  margin: 0;
+  max-width: 70ch;
+  color: #243044;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.home-review .review-volunteers__list {
+  margin: 0.15rem 0 0.2rem;
+  padding-left: 1.15rem;
+  color: #243044;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.home-review .review-volunteers__list li + li {
+  margin-top: 0.2rem;
+}
+
+.home-review .review-volunteers__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 2.75rem;
+  margin-top: 0.35rem;
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.home-review .review-volunteers__link:hover {
+  color: var(--red-deep);
+}
+
 .home-review .review-cards {
   position: relative;
   margin-top: 0;

@@ -5,7 +5,7 @@ import { FaqAnswerBody } from "../components/FaqEmbed"
 import { PinMark } from "../components/Marks"
 import { PageMeta } from "../components/PageMeta"
 import { faqCategories } from "../content/faq"
-import { club, pages, practiceLocation } from "../content/site"
+import { club, pages, practiceLocation, studentCapacityNotice } from "../content/site"
 
 const practiceFaqIds = ["faq-practices", "faq-equipment", "faq-basics"] as const
 
@@ -115,14 +115,19 @@ export function Practices() {
           </article>
 
           <article className="card">
-            <h2>If you are new</h2>
+            <h2>Student participation</h2>
+            <p>{studentCapacityNotice}</p>
             <p>
-              You can start without a tournament average. Coaches teach the game at
-              practice, and you can bowl for fun while you learn how a team scores.
+              Coaches teach the game at practice for athletes already on the roster, including
+              approach, scoring, and how a team bowls together.
             </p>
             <p>
-              <Link className="sw-btn" to="/contact">
-                Ask about joining
+              Adults interested in supporting practices, events, or transportation can learn about
+              volunteer opportunities and screening requirements.
+            </p>
+            <p>
+              <Link className="sw-btn" to="/volunteer">
+                Volunteer Opportunities
               </Link>
             </p>
           </article>
@@ -134,7 +139,8 @@ export function Practices() {
           <div className="sw-panel sw-faq-panel">
             <h2 id="practice-faq-heading">PRACTICE FAQs</h2>
             <p className="practice-faq__intro">
-              Find answers to common questions about getting started, equipment, and bowling.
+              Find answers to common questions about practices, equipment, participation, and
+              volunteering.
             </p>
 
             {practiceFaqCategories.map((category) => (

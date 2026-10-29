@@ -15,7 +15,7 @@ type FormState = {
 const emptyForm: FormState = {
   name: "",
   email: "",
-  topic: "Joining the club",
+  topic: "Volunteering",
   message: "",
 }
 
@@ -61,7 +61,7 @@ export function Contact() {
         }
       >
         <p>
-          Questions about joining, practices, or supporting a bowler are welcome.
+          Questions about volunteering, practices, or supporting a bowler are welcome.
           Email the club, or use the form to see the layout. The form does not
           send or save a message.
         </p>
@@ -111,9 +111,10 @@ export function Contact() {
                 value={form.topic}
                 onChange={(event) => update("topic", event.target.value)}
               >
-                <option>Joining the club</option>
+                <option>Volunteering</option>
                 <option>Practices</option>
                 <option>Supporting the club</option>
+                <option>Student participation</option>
                 <option>Something else</option>
               </select>
             </div>

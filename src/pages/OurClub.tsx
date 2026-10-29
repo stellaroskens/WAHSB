@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero, SectionHeading } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits, websiteLogo } from "../content/media"
-import { bakerFrames, club, coaches, pages } from "../content/site"
+import { bakerFrames, club, coaches, pages, studentCapacityNotice } from "../content/site"
 
 const collegeLinks = [
   { href: "https://bowl.com/youth/high-school", label: "USBC High School Bowling" },
@@ -23,8 +23,8 @@ export function OurClub() {
             <a className="sw-btn" href="#coaches">
               Our Coaches
             </a>
-            <Link className="sw-btn sw-btn--ghost" to="/contact">
-              Ask about joining
+            <Link className="sw-btn sw-btn--ghost" to="/volunteer">
+              Volunteer Opportunities
             </Link>
           </>
         }
@@ -42,10 +42,10 @@ export function OurClub() {
         }
       >
         <p>
-          Albany High School Bowling teaches the game and makes room for students
-          to grow into it. The aim is skill, confidence, teamwork, and
-          sportsmanship.
+          Albany High School Bowling teaches the game and helps student athletes grow
+          into it. The aim is skill, confidence, teamwork, and sportsmanship.
         </p>
+        <p>{studentCapacityNotice}</p>
       </AthleticHero>
 
       <section className="section sw-club__coaches" id="coaches" aria-labelledby="coaches-heading">
@@ -127,27 +127,24 @@ export function OurClub() {
             </p>
           </article>
 
-          <article className="card club-info sw-club__info" aria-labelledby="beginners-heading">
-            <h2 id="beginners-heading">Beginners are welcome</h2>
-            <p>You do not need tournament experience to join. Coaches teach bowlers who are new and bowlers who already compete.</p>
+          <article className="card club-info sw-club__info" aria-labelledby="volunteer-heading">
+            <h2 id="volunteer-heading">Volunteers make it possible</h2>
+            <p>{studentCapacityNotice}</p>
             <p>
-              The club is meant to be a good experience for athletes who want to
-              chase scores and for those who show up because they like the game.
+              The club depends on parents, families, and community members who support our existing
+              athletes. Adults can help with tournaments, fundraising, setup, general club needs, and
+              transportation when additional approval is granted.
             </p>
             <ul className="plain-list">
-              <li>Students with different bowling experience levels can learn and develop skills.</li>
-              <li>Coaches help introduce the basics of bowling.</li>
-              <li>Beginners can work on their approach, aiming, balance, release, and understanding scoring.</li>
-              <li>Bowling provides opportunities to build confidence, friendships, patience, and teamwork.</li>
-              <li>Students do not need to arrive with tournament experience.</li>
-              <li>
-                Families should contact the coaches about current participation requirements, equipment,
-                and practice arrangements.
-              </li>
+              <li>Coaches teach approach, aiming, balance, release, scoring, and team bowling.</li>
+              <li>Bowling helps student athletes build confidence, friendships, patience, and teamwork.</li>
+              <li>Athletes on the roster can chase competitive scores or enjoy the game with teammates.</li>
+              <li>Adult volunteers help keep practices, events, and fundraisers running.</li>
+              <li>Background screening for volunteers uses Sterling Volunteers when leadership directs it.</li>
             </ul>
             <p className="club-action">
-              <Link className="sw-btn" to="/contact">
-                Ask about joining
+              <Link className="sw-btn" to="/volunteer">
+                Become a volunteer
               </Link>
             </p>
           </article>
@@ -203,9 +200,9 @@ export function OurClub() {
             <div>
               <h2 id="club-help-heading">Have questions? We&apos;re here to help.</h2>
               <p>
-                Whether you&apos;re new to bowling, interested in joining the club, or want to learn about
-                practices, tournaments, and opportunities beyond high school, our coaches can help you
-                find the information you need.
+                Questions about practices, tournaments, volunteering, college bowling, or supporting our
+                athletes are welcome. Our coaches and club leadership can help you find the information
+                you need.
               </p>
             </div>
             <Link className="sw-btn" to="/contact">

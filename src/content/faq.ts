@@ -107,20 +107,23 @@ export const faqCategories: readonly FaqCategory[] = [
   },
   {
     id: "faq-practices",
-    title: "Practices & Getting Started",
+    title: "Practices & Participation",
     items: [
       {
-        question: "Does my child need bowling experience to join?",
+        question: "Is the club accepting new student participants?",
         paragraphs: [
-          "No. Albany High School Bowling welcomes students of all experience levels. A student can start without a tournament average.",
-          "This site does not decide eligibility. Students who want to join should contact the coaches.",
+          "The Albany High School Bowling Club is currently at capacity and is not accepting additional student participants at this time.",
+          "Adults who want to support existing athletes can learn about volunteer opportunities instead.",
         ],
-        links: [{ href: "/contact", label: "Contact the coaches" }],
+        links: [
+          { href: "/volunteer", label: "Volunteer Opportunities" },
+          { href: "/contact", label: "Contact the coaches" },
+        ],
       },
       {
         question: "What should my child bring to bowling practice or lessons?",
         paragraphs: [
-          "These are practical suggestions. Students do not have to buy equipment to get started.",
+          "These are practical suggestions for athletes already participating with the club. Confirm current expectations with the coaches.",
         ],
         points: [
           "Comfortable clothing that allows movement",
@@ -159,15 +162,9 @@ export const faqCategories: readonly FaqCategory[] = [
         ],
       },
       {
-        question: "What if my child has never bowled before?",
-        paragraphs: [
-          "That is a fine place to start. Coaches teach the game at practice, and a new bowler can learn while bowling for fun.",
-        ],
-      },
-      {
         question: "How do students learn the correct bowling technique?",
         paragraphs: [
-          "Coaches teach the approach, release, and scoring at practice. This site does not publish a lesson plan or a required teaching method.",
+          "Coaches teach the approach, release, and scoring at practice for athletes on the roster. This site does not publish a lesson plan or a required teaching method.",
         ],
         links: [{ href: "/our-club#coaches", label: "Meet the coaches" }],
       },
@@ -182,6 +179,32 @@ export const faqCategories: readonly FaqCategory[] = [
         paragraphs: [
           "The club has not published an attendance policy. If a student will miss practice, contact the coaches and ask what they would like the family to do.",
         ],
+      },
+      {
+        question: "Can adults volunteer with the club?",
+        paragraphs: [
+          "Yes. While the student roster is full, the club welcomes adults interested in supporting existing athletes through event help, fundraising, setup, general assistance, and transportation when additional approval is granted.",
+        ],
+        links: [{ href: "/volunteer", label: "Volunteer Opportunities" }],
+      },
+      {
+        question: "How does volunteer background screening work?",
+        paragraphs: [
+          "Albany High School Bowling uses Sterling Volunteers as its preferred third-party background-screening provider for adult volunteers.",
+          "Contact club leadership before ordering a screening. Completing a background check does not mean you are automatically authorized to volunteer. This website does not collect screening applications or sensitive personal information.",
+        ],
+        links: [
+          { href: "/volunteer#volunteer-background-checks", label: "Background check information" },
+          { href: "/contact", label: "Contact club leadership" },
+        ],
+      },
+      {
+        question: "Do volunteer drivers need extra authorization?",
+        paragraphs: [
+          "Yes. Helping with student transportation is separate from general volunteer screening. Drivers may need additional authorization such as a license, insurance proof, an MVR review when required, and written approval from club leadership or applicable school procedures.",
+          "This site does not claim that a standard Sterling Volunteers package includes an MVR review.",
+        ],
+        links: [{ href: "/volunteer#volunteer-transport-heading", label: "Transportation volunteer details" }],
       },
     ],
   },
@@ -511,7 +534,8 @@ export const learningResources = [
 ] as const
 
 export const questionTopics = [
-  "Joining the Club",
+  "Volunteering",
+  "Student Participation",
   "Practices & Lessons",
   "Bowling Equipment",
   "Tournaments",

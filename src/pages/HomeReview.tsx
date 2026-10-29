@@ -116,8 +116,8 @@ export function HomeReview() {
               </h2>
 
               <p className="review-club__description">
-                Albany High School Bowling welcomes students of all experience levels. We build focus,
-                determination, confidence, teamwork, and school pride — on and off the lanes.
+                Albany High School Bowling builds focus, determination, confidence, teamwork, and
+                school pride — on and off the lanes.
               </p>
 
               <div className="review-club__actions">
@@ -143,6 +143,32 @@ export function HomeReview() {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="review-volunteers" aria-labelledby="review-volunteers-heading">
+        <div className="review-volunteers__inner">
+          <article className="review-volunteers__card">
+            <h2 id="review-volunteers-heading">Volunteers make it possible</h2>
+            <p>
+              The Albany High School Bowling Club depends on the generosity of parents, families, and
+              community members who help make our bowling program possible.
+            </p>
+            <p>
+              While our student roster is currently full, we welcome adults interested in supporting
+              our existing athletes and club activities.
+            </p>
+            <ul className="review-volunteers__list">
+              <li>Tournament and event assistance</li>
+              <li>Fundraising and community events</li>
+              <li>Equipment and event setup</li>
+              <li>General club assistance</li>
+              <li>Student transportation, subject to additional approval</li>
+            </ul>
+            <Link className="review-volunteers__link" to="/volunteer">
+              Become a volunteer <span aria-hidden="true">→</span>
+            </Link>
+          </article>
         </div>
       </section>
 
@@ -269,6 +295,7 @@ export function HomeReview() {
             <Link to="/our-club#coaches">Our team</Link>
             <Link to="/faq">FAQ</Link>
             <Link to="/fundraisers">Fundraisers</Link>
+            <Link to="/volunteer">Volunteer</Link>
             <Link to="/team-gear">Team Gear</Link>
             <Link to="/contact">Contact Us</Link>
           </nav>

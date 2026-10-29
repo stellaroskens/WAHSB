@@ -2237,3 +2237,39 @@
     display: none;
   }
 }
+
+/* ---------- Volunteer ---------- */
+
+.sw-page .sw-volunteer__card {
+  max-width: 52rem;
+  margin-inline: auto;
+  border-top: 4px solid var(--sw-red);
+}
+
+.sw-volunteer__card p {
+  max-width: 68ch;
+  color: var(--sw-ink);
+  font-size: var(--fs-support);
+  line-height: 1.55;
+}
+
+.sw-volunteer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin: 1.25rem 0 0;
+}
+
+.sw-volunteer__actions svg {
+  flex: none;
+}
+
+.sw-page .sw-volunteer__notice {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 4px solid var(--sw-royal);
+  border-radius: 8px;
+  background: var(--sw-backdrop);
+  color: var(--sw-muted);
+  font-size: 1rem;
+}

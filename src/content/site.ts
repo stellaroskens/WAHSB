@@ -28,15 +28,31 @@ export const nav = [
   { to: "/sponsors", label: "Sponsors", end: false },
   { to: "/fundraisers", label: "Fundraisers", end: false },
   { to: "/resources", label: "Bowling Resources", end: false },
+  { to: "/volunteer", label: "Volunteer Opportunities", end: false },
   { to: "/faq", label: "FAQ", end: false },
   { to: "/contact", label: "Contact Us", end: false },
 ] as const
+
+/** Public capacity notice for student participation. */
+export const studentCapacityNotice =
+  "The Albany High School Bowling Club is currently at capacity and is not accepting additional student participants at this time."
+
+/**
+ * Organization-specific Sterling Volunteers invitation URL for starting a volunteer background check.
+ * Leave null until the club provides the official invitation link.
+ * Do not invent an organization ID, invitation code, or package URL.
+ */
+export const sterlingVolunteerInvitationUrl: string | null = null
+
+/** Informational Sterling Volunteers page. This is not an organization invitation. */
+export const sterlingVolunteersInfoUrl =
+  "https://www.sterlingvolunteers.com/getavolunteerbackgroundcheck/" as const
 
 export const pages = {
   home: {
     title: "Albany High School Bowling",
     description:
-      "A welcoming high school bowling club in Albany, Oregon. Learn the game, build friendships, and grow confidence with South Albany, West Albany, and Lebanon.",
+      "Albany High School Bowling in Albany, Oregon. Support our athletes through volunteering, fundraising, and community events with South Albany, West Albany, and Lebanon.",
   },
   club: {
     title: "Our Club | Albany High School Bowling",
@@ -46,7 +62,7 @@ export const pages = {
   practices: {
     title: "Practices | Albany High School Bowling",
     description:
-      "Practice information for Albany High School Bowling, including the host center, what to expect as a beginner, and where the schedule will be posted.",
+      "Practice information for Albany High School Bowling, including the host center at Lakeshore Lanes and where the schedule will be posted.",
   },
   tournaments: {
     title: "Tournaments | Albany High School Bowling",
@@ -66,7 +82,12 @@ export const pages = {
   contact: {
     title: "Contact Us | Albany High School Bowling",
     description:
-      "Contact Albany High School Bowling about joining, practices, or support. The preview form on this page does not send a message.",
+      "Contact Albany High School Bowling about volunteering, practices, or supporting our athletes. The preview form on this page does not send a message.",
+  },
+  volunteer: {
+    title: "Volunteer Opportunities | Albany High School Bowling",
+    description:
+      "Adult volunteer opportunities for Albany High School Bowling, including background checks through Sterling Volunteers and help with transportation.",
   },
   notFound: {
     title: "Page not found | Albany High School Bowling",

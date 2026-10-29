@@ -13,6 +13,7 @@ import { SignInUnavailable } from "./pages/SignInUnavailable"
 import { Sponsors } from "./pages/Sponsors"
 import { TeamGear } from "./pages/TeamGear"
 import { Tournaments } from "./pages/Tournaments"
+import { Volunteer } from "./pages/Volunteer"
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="sponsors" element={<Sponsors />} />
         <Route path="fundraisers" element={<Fundraisers />} />
         <Route path="resources" element={<Resources />} />
+        <Route path="volunteer" element={<Volunteer />} />
         <Route path="contact" element={<Contact />} />
         <Route path="faq" element={<Faq />} />
         <Route path="bowl-a-thon" element={<Bowlathon />} />
