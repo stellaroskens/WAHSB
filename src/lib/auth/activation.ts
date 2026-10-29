@@ -82,12 +82,12 @@ export const ACTIVATION_EMAIL_PANEL = [
  * the Identity API this site uses. Neither option is activated.
  */
 export const FUTURE_SIGN_IN_OPTIONS = {
-  google: { enabled: false as const, appropriateLater: true },
+  google: { enabled: false as const, offeredInUi: true as const, appropriateLater: true },
   passwordless: { enabled: false as const, appropriateLater: false },
 }
 
 export const FUTURE_SIGN_IN_NOTE =
-  "Google sign-in and passwordless sign-in are not turned on. Approved staff finish activation from an administrator's invitation email, then create a password when the sign-in provider asks for one."
+  "Passwordless sign-in is not available. Continue with Google appears on this page and starts only when Netlify Identity already has Google enabled. It does not assign a staff role."
 
 export type ActivationPublicCode = "acknowledged" | "invalid_email" | "rate_limited" | "unavailable"
 

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react"
+import { GoogleSignInButton } from "../../components/auth/GoogleSignInButton"
 import { PasswordRecoveryForm } from "../../components/auth/PasswordRecoveryForm"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { loginErrorMessage } from "../../lib/auth/postLogin"
@@ -117,6 +118,7 @@ export function StaffSignInPanel() {
         />
       )}
 
+      {mode === "login" ? <GoogleSignInButton /> : null}
       <p className="signin-help">
         Staff accounts are invitation-only. There is no public sign-up. Your access level comes from your invitation, not
         from anything you choose here.
