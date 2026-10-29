@@ -1,4 +1,4 @@
-/* Shared top bar: Menu, Search, Donate, Account and Cart. No logo in the bar. */
+/* Shared top bar: Menu, Search, Donate and Account. No logo in the bar. */
 
 .topbar {
   position: sticky;
@@ -166,24 +166,6 @@
   width: 0.95rem;
   height: 0.95rem;
   fill: currentColor;
-}
-
-.header-cart__count {
-  position: absolute;
-  top: 0.1rem;
-  left: calc(0.6rem + 13px);
-  display: grid;
-  place-items: center;
-  min-width: 1.2rem;
-  height: 1.2rem;
-  padding: 0 0.3rem;
-  border-radius: 999px;
-  background: var(--red);
-  color: #fff;
-  font-family: system-ui, sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0;
 }
 
 .account-menu {
@@ -376,10 +358,6 @@
   box-shadow: 0 10px 24px rgba(16, 32, 64, 0.16);
 }
 
-.home-review .header-cart__count {
-  left: calc(0.6rem + 13px);
-}
-
 @media (max-width: 480px) {
   .home-review .review-tools {
     gap: 0.1rem;
@@ -399,8 +377,7 @@
 }
 
 @media (max-width: 1023px) {
-  .topbar .header-account .header-icon__label,
-  .topbar .header-cart .header-icon__label {
+  .topbar .header-account .header-icon__label {
     position: absolute;
     width: 1px;
     height: 1px;

@@ -7,7 +7,7 @@ const publicEntries: SearchEntry[] = [
   { to: "/our-club", label: "Our Club", detail: "About the club and coaches", keywords: `${pages.club.description} coaches cliff meredith chris breshears about` },
   { to: "/practices", label: "Practices", detail: "Practice information", keywords: `${pages.practices.description} lakeshore lanes schedule beginner` },
   { to: "/tournaments", label: "Tournaments", detail: "Dates and venues", keywords: `${pages.tournaments.description} schedule directions venue` },
-  { to: "/team-gear", label: "Team Gear", detail: "Apparel preview", keywords: "team gear apparel shirts hoodies jackets spirit wear clothing store" },
+  { to: "/team-gear", label: "Team Gear", detail: "BSN SPORTS team shop", keywords: `${pages.teamGear.description} apparel clothing store shop bsn` },
   { to: "/sponsors", label: "Sponsors", detail: "Support the team", keywords: `${pages.sponsors.description} sponsorship donate lakeshore lanes` },
   { to: "/fundraisers", label: "Fundraisers", detail: "Upcoming fundraisers", keywords: pages.fundraisers.description },
   { to: "/bowl-a-thon", label: "Bowl-A-Thon", detail: "Donate or pledge", keywords: `${pages.bowlathon.description} donate pledge bowlathon` },

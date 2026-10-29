@@ -1,6 +1,6 @@
 /*
- * Sitewide athletic design layer for the content pages (not Team Gear, not the homepage stage).
- * Every selector is scoped to .sw-page, .ah, .sw-* so Team Gear and HomeReview are untouched.
+ * Sitewide athletic design layer for the content pages (not the homepage stage).
+ * Every selector is scoped to .sw-page, .ah, .sw-* so HomeReview is untouched.
  */
 
 :root {
@@ -2190,5 +2190,50 @@
 @media (min-width: 900px) {
   .sw-bowlathon__faq {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Team Gear ---------- */
+
+.sw-team-gear__logo {
+  width: min(100%, 26rem);
+  height: auto;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
+}
+
+.sw-page .sw-team-gear__card {
+  max-width: 48rem;
+  margin-inline: auto;
+  border-top: 4px solid var(--sw-red);
+}
+
+.sw-team-gear__card p {
+  max-width: 62ch;
+  color: var(--sw-ink);
+  font-size: var(--fs-support);
+  line-height: 1.55;
+}
+
+.sw-team-gear__actions {
+  margin: 1.25rem 0;
+}
+
+.sw-team-gear__actions svg {
+  flex: none;
+}
+
+.sw-page .sw-team-gear__note {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-left: 4px solid var(--sw-royal);
+  border-radius: 8px;
+  background: var(--sw-backdrop);
+  color: var(--sw-muted);
+  font-size: 1rem;
+}
+
+@media (max-width: 899px) {
+  .sw-team-gear .ah__art {
+    display: none;
   }
 }

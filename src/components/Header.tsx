@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { nav } from "../content/site"
 import { AccountButton } from "./header/AccountButton"
-import { CartLink } from "./header/CartLink"
 import { BurgerIcon } from "./header/icons"
 import { SiteSearch } from "./header/SiteSearch"
 
@@ -75,7 +74,6 @@ export function Header() {
             </span>
           </NavLink>
           <AccountButton />
-          <CartLink />
         </div>
       </div>
     </header>

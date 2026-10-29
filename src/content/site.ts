@@ -87,7 +87,22 @@ export const pages = {
     description:
       "Upcoming Albany High School Bowling fundraisers at Panda Express and Burgerville, including dates, times, and how to participate.",
   },
+  teamGear: {
+    title: "Team Gear | Albany High School Bowling",
+    description:
+      "Albany High School Bowling team gear is moving to BSN SPORTS. Visit BSN SPORTS to explore team apparel and gear options.",
+  },
 } as const
+
+/**
+ * Team gear is sold by BSN SPORTS, not on this site.
+ * Leave teamStoreUrl null until the club provides the dedicated team store link. Do not guess one.
+ */
+export const teamGearShop: { name: string; url: string; teamStoreUrl: string | null } = {
+  name: "BSN SPORTS",
+  url: "https://www.bsnsports.com/",
+  teamStoreUrl: null,
+}
 
 /** Confirmed Bowl-a-thon date only. Leave null until the club publishes one. */
 export const bowlathonEvent: { date: string | null } = {

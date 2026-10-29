@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { AccountButton } from "../components/header/AccountButton"
-import { CartLink } from "../components/header/CartLink"
 import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
@@ -61,7 +60,6 @@ export function HomeReview() {
               Donate or Pledge
             </Link>
             <AccountButton />
-            <CartLink />
             <button
               ref={buttonRef}
               type="button"
@@ -176,7 +174,7 @@ export function HomeReview() {
               </div>
               <div className="review-cards__body">
                 <h2>Team gear</h2>
-                <p>Support the team with custom Albany High School Bowling gear.</p>
+                <p>Our team gear shop is moving to BSN SPORTS.</p>
                 <Link className="review-cards__link" to="/team-gear">
                   View team gear <span aria-hidden="true">→</span>
                 </Link>

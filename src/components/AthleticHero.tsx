@@ -10,6 +10,7 @@ export type HeroScene =
   | "resources"
   | "faq"
   | "contact"
+  | "gear"
   | "team"
   | "admin"
   | "privacy"

@@ -508,10 +508,6 @@ main {
   }
 }
 
-.team-gear {
-  padding-top: 2.25rem;
-}
-
 .community-lakeshore {
   background: #f6f8fb;
 }
@@ -3511,7 +3507,6 @@ textarea[aria-invalid="true"] {
 
 .connect-block h2,
 .connect-block--nested h2,
-.connect-gear h2,
 .connect-share h2,
 .connect-social h2 {
   color: var(--blue);
@@ -3519,7 +3514,6 @@ textarea[aria-invalid="true"] {
 
 .connect-block > .wrap > p,
 .connect-block--nested > p,
-.connect-gear p,
 .connect-share p {
   max-width: 42rem;
   color: var(--text);

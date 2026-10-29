@@ -24,9 +24,8 @@ export function Layout() {
     return () => cancelAnimationFrame(frame)
   }, [pathname, hash])
 
-  const storefront = pathname === "/team-gear"
   const homeStage = pathname === "/" || (import.meta.env.DEV && pathname === "/home-review")
-  const showSiteChrome = !storefront && !homeStage
+  const showSiteChrome = !homeStage
 
   return (
     <div className="site">
@@ -37,7 +36,7 @@ export function Layout() {
       <main id="main">
         <Outlet />
       </main>
-      {(showSiteChrome || storefront) && <Footer />}
+      {showSiteChrome && <Footer />}
     </div>
   )
 }

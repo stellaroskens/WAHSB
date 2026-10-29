@@ -8,7 +8,13 @@ It does not include private student records, coach or player administration, gua
 
 Home, Our Club, Practices, Tournaments, Team Gear, Sponsors, Fundraisers, Bowling Resources, Contact, FAQ, and Bowl-a-Thon.
 
-Sign In explains that team accounts are not open. Team Gear is a preview. Add to cart stays off, and there are no prices or checkout.
+Sign In explains that team accounts are not open.
+
+## Team Gear
+
+Team gear is sold through [BSN SPORTS](https://www.bsnsports.com/), an external provider. This site no longer hosts a gear customizer, and it has no shopping cart, wishlist, pricing, or checkout.
+
+The `/team-gear` page introduces the shop and links to the BSN SPORTS home page in a new tab. The dedicated Albany High School Bowling storefront URL has not been provided yet. When the club provides it, set `teamGearShop.teamStoreUrl` in `src/content/site.ts`. The button will then point to the team store, and the "link will be added here" note will disappear. Do not guess the URL.
 
 ## Build
 
