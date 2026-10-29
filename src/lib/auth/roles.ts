@@ -80,3 +80,9 @@ export function dashboardPathForRole(role: StaffRole | null): string {
       return "/staff/login"
   }
 }
+
+/** Dashboard for a signed-in user's trusted Identity roles, or null when they hold no staff role. */
+export function staffHomePath(roles: unknown): string | null {
+  const role = primaryStaffRole(roles)
+  return role ? dashboardPathForRole(role) : null
+}
