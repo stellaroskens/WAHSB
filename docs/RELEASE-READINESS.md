@@ -24,7 +24,7 @@ Not “READY FOR CLIENT ACCEPTANCE” (unqualified) because owner-gated staff/pa
 | 8 | Admin workflows documented; production auth off | Pass (limited) | `ADMIN-GUIDE.md`; flags false |
 | 9 | QR / social / email status documented | Pass (limited) | QR blocked without URL; social live flags off; announcements send unavailable |
 | 10 | Handoff + QA + design guidelines present | Pass | `CLIENT-HANDOFF.md`, `QA-CHECKLIST.md`, `WAHSB-DESIGN-GUIDELINES.md`, `AGENTS.md` |
-| 11 | Tests/build + safe Git delivery (review branch/PR, not silent main merge) | Pending until PR push verified | Local tests/build run during audit; PR opened for owner review |
+| 11 | Tests/build + safe Git delivery (review branch/PR, not silent main merge) | Partial | Branch pushed (`3bf3bea`); automated PR create failed (GitHub: must be a collaborator). Owner can open from compare URL below |
 
 ## Level classification of remaining work
 
@@ -84,8 +84,14 @@ Recorded on this machine before PR push:
 - `npm test` → **26 passed, 0 failed**
 - `npm run build` → **success** (`tsc --noEmit` + `vite build`; Vite noted JS chunk >500 kB — Level 3 optimization note, not a failure)
 
+## Git delivery status
+
+- Review branch pushed: `origin/audit/wahsb-client-readiness` @ `3bf3bea67f01ddf997f93be5897983ebdad5384d`
+- Compare / open PR (owner): https://github.com/stellaroskens/WAHSB/compare/main...audit/wahsb-client-readiness?expand=1
+- Automated `ManagePullRequest` create failed with GitHub validation: `must be a collaborator`. No main merge performed.
+
 ## Netlify
 
 - Existing production site responds at https://albany-hs-bowling.netlify.app/ (HEAD 200 verified during audit).
 - This audit workflow **does not** claim that audit-branch changes are LIVE on production.
-- Prefer Deploy Preview from the PR for acceptance of privacy/docs changes before owner merge.
+- Prefer Deploy Preview after the owner opens/merges the PR for acceptance of privacy/docs changes.
