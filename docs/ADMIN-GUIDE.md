@@ -19,11 +19,11 @@ Detailed steps live in the Project store doc `ADMIN_PHASE1_SETUP.md`. Summary:
 1. Enable Netlify Identity → **Invite only**
 2. Invite first super admin; set password (12+)
 3. Assign Identity role `super_admin` in the dashboard
-4. Set `ADMIN_AUTH_ENABLED`, `VITE_ADMIN_AUTH_ENABLED`, `ADMIN_EMAIL_ALLOWLIST`
-5. Redeploy
+4. Set `ADMIN_AUTH_ENABLED`, `VITE_ADMIN_AUTH_ENABLED`, `ADMIN_EMAIL_ALLOWLIST` in the **Netlify UI** (not in `netlify.toml` — file-based env overrides UI values for the same key)
+5. Redeploy production so Vite can inline `VITE_ADMIN_AUTH_ENABLED`
 6. Optional: `GITHUB_CONTENT_TOKEN` for content editor publish
 
-Until then, `/staff/login` shows that staff access is not open.
+Until the client flag is exactly `true` in the built bundle, `/staff/login` shows that staff access is not open.
 
 ## Admin sections (as coded)
 

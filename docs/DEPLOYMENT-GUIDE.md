@@ -37,7 +37,7 @@ Never enable in git as production-on by default:
 
 | Variable | Where | Purpose |
 | --- | --- | --- |
-| `VITE_ADMIN_AUTH_ENABLED` | Netlify env (+ currently `"false"` in `netlify.toml`) | Shows staff login UI |
+| `VITE_ADMIN_AUTH_ENABLED` | Netlify UI env only (do **not** set in `netlify.toml` — toml overrides UI) | Shows staff login UI when exactly `true`; unset stays off |
 | `ADMIN_AUTH_ENABLED` | Netlify env only | Enables server staff session APIs |
 | `ADMIN_EMAIL_ALLOWLIST` | Netlify env only | Super-admin email allowlist (fail closed if empty when auth on) |
 | `GITHUB_CONTENT_TOKEN` | Netlify env only | Content draft/publish via GitHub API |

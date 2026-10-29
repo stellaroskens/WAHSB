@@ -14,7 +14,7 @@ Audit performed against repository tree starting at `51fb292`, plus client-readi
 
 ### Strengths
 
-1. **Auth feature-gated off by default** — `VITE_ADMIN_AUTH_ENABLED="false"` in `netlify.toml`; server checks `ADMIN_AUTH_ENABLED`.
+1. **Auth feature-gated off by default** — client requires exact `VITE_ADMIN_AUTH_ENABLED=true` (unset stays off; do not hardcode in `netlify.toml` because toml overrides UI); server checks `ADMIN_AUTH_ENABLED`.
 2. **Role + allowlist model** — Super-admin access requires Identity role; allowlist fails closed when empty (`requireAuth.ts`). Email typed in a form is not sufficient.
 3. **CDN role redirects** — `/admin`, `/coach`, `/team-administrator` gated in `netlify.toml` with login fallbacks.
 4. **Staff route headers** — Live `/staff/login` returned `cache-control: no-store` and `x-robots-tag: noindex, nofollow` during audit HEAD check.

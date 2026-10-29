@@ -27,7 +27,7 @@ Recorded for the WAHSB client-readiness audit. Facts below were verified from th
 
 ## Explicitly not claimed at baseline
 
-- Production staff auth is **not** enabled (`VITE_ADMIN_AUTH_ENABLED=false` in `netlify.toml`)
+- Production staff auth stays **off** until Netlify UI sets `VITE_ADMIN_AUTH_ENABLED=true` and a deploy inlines it (do not hardcode the flag in `netlify.toml`)
 - Netlify Identity invite-only status was **not** independently confirmed in the Netlify UI during this audit
 - Live payment destinations are **not** active (`src/content/published/siteConnections.json` all `disabled` / `liveEnabled: false`)
 - Dedicated BSN team storefront URL is **not** set (`teamStoreUrl` null)

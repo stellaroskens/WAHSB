@@ -95,7 +95,7 @@ Recorded on this machine (Node v24.15.0; build targets Node 22 via `netlify.toml
 
 | Gate | Evidence |
 | --- | --- |
-| Admin UI off | `netlify.toml` `VITE_ADMIN_AUTH_ENABLED = "false"`; `isAdminAuthUiEnabled()` requires `"true"` |
+| Admin UI off by default | Unset `VITE_ADMIN_AUTH_ENABLED` stays off; `isAdminAuthUiEnabled()` / `parseAdminAuthUiFlag()` require exact `"true"` via Netlify UI (not `netlify.toml`) |
 | Payments disabled | All `payments[]` in `siteConnections.json`: `status: disabled`, `liveEnabled: false`, destinations `null` |
 | Season closed | `seasonRegistrationClosed` copy present; used on Home/Our Club/Practices/Tournaments/Volunteer/Contact |
 | BSN handoff | `teamStoreUrl: null` with dedicated-storefront note on `/team-gear` |
