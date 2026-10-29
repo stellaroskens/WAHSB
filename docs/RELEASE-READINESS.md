@@ -107,7 +107,7 @@ Recorded on this machine (Node v24.15.0; build targets Node 22 via `netlify.toml
 ## Git delivery status
 
 - Prior review branch: `origin/audit/wahsb-client-readiness` @ `15e7e98958e93e7133e45aa7b04284b4aaee7101`
-- RC branch: `cursor/release-candidate-handoff-bfc2` (docs/register/RC updates atop review tip)
+- RC branch: `cursor/release-candidate-handoff-bfc2` @ `be14ac7641666be5923f13846168dd747f0a8e3c` (docs/register/RC updates atop review tip)
 - Compare (owner): https://github.com/stellaroskens/WAHSB/compare/main...cursor/release-candidate-handoff-bfc2?expand=1
 - Also: https://github.com/stellaroskens/WAHSB/compare/main...audit/wahsb-client-readiness?expand=1
 - No main merge; no force-push; no production tag.
