@@ -14,7 +14,7 @@ Not fully production-ready: privacy/docs live only after review-branch merge+dep
 | --- | --- | --- |
 | Production baseline (`main` tip; live site expected to track this) | `51fb292` | `51fb29270bc3d16d4fb85f1983b6b0d110b6d35c` |
 | Prior readiness tip (pre-RC doc refresh) | `15e7e98` | `15e7e98958e93e7133e45aa7b04284b4aaee7101` |
-| RC handoff tip |  on  |  |
+| RC handoff tip | `c6b9b14` on `cursor/release-candidate-handoff-bfc2` | `c6b9b14952c83bc20dfe9aeef2b649ee42f70a62` |
 
 **Do not treat tip SHA as deployed.** Live: https://albany-hs-bowling.netlify.app/ tracks Netlify production from `main`, not the audit/RC branch. No immutable production tag created (unverified / not owner-approved).
 
