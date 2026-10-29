@@ -30,10 +30,7 @@ export function TeamGear() {
         <div className="wrap">
           <article className="card sw-team-gear__card">
             <h2 id="team-gear-shop-heading">Albany High School Bowling Team Gear</h2>
-            <p>
-              We're moving our team gear shopping experience to {teamGearShop.name}. Visit {teamGearShop.name} to
-              explore their team apparel and gear options.
-            </p>
+            <p>We're moving our team gear shopping experience to {teamGearShop.name}.</p>
             <p className="sw-team-gear__actions">
               <a
                 className="sw-btn sw-btn--plain"
@@ -48,8 +45,7 @@ export function TeamGear() {
             </p>
             {teamGearShop.teamStoreUrl === null ? (
               <p className="sw-team-gear__note">
-                Our dedicated Albany High School Bowling team store link will be added here when it becomes
-                available.
+                A dedicated Albany High School Bowling storefront link will be added when available.
               </p>
             ) : null}
           </article>

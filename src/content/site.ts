@@ -90,7 +90,7 @@ export const pages = {
   teamGear: {
     title: "Team Gear | Albany High School Bowling",
     description:
-      "Albany High School Bowling team gear is moving to BSN SPORTS. Visit BSN SPORTS to explore team apparel and gear options.",
+      "We're moving our Albany High School Bowling team gear shopping experience to BSN SPORTS.",
   },
 } as const
 
