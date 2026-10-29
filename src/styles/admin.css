@@ -319,6 +319,32 @@
   gap: 0.75rem;
 }
 
+.admin-fieldset {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.85rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-fieldset legend {
+  padding: 0 0.35rem;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.admin-check {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.admin-check input {
+  width: auto;
+}
+
 @media (max-width: 700px) {
   .admin-topbar__nav {
     order: 3;

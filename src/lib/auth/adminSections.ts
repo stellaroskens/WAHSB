@@ -50,9 +50,10 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   {
     id: "payment-settings",
     title: "Payment Settings",
-    description: "Configure payment providers and options.",
-    status: "unavailable",
-    statusLabel: "Unavailable until implemented",
+    description: "Social, email, and payment destinations (Connections).",
+    status: "available",
+    statusLabel: "Open",
+    href: "/admin/connections",
   },
   {
     id: "staff-accounts",

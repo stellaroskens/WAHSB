@@ -1,21 +1,45 @@
-import { siteConnections } from "../content/siteConnections"
-
-const methods = ["Apple Pay", "Google Pay", "Venmo", "PayPal"] as const
+import { livePaymentDestinations, siteConnections, siteConnectionsConfig } from "../content/siteConnections"
 
 /**
- * Design preview only. Checkout stays off until a later task verifies a provider.
- * `payments.approved` alone does not render a pay button.
+ * Public payment UI. Only verified + liveEnabled destinations appear.
+ * Prepared-but-unapproved destinations never render as active checkout.
  */
 export function PaymentOptions() {
-  if (!import.meta.env.DEV || siteConnections.payments.approved) return null
+  const live = livePaymentDestinations(siteConnectionsConfig)
+  if (live.length === 0) {
+    if (!import.meta.env.DEV || siteConnections.payments.approved) return null
+    return (
+      <div className="connect-pay">
+        <p className="connect-pay__status">Design preview — payment not connected</p>
+        <ul className="connect-pay__grid">
+          {siteConnectionsConfig.payments.map((method) => (
+            <li className="connect-pay__card" key={method.id}>
+              <span className="connect-pay__name">{method.label}</span>
+              <span className="connect-pay__state">Disabled</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 
   return (
     <div className="connect-pay">
-      <p className="connect-pay__status">Design preview — payment not connected</p>
+      <p className="connect-pay__status">Approved payment options</p>
       <ul className="connect-pay__grid">
-        {methods.map((method) => (
-          <li className="connect-pay__card" key={method}>
-            <span className="connect-pay__name">{method}</span>
+        {live.map((method) => (
+          <li className="connect-pay__card" key={method.id}>
+            {method.publicDestination?.startsWith("http") ? (
+              <a href={method.publicDestination} target="_blank" rel="noopener noreferrer">
+                {method.label}
+                <span className="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            ) : (
+              <span className="connect-pay__name">
+                {method.label}
+                {method.publicDestination ? ` · ${method.publicDestination}` : null}
+              </span>
+            )}
           </li>
         ))}
       </ul>

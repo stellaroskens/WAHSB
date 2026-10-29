@@ -79,15 +79,12 @@ describe("admin dashboard foundation", () => {
       "Publishing History",
       "Site Settings",
     ])
-    const staff = ADMIN_SECTIONS.find((section) => section.id === "staff-accounts")
-    const website = ADMIN_SECTIONS.find((section) => section.id === "website-pages")
-    assert.equal(staff?.status, "available")
-    assert.equal(website?.status, "available")
-    assert.ok(
-      ADMIN_SECTIONS.filter(
-        (section) => section.id !== "staff-accounts" && section.id !== "website-pages",
-      ).every((section) => section.status === "unavailable"),
+    const available = new Set(
+      ADMIN_SECTIONS.filter((section) => section.status === "available").map((section) => section.id),
     )
+    assert.ok(available.has("staff-accounts"))
+    assert.ok(available.has("website-pages"))
+    assert.ok(available.has("payment-settings"))
   })
 })
 

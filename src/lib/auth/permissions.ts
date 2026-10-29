@@ -21,6 +21,7 @@ export type StaffPermission =
   | "edit_scheduling_ops"
   | "propose_announcements"
   | "volunteer_coordination"
+  | "prepare_connections"
   | "manage_payments"
   | "manage_payouts"
 
@@ -38,6 +39,7 @@ const SUPER_ADMIN_PERMISSIONS: readonly StaffPermission[] = [
   "edit_scheduling_ops",
   "propose_announcements",
   "volunteer_coordination",
+  "prepare_connections",
   "manage_payments",
   "manage_payouts",
 ]
@@ -55,6 +57,7 @@ const TEAM_ADMIN_PERMISSIONS: readonly StaffPermission[] = [
   "propose_announcements",
   "volunteer_coordination",
   "submit_for_review",
+  "prepare_connections",
 ]
 
 export function permissionsForRoles(roles: unknown): StaffPermission[] {

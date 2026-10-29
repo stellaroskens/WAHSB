@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit -p tsconfig.json && vite build",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts scripts/staffAccounts.test.ts scripts/contentValidation.test.ts"
+    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts scripts/staffAccounts.test.ts scripts/contentValidation.test.ts scripts/connections.test.ts"
   },
   "dependencies": {
     "@netlify/functions": "^6.0.3",

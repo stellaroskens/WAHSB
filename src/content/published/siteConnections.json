@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "social": [
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "publicUrl": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "publicUrl": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    },
+    {
+      "id": "youtube",
+      "label": "YouTube",
+      "publicUrl": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    },
+    {
+      "id": "tiktok",
+      "label": "TikTok",
+      "publicUrl": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    }
+  ],
+  "email": {
+    "providerLabel": null,
+    "publicFromAddress": null,
+    "status": "disabled",
+    "liveEnabled": false,
+    "staffNote": "No outbound announcement provider is configured yet."
+  },
+  "payments": [
+    {
+      "id": "stripe",
+      "label": "Stripe",
+      "publicDestination": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    },
+    {
+      "id": "paypal",
+      "label": "PayPal",
+      "publicDestination": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    },
+    {
+      "id": "venmo",
+      "label": "Venmo",
+      "publicDestination": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    },
+    {
+      "id": "cash_app",
+      "label": "Cash App",
+      "publicDestination": null,
+      "status": "disabled",
+      "liveEnabled": false,
+      "staffNote": null
+    }
+  ],
+  "sharing": {
+    "publicWebsiteUrl": null,
+    "publicFundraiserUrl": null
+  }
+}

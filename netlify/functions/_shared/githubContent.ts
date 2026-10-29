@@ -5,6 +5,7 @@ declare const Netlify: {
 }
 
 const PUBLISHED_PATH = "src/content/published/siteContent.json"
+const CONNECTIONS_PATH = "src/content/published/siteConnections.json"
 const DRAFTS_PREFIX = "content/drafts/"
 
 export function githubConfig():
@@ -104,4 +105,4 @@ export async function listDraftFiles(
   }
 }
 
-export { PUBLISHED_PATH, DRAFTS_PREFIX }
+export { PUBLISHED_PATH, CONNECTIONS_PATH, DRAFTS_PREFIX }
