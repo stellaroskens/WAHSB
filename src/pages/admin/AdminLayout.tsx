@@ -15,6 +15,7 @@ export function AdminLayout() {
           <NavLink to="/admin" end>
             Dashboard
           </NavLink>
+          <NavLink to="/admin/content">Content</NavLink>
           <NavLink to="/admin/staff">Staff</NavLink>
           <NavLink to="/admin/settings">Settings</NavLink>
         </nav>

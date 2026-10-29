@@ -3,6 +3,7 @@ import { AuthCallbackRedirect } from "./components/AuthCallbackRedirect"
 import { Layout } from "./components/Layout"
 import { RequireStaff } from "./lib/auth/RequireStaff"
 import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
+import { AdminContent } from "./pages/admin/AdminContent"
 import { AdminDashboard } from "./pages/admin/AdminDashboard"
 import { AdminLayout } from "./pages/admin/AdminLayout"
 import { AdminSettings } from "./pages/admin/AdminSettings"
@@ -41,6 +42,7 @@ export default function App() {
           }
         >
           <Route index element={<AdminDashboard />} />
+          <Route path="content" element={<AdminContent />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="staff" element={<AdminStaff />} />
         </Route>

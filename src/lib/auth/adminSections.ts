@@ -15,8 +15,9 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     id: "website-pages",
     title: "Website Pages",
     description: "Edit public page content and navigation.",
-    status: "unavailable",
-    statusLabel: "Unavailable until implemented",
+    status: "available",
+    statusLabel: "Open",
+    href: "/admin/content",
   },
   {
     id: "tournament-management",

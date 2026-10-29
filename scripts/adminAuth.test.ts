@@ -80,11 +80,13 @@ describe("admin dashboard foundation", () => {
       "Site Settings",
     ])
     const staff = ADMIN_SECTIONS.find((section) => section.id === "staff-accounts")
+    const website = ADMIN_SECTIONS.find((section) => section.id === "website-pages")
     assert.equal(staff?.status, "available")
+    assert.equal(website?.status, "available")
     assert.ok(
-      ADMIN_SECTIONS.filter((section) => section.id !== "staff-accounts").every(
-        (section) => section.status === "unavailable",
-      ),
+      ADMIN_SECTIONS.filter(
+        (section) => section.id !== "staff-accounts" && section.id !== "website-pages",
+      ).every((section) => section.status === "unavailable"),
     )
   })
 })
