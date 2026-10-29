@@ -65,4 +65,4 @@ Preserve athletic navy/blue/red, BSN handoff, registration-closed messaging, Ste
 
 ## Acceptance classification pointer
 
-See `RELEASE-READINESS.md` for the evidence-based classification of this release package.
+See `RELEASE-READINESS.md` and `RELEASE-CANDIDATE.md`. Classification: **READY WITH DOCUMENTED LIMITATIONS**. Owner checklist: `OWNER-ACTION-REGISTER.md`.

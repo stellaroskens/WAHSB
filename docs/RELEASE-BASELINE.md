@@ -47,6 +47,18 @@ Request: `HEAD https://albany-hs-bowling.netlify.app/staff/login` → HTTP/2 200
 - `npm test` → 25 passed, 0 failed (commit `51fb292` tree before audit edits)
 - Node locally: v24.15.0 (build targets Node 22 via `netlify.toml`)
 
+## RC re-verification (2026-10-29)
+
+| Field | Value |
+| --- | --- |
+| `origin/main` (unchanged) | `51fb29270bc3d16d4fb85f1983b6b0d110b6d35c` |
+| Prior review tip | `15e7e98958e93e7133e45aa7b04284b4aaee7101` |
+| RC branch | `cursor/release-candidate-handoff-bfc2` (branched from review tip) |
+| `npm test` on RC tree | 26 passed, 0 failed |
+| `npm run build` | success (`tsc --noEmit` + vite) |
+| Production tags | none (do not tag until owner-approved release) |
+| Deploy claim | **none** — tip ≠ assumed live; production tracks `main` |
+
 ## Preserve constraints
 
 - Athletic navy / blue / red design tokens (`--sw-navy`, `--sw-royal`, `--sw-red`)

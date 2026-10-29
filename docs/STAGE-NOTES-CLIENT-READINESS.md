@@ -22,8 +22,11 @@ Working notes from the autonomous audit. Details and classification live in `REL
 | 19 | Final test/build | Run on review branch before PR |
 | 20 | Git delivery | Review branch + PR to `main` only (no main merge by agent) |
 | 21 | Netlify prep / final report | Prep docs; do not claim audit LIVE |
+| RC | Final release stabilization | Re-verify gates; OWNER-ACTION-REGISTER; RELEASE-CANDIDATE; 26 tests + build green |
 
 ## Documented blockers (continue without waiting)
+
+See `OWNER-ACTION-REGISTER.md` for the full table.
 
 - WA-17 Identity + first super_admin
 - WA-18 GITHUB_CONTENT_TOKEN
@@ -31,4 +34,6 @@ Working notes from the autonomous audit. Details and classification live in `REL
 - WA-10 Sterling invitation URL
 - WA-20 Public sponsorship URL
 - WA-21 Email announcements send backend
+- Readiness/RC PR → `main` (privacy + docs)
 - Contact form send (optional product decision)
+- Payments remain disabled until authorized
