@@ -20,6 +20,7 @@ import { HomeReview } from "./pages/HomeReview"
 import { NotFound } from "./pages/NotFound"
 import { OurClub } from "./pages/OurClub"
 import { Practices } from "./pages/Practices"
+import { Privacy } from "./pages/Privacy"
 import { Resources } from "./pages/Resources"
 import { SignInUnavailable } from "./pages/SignInUnavailable"
 import { SponsorQr } from "./pages/SponsorQr"
@@ -86,6 +87,7 @@ export default function App() {
           <Route path="faq" element={<Faq />} />
           <Route path="bowl-a-thon" element={<Bowlathon />} />
           <Route path="team-gear" element={<TeamGear />} />
+          <Route path="privacy" element={<Privacy />} />
           <Route path="sign-in" element={<SignInUnavailable />} />
           <Route path="*" element={<NotFound />} />
         </Route>

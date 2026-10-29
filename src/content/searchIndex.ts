@@ -41,6 +41,12 @@ const publicEntries: SearchEntry[] = [
     keywords: `${pages.faq.description} questions help volunteer registration closed 2026 2027 season`,
   },
   { to: "/contact", label: "Contact Us", detail: "Email the club", keywords: `${pages.contact.description} email volunteer` },
+  {
+    to: "/privacy",
+    label: "Privacy",
+    detail: "Website privacy notice",
+    keywords: "privacy policy notice data hosting contact form staff access photos",
+  },
 ]
 
 export const searchEntries: SearchEntry[] = publicEntries

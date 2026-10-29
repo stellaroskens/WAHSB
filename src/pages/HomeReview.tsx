@@ -285,6 +285,7 @@ export function HomeReview() {
             <Link to="/volunteer">Volunteer</Link>
             <Link to="/team-gear">Team Gear</Link>
             <Link to="/contact">Contact Us</Link>
+            <Link to="/privacy">Privacy</Link>
           </nav>
         </div>
       </footer>

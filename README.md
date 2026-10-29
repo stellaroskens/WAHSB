@@ -6,11 +6,13 @@ It does not include private student records, coach or player administration, gua
 
 ## Pages
 
-Home, Our Club, Practices, Tournaments, Team Gear, Sponsors, Fundraisers, Bowling Resources, Contact, FAQ, and Bowl-a-Thon.
+Home, Our Club, Practices, Tournaments, Team Gear, Sponsors, Fundraisers, Bowling Resources, Volunteer, Contact, FAQ, Bowl-a-Thon, and Privacy.
 
 Sign In explains that team accounts are not open.
 
-Staff administration foundations live under `/staff/login` and `/admin`. They use Netlify Identity (invitation-only) and stay disabled until configured — see `ADMIN_PHASE1_SETUP.md` in the project docs store.
+Staff administration foundations live under `/staff/login` and `/admin`. They use Netlify Identity (invitation-only) and stay disabled until configured — see `docs/ADMIN-GUIDE.md` and `ADMIN_PHASE1_SETUP.md` in the project docs store.
+
+Client readiness package: start at `docs/RELEASE-READINESS.md` and `docs/CLIENT-HANDOFF.md`.
 
 ## Team Gear
 

@@ -123,6 +123,15 @@ describe("auth source safety", () => {
     assert.match(toml, /Role\s*=\s*\["super_admin"\]/)
   })
 
+  it("ships a public privacy route and footer link", () => {
+    const app = readFileSync(new URL("../src/App.tsx", import.meta.url), "utf8")
+    const footer = readFileSync(new URL("../src/components/Footer.tsx", import.meta.url), "utf8")
+    const privacy = readFileSync(new URL("../src/pages/Privacy.tsx", import.meta.url), "utf8")
+    assert.match(app, /path="privacy"\s+element=\{<Privacy\s*\/>\}/)
+    assert.match(footer, /to="\/privacy"/)
+    assert.match(privacy, /Privacy/)
+  })
+
   it("does not ship a duplicate AdminAuthContext design", () => {
     assert.equal(existsSync(new URL("../src/auth/AdminAuthContext.tsx", import.meta.url)), false)
     assert.equal(existsSync(new URL("../src/lib/adminAuth.ts", import.meta.url)), false)

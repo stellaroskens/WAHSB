@@ -46,6 +46,9 @@ export function Footer() {
                 </a>
               </li>
             ))}
+            <li>
+              <NavLink to="/privacy">Privacy</NavLink>
+            </li>
           </ul>
           <p className="footer-schools">
             {club.schools.map((school) => (
