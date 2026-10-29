@@ -26,7 +26,10 @@ export function StaffLogin() {
   } = useAuth()
   const location = useLocation()
   const [guardMessage, setGuardMessage] = useState(() =>
-    guardReasonMessage((location.state as { reason?: unknown } | null)?.reason),
+    guardReasonMessage(
+      (location.state as { reason?: unknown } | null)?.reason,
+      (location.state as { detail?: unknown } | null)?.detail,
+    ),
   )
   const inCallback = callbackKind === "invite" || callbackKind === "recovery"
   const access = useStaffAccessCheck(authUiEnabled && !inCallback && !guardMessage)

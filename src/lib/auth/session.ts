@@ -1,9 +1,14 @@
 import type { User } from "@netlify/identity"
 import { isSuperAdmin, primaryStaffRole, type StaffRole } from "./roles.ts"
 
-export type AdminSession =
-  | { ok: true; email: string; id: string; roles: string[] }
-  | { ok: false; reason: "unauthorized" | "forbidden" | "unavailable" }
+export type SessionFailure = {
+  ok: false
+  reason: "unauthorized" | "forbidden" | "unavailable"
+  /** Server's reason code for a 403, e.g. "super_admin_not_allowlisted". */
+  detail?: string
+}
+
+export type AdminSession = { ok: true; email: string; id: string; roles: string[] } | SessionFailure
 
 export type StaffSession =
   | {
@@ -14,7 +19,7 @@ export type StaffSession =
       primaryRole: StaffRole
       username: string | null
     }
-  | { ok: false; reason: "unauthorized" | "forbidden" | "unavailable" }
+  | SessionFailure
 
 export function rolesFromUser(user: User | null | undefined): string[] {
   if (!user) return []
@@ -41,6 +46,18 @@ export function toAdminSession(user: User | null): AdminSession {
   }
 }
 
+async function forbiddenFrom(response: Response): Promise<SessionFailure> {
+  try {
+    const body = (await response.json()) as { code?: unknown }
+    if (typeof body.code === "string" && /^[a-z_]{1,64}$/.test(body.code)) {
+      return { ok: false, reason: "forbidden", detail: body.code }
+    }
+  } catch {
+    /* no body */
+  }
+  return { ok: false, reason: "forbidden" }
+}
+
 /** Verify privileged access with the Netlify Function — never trust browser-only state. */
 export async function fetchAdminSession(): Promise<AdminSession> {
   try {
@@ -50,7 +67,7 @@ export async function fetchAdminSession(): Promise<AdminSession> {
       headers: { Accept: "application/json" },
     })
     if (response.status === 401) return { ok: false, reason: "unauthorized" }
-    if (response.status === 403) return { ok: false, reason: "forbidden" }
+    if (response.status === 403) return forbiddenFrom(response)
     if (response.status === 503) return { ok: false, reason: "unavailable" }
     if (!response.ok) return { ok: false, reason: "unavailable" }
     const data = (await response.json()) as { email?: string; id?: string; roles?: string[] }
@@ -74,7 +91,7 @@ export async function fetchStaffSession(): Promise<StaffSession> {
       headers: { Accept: "application/json" },
     })
     if (response.status === 401) return { ok: false, reason: "unauthorized" }
-    if (response.status === 403) return { ok: false, reason: "forbidden" }
+    if (response.status === 403) return forbiddenFrom(response)
     if (response.status === 503) return { ok: false, reason: "unavailable" }
     if (!response.ok) return { ok: false, reason: "unavailable" }
     const data = (await response.json()) as {

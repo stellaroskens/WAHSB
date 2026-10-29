@@ -59,7 +59,7 @@ export function RequireStaff({
   }
 
   if (!session.ok) {
-    return <Navigate to="/staff/login" replace state={{ from: location.pathname, reason: session.reason }} />
+    return <Navigate to="/staff/login" replace state={{ from: location.pathname, reason: session.reason, detail: session.detail }} />
   }
 
   if (!allow.includes(session.primaryRole) && session.primaryRole !== "super_admin") {

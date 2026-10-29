@@ -16,8 +16,8 @@ export function normalizeEmail(email: string | null | undefined): string {
 export function parseEmailAllowlist(raw: string | null | undefined): string[] {
   if (!raw) return []
   return raw
-    .split(",")
-    .map((part) => normalizeEmail(part))
+    .split(/[,;\s]+/)
+    .map((part) => normalizeEmail(part.replace(/^["']+|["']+$/g, "")))
     .filter(Boolean)
 }
 

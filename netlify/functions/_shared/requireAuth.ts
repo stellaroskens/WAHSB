@@ -1,12 +1,6 @@
 import { getUser, type User } from "@netlify/identity"
-import {
-  isSuperAdmin,
-  normalizeEmail,
-  parseEmailAllowlist,
-  primaryStaffRole,
-  rolesFromUser,
-  type StaffRole,
-} from "./roles.ts"
+import { isSuperAdmin, parseEmailAllowlist, rolesFromUser, type StaffRole } from "./roles.ts"
+import { decideStaffAccess } from "./staffAccess.ts"
 
 declare const Netlify: {
   env: {
@@ -39,13 +33,6 @@ export type AuthSuccess = {
 }
 export type AuthResult = AuthSuccess | AuthFailure
 
-function allowlistAllows(email: string): boolean {
-  const allowlist = getAdminEmailAllowlist()
-  // Fail closed when auth is enabled: allowlist must be configured.
-  if (allowlist.length === 0) return false
-  return allowlist.includes(normalizeEmail(email))
-}
-
 export async function requireEnabledStaffAuth(): Promise<AuthResult | AuthFailure> {
   if (!isAdminAuthEnabledServer()) {
     return {
@@ -67,24 +54,17 @@ export async function requireEnabledStaffAuth(): Promise<AuthResult | AuthFailur
   }
 
   const roles = rolesFromUser(user)
-  const primaryRole = primaryStaffRole(roles)
-  if (!primaryRole) {
-    return {
-      ok: false,
-      response: json(403, { error: "forbidden", message: "Staff role required." }),
-    }
-  }
-
   const email = user.email ?? ""
-  if (!allowlistAllows(email) && primaryRole === "super_admin") {
-    // Super admins must be on the allowlist. Other staff are invite-managed.
+  // Super admins must be on the allowlist (empty fails closed). Other staff are invite-managed.
+  const decision = decideStaffAccess({ roles, email, allowlist: getAdminEmailAllowlist() })
+  if (!decision.ok) {
     return {
       ok: false,
-      response: json(403, { error: "forbidden", message: "Account is not allowlisted for administrator access." }),
+      response: json(403, { error: "forbidden", code: decision.code, message: decision.message }),
     }
   }
 
-  return { ok: true, user, roles, email, primaryRole }
+  return { ok: true, user, roles, email, primaryRole: decision.primaryRole }
 }
 
 export async function requireSuperAdmin(): Promise<AuthResult> {
