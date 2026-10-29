@@ -4,6 +4,39 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Keep staff auth off until Identity is invite-only and the first admin is ready.
+  # Set these in the Netlify UI (Site environment variables), not in git:
+  #   ADMIN_AUTH_ENABLED=true
+  #   VITE_ADMIN_AUTH_ENABLED=true
+  #   ADMIN_EMAIL_ALLOWLIST=stellaroskens@gmail.com
+  VITE_ADMIN_AUTH_ENABLED = "false"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# CDN role gate for /admin (requires nf_jwt with super_admin). Fallback sends visitors to login.
+[[redirects]]
+  from = "/admin"
+  to = "/index.html"
+  status = 200
+  conditions = { Role = ["super_admin"] }
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/index.html"
+  status = 200
+  conditions = { Role = ["super_admin"] }
+
+[[redirects]]
+  from = "/admin"
+  to = "/staff/login"
+  status = 302
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/staff/login"
+  status = 302
 
 # React Router handles every route in the browser, so unknown paths must serve index.html.
 [[redirects]]

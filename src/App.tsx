@@ -1,5 +1,10 @@
 import { Route, Routes } from "react-router-dom"
+import { AuthCallbackRedirect } from "./components/AuthCallbackRedirect"
 import { Layout } from "./components/Layout"
+import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
+import { AdminDashboard } from "./pages/admin/AdminDashboard"
+import { AdminLayout } from "./pages/admin/AdminLayout"
+import { AdminSettings } from "./pages/admin/AdminSettings"
 import { Bowlathon } from "./pages/Bowlathon"
 import { Contact } from "./pages/Contact"
 import { Faq } from "./pages/Faq"
@@ -11,29 +16,47 @@ import { Practices } from "./pages/Practices"
 import { Resources } from "./pages/Resources"
 import { SignInUnavailable } from "./pages/SignInUnavailable"
 import { Sponsors } from "./pages/Sponsors"
+import { StaffLogin } from "./pages/staff/StaffLogin"
 import { TeamGear } from "./pages/TeamGear"
 import { Tournaments } from "./pages/Tournaments"
 import { Volunteer } from "./pages/Volunteer"
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<HomeReview />} />
-        <Route path="our-club" element={<OurClub />} />
-        <Route path="practices" element={<Practices />} />
-        <Route path="tournaments" element={<Tournaments />} />
-        <Route path="sponsors" element={<Sponsors />} />
-        <Route path="fundraisers" element={<Fundraisers />} />
-        <Route path="resources" element={<Resources />} />
-        <Route path="volunteer" element={<Volunteer />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="faq" element={<Faq />} />
-        <Route path="bowl-a-thon" element={<Bowlathon />} />
-        <Route path="team-gear" element={<TeamGear />} />
-        <Route path="sign-in" element={<SignInUnavailable />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <>
+      <AuthCallbackRedirect />
+      <Routes>
+        <Route path="staff/login" element={<StaffLogin />} />
+
+        <Route
+          path="admin"
+          element={
+            <RequireSuperAdmin>
+              <AdminLayout />
+            </RequireSuperAdmin>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
+
+        <Route element={<Layout />}>
+          <Route index element={<HomeReview />} />
+          <Route path="our-club" element={<OurClub />} />
+          <Route path="practices" element={<Practices />} />
+          <Route path="tournaments" element={<Tournaments />} />
+          <Route path="sponsors" element={<Sponsors />} />
+          <Route path="fundraisers" element={<Fundraisers />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="volunteer" element={<Volunteer />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="faq" element={<Faq />} />
+          <Route path="bowl-a-thon" element={<Bowlathon />} />
+          <Route path="team-gear" element={<TeamGear />} />
+          <Route path="sign-in" element={<SignInUnavailable />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </>
   )
 }

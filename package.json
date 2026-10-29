@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "tsc --noEmit -p tsconfig.json && vite build",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts"
+    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts"
   },
   "dependencies": {
+    "@netlify/functions": "^6.0.3",
+    "@netlify/identity": "^2.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router-dom": "^7.18.4"

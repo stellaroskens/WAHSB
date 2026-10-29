@@ -10,6 +10,8 @@ Home, Our Club, Practices, Tournaments, Team Gear, Sponsors, Fundraisers, Bowlin
 
 Sign In explains that team accounts are not open.
 
+Staff administration foundations live under `/staff/login` and `/admin`. They use Netlify Identity (invitation-only) and stay disabled until configured — see `ADMIN_PHASE1_SETUP.md` in the project docs store.
+
 ## Team Gear
 
 Team gear is sold through [BSN SPORTS](https://www.bsnsports.com/), an external provider. This site no longer hosts a gear customizer, and it has no shopping cart, wishlist, pricing, or checkout.
