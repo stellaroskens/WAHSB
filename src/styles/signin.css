@@ -102,6 +102,12 @@
   width: 100%;
 }
 
+.signin-submit:disabled {
+  background: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
 .signin-link {
   appearance: none;
   justify-self: start;

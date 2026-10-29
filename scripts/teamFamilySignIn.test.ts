@@ -41,7 +41,7 @@ describe("team and family sign-in page", () => {
   it("reuses the existing Identity sign-in instead of a second login system", () => {
     assert.match(staffPanel, /useAuth\(\)/)
     assert.match(staffPanel, /login\(email, password\)/)
-    assert.match(staffPanel, /requestRecovery\(email\)/)
+    assert.match(staffPanel, /<PasswordRecoveryForm\s+variant="public"/)
     assert.doesNotMatch(staffPanel, /from "@netlify\/identity"[^\n]*\b(login|signup)\b/)
     assert.doesNotMatch(staffPanel + signIn, /\bsignup\b|Create account|Register/i)
   })
@@ -67,7 +67,7 @@ describe("team and family sign-in page", () => {
 
   it("keeps login and recovery errors generic to avoid revealing which emails exist", () => {
     assert.doesNotMatch(staffPanel, /setError\(\s*(err|error)\.message/)
-    assert.match(staffPanel, /If an approved staff account uses that email/)
+    assert.match(staffPanel, /setError\(isRateLimitError\(err\) \? TOO_MANY_ATTEMPTS : LOGIN_FAILED\)/)
   })
 
   it("serves the sign-in and family pages uncached and unindexed", () => {
