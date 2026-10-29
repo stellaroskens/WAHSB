@@ -110,13 +110,13 @@ export const faqCategories: readonly FaqCategory[] = [
     title: "Practices & Participation",
     items: [
       {
-        question: "Is the club accepting new student participants?",
+        question: "Is registration open for the 2026–2027 season?",
         paragraphs: [
-          "The Albany High School Bowling Club is currently at capacity and is not accepting additional student participants at this time.",
+          "No. The Albany High School Bowling Club has reached capacity, and student registration is closed for the 2026–2027 season. We are not accepting additional student bowlers this season.",
           "Adults who want to support existing athletes can learn about volunteer opportunities instead.",
         ],
         links: [
-          { href: "/volunteer", label: "Volunteer Opportunities" },
+          { href: "/volunteer", label: "VOLUNTEER OPPORTUNITIES" },
           { href: "/contact", label: "Contact the coaches" },
         ],
       },
@@ -183,9 +183,9 @@ export const faqCategories: readonly FaqCategory[] = [
       {
         question: "Can adults volunteer with the club?",
         paragraphs: [
-          "Yes. While the student roster is full, the club welcomes adults interested in supporting existing athletes through event help, fundraising, setup, general assistance, and transportation when additional approval is granted.",
+          "Yes. Student registration for the 2026–2027 season is closed, but adult volunteer opportunities are still available. The club welcomes adults interested in supporting existing athletes through event help, fundraising, setup, general assistance, and transportation when additional approval is granted.",
         ],
-        links: [{ href: "/volunteer", label: "Volunteer Opportunities" }],
+        links: [{ href: "/volunteer", label: "VOLUNTEER OPPORTUNITIES" }],
       },
       {
         question: "How does volunteer background screening work?",
@@ -252,7 +252,7 @@ export const faqCategories: readonly FaqCategory[] = [
       {
         question: "Are bowling shoes provided?",
         paragraphs: [
-          "This site does not say that bowling shoes are provided. Students do not have to own bowling shoes to get started, and many centers rent shoes.",
+          "This site does not say that bowling shoes are provided. Athletes on the roster do not have to own bowling shoes to bowl, and many centers rent shoes.",
           "Sizes, cost, and whether a rental is part of a club practice or tournament are not guaranteed here. Confirm the plan with the coaches before you buy shoes and before each event.",
         ],
         links: [{ href: "/contact", label: "Contact the coaches" }],
@@ -267,7 +267,7 @@ export const faqCategories: readonly FaqCategory[] = [
       {
         question: "What bowling-ball weight should a beginner use?",
         paragraphs: [
-          "There is no single beginner weight on this site. A useful ball is one the student can swing smoothly without dropping it or forcing the shot. Coaches can help a student try weights.",
+          "There is no single beginner weight on this site. For athletes already bowling with the club, a useful ball is one the student can swing smoothly without dropping it or forcing the shot. Coaches can help a student try weights.",
           "Under USBC equipment specifications, a bowling ball may not weigh more than 16 pounds. That maximum is not a recommendation to start at 16 pounds.",
         ],
       },
@@ -275,13 +275,13 @@ export const faqCategories: readonly FaqCategory[] = [
         question: "What is the difference between a house ball and a custom-fitted ball?",
         paragraphs: [
           "A house ball is center equipment with finger holes sized for many people to share. A custom-fitted ball is drilled for one bowler’s hand and style.",
-          "Students do not need a custom-fitted ball to begin. Ask a coach before you order one.",
+          "Athletes on the roster do not need a custom-fitted ball. Ask a coach before you order one.",
         ],
       },
       {
         question: "When should a student consider buying personal equipment?",
         paragraphs: [
-          "Personal equipment is optional at the start. A family can consider shoes or a fitted ball when the student is bowling regularly and a coach suggests a fitting.",
+          "Personal equipment is optional. A family can consider shoes or a fitted ball when the student is bowling regularly with the club and a coach suggests a fitting.",
           "Fees and equipment expectations are not confirmed on this site.",
         ],
       },
@@ -330,7 +330,7 @@ export const faqCategories: readonly FaqCategory[] = [
         question: "What is a bowling average?",
         paragraphs: [
           "A bowling average is total pinfall divided by the number of games bowled. Tournaments may have their own rules for which average a bowler enters.",
-          "Albany High School Bowling has not published an average requirement. Students can start without a tournament average.",
+          "Albany High School Bowling has not published an average requirement for athletes on the roster.",
         ],
       },
       {
@@ -365,7 +365,7 @@ export const faqCategories: readonly FaqCategory[] = [
       {
         question: "Do students need a certain average to compete?",
         paragraphs: [
-          "No average requirement is published here. The practices page says a student can start without a tournament average. Event eligibility is confirmed by the coaches, not by this website.",
+          "No average requirement is published here for athletes already on the roster. Event eligibility is confirmed by the coaches, not by this website. Student registration for the 2026–2027 season is closed.",
         ],
       },
       {
@@ -379,8 +379,8 @@ export const faqCategories: readonly FaqCategory[] = [
       {
         question: "How can a beginner improve their bowling?",
         paragraphs: [
-          "Beginners improve by repeating a calm approach, learning spares, and asking the coaches to watch one thing at a time. Keeping lane courtesy and staying ready for a turn also helps a team.",
-          "This site does not publish a practice plan or a target score.",
+          "Athletes who are newer to the sport improve by repeating a calm approach, learning spares, and asking the coaches to watch one thing at a time. Keeping lane courtesy and staying ready for a turn also helps a team.",
+          "This site does not publish a practice plan or a target score. Student registration for the 2026–2027 season is closed.",
         ],
         links: [{ href: "/practices", label: "Practice information" }],
       },
@@ -470,7 +470,7 @@ export const faqCategories: readonly FaqCategory[] = [
         question: "What should students bring to a tournament?",
         paragraphs: [
           "The previous club website described a tournament uniform: the provided jersey on top, and black dress pants or black dress shorts with an inner seam of at least six inches. It also limited jeans, hats, and similar items. Confirm that guidance with a coach before a tournament.",
-          "This site does not guarantee a house ball or rental shoes at a tournament venue, and students do not have to own a ball or shoes to get started. Ask a coach what to bring for that event.",
+          "This site does not guarantee a house ball or rental shoes at a tournament venue, and athletes on the roster do not have to own a ball or shoes to compete. Ask a coach what to bring for that event.",
         ],
         links: [
           { href: "/tournaments", label: "Tournament details" },

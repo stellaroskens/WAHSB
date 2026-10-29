@@ -33,9 +33,22 @@ export const nav = [
   { to: "/contact", label: "Contact Us", end: false },
 ] as const
 
-/** Public capacity notice for student participation. */
-export const studentCapacityNotice =
-  "The Albany High School Bowling Club is currently at capacity and is not accepting additional student participants at this time."
+/**
+ * Standardized 2026–2027 student registration closed messaging.
+ * Use these strings sitewide. Do not invent a waiting list or reopening date.
+ */
+export const seasonRegistrationClosed = {
+  heading: "2026–2027 SEASON REGISTRATION CLOSED",
+  description:
+    "The Albany High School Bowling Club has reached capacity for the 2026–2027 season. We are not accepting additional student bowlers this season. Thank you for your interest and support!",
+  volunteerSecondary:
+    "Interested in supporting our student athletes? Adult volunteer opportunities are still available.",
+  volunteerCtaLabel: "VOLUNTEER OPPORTUNITIES",
+  volunteerCtaTo: "/volunteer",
+} as const
+
+/** @deprecated Prefer seasonRegistrationClosed.description for new copy. */
+export const studentCapacityNotice = seasonRegistrationClosed.description
 
 /**
  * Organization-specific Sterling Volunteers invitation URL for starting a volunteer background check.
@@ -52,22 +65,22 @@ export const pages = {
   home: {
     title: "Albany High School Bowling",
     description:
-      "Albany High School Bowling in Albany, Oregon. Support our athletes through volunteering, fundraising, and community events with South Albany, West Albany, and Lebanon.",
+      "Albany High School Bowling in Albany, Oregon. Student registration for the 2026–2027 season is closed. Support our athletes through volunteering, fundraising, and community events with South Albany, West Albany, and Lebanon.",
   },
   club: {
     title: "Our Club | Albany High School Bowling",
     description:
-      "Albany High School Bowling teaches skills, confidence, teamwork, and sportsmanship. Read about the club and coaches Cliff Meredith and Chris Breshears.",
+      "Albany High School Bowling teaches skills, confidence, teamwork, and sportsmanship. Student registration for the 2026–2027 season is closed. Read about the club and coaches Cliff Meredith and Chris Breshears.",
   },
   practices: {
     title: "Practices | Albany High School Bowling",
     description:
-      "Practice information for Albany High School Bowling, including the host center at Lakeshore Lanes and where the schedule will be posted.",
+      "Practice information for Albany High School Bowling athletes already on the roster, including the host center at Lakeshore Lanes. Student registration for the 2026–2027 season is closed.",
   },
   tournaments: {
     title: "Tournaments | Albany High School Bowling",
     description:
-      "Practice tournament dates, venues, and directions for Albany High School Bowling. The 2026–2027 dates are listed. Start times are not confirmed yet.",
+      "Practice tournament dates, venues, and directions for Albany High School Bowling. The 2026–2027 dates are listed. Student registration for this season is closed. Start times are not confirmed yet.",
   },
   sponsors: {
     title: "Sponsors | Albany High School Bowling",
@@ -82,7 +95,7 @@ export const pages = {
   contact: {
     title: "Contact Us | Albany High School Bowling",
     description:
-      "Contact Albany High School Bowling about volunteering, practices, or supporting our athletes. The preview form on this page does not send a message.",
+      "Contact Albany High School Bowling about volunteering, practices, or supporting our athletes. Student registration for the 2026–2027 season is closed. The preview form on this page does not send a message.",
   },
   volunteer: {
     title: "Volunteer Opportunities | Albany High School Bowling",
@@ -101,7 +114,7 @@ export const pages = {
   faq: {
     title: "Frequently Asked Questions | Albany High School Bowling",
     description:
-      "Answers about the Bowl-A-Thon, practices, equipment, bowling basics, and tournament etiquette for Albany High School Bowling.",
+      "Answers about 2026–2027 registration status, volunteering, the Bowl-A-Thon, practices, equipment, bowling basics, and tournament etiquette for Albany High School Bowling.",
   },
   fundraisers: {
     title: "Fundraisers | Albany High School Bowling",

@@ -10,6 +10,7 @@ import {
   club,
   pages,
   practiceTournaments,
+  seasonRegistrationClosed,
   tournamentEvents,
   venues,
   type Venue,
@@ -132,6 +133,16 @@ export function Tournaments() {
         }
       >
         <p>These dates include the confirmed year. The start time is not confirmed yet.</p>
+        <p>
+          <strong>{seasonRegistrationClosed.heading}</strong> {seasonRegistrationClosed.description}
+        </p>
+        <p>
+          {seasonRegistrationClosed.volunteerSecondary}{" "}
+          <Link to={seasonRegistrationClosed.volunteerCtaTo}>
+            {seasonRegistrationClosed.volunteerCtaLabel}
+          </Link>
+          .
+        </p>
       </AthleticHero>
 
       <section className="section sw-tournaments__season" aria-labelledby="season-heading">

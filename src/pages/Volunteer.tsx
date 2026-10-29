@@ -5,9 +5,9 @@ import { PageMeta } from "../components/PageMeta"
 import {
   club,
   pages,
+  seasonRegistrationClosed,
   sterlingVolunteerInvitationUrl,
   sterlingVolunteersInfoUrl,
-  studentCapacityNotice,
 } from "../content/site"
 
 const volunteerOpportunities = [
@@ -55,11 +55,11 @@ export function Volunteer() {
           The Albany High School Bowling Club depends on the generosity of parents, families, and
           community members who help make our bowling program possible.
         </p>
-        <p>{studentCapacityNotice}</p>
         <p>
-          While our student roster is currently full, we welcome adults interested in supporting our
-          existing athletes and club activities.
+          <strong>{seasonRegistrationClosed.heading}</strong>
         </p>
+        <p>{seasonRegistrationClosed.description}</p>
+        <p>{seasonRegistrationClosed.volunteerSecondary}</p>
       </AthleticHero>
 
       <section className="section" aria-labelledby="volunteer-ways-heading">

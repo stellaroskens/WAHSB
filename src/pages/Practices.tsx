@@ -4,8 +4,9 @@ import { EmptyState } from "../components/EmptyState"
 import { FaqAnswerBody } from "../components/FaqEmbed"
 import { PinMark } from "../components/Marks"
 import { PageMeta } from "../components/PageMeta"
+import { SeasonClosedNotice } from "../components/SeasonClosedNotice"
 import { faqCategories } from "../content/faq"
-import { club, pages, practiceLocation, studentCapacityNotice } from "../content/site"
+import { club, pages, practiceLocation } from "../content/site"
 
 const practiceFaqIds = ["faq-practices", "faq-equipment", "faq-basics"] as const
 
@@ -114,21 +115,11 @@ export function Practices() {
             </p>
           </article>
 
-          <article className="card">
-            <h2>Student participation</h2>
-            <p>{studentCapacityNotice}</p>
+          <article className="card" aria-labelledby="season-registration-closed-heading">
+            <SeasonClosedNotice />
             <p>
               Coaches teach the game at practice for athletes already on the roster, including
               approach, scoring, and how a team bowls together.
-            </p>
-            <p>
-              Adults interested in supporting practices, events, or transportation can learn about
-              volunteer opportunities and screening requirements.
-            </p>
-            <p>
-              <Link className="sw-btn" to="/volunteer">
-                Volunteer Opportunities
-              </Link>
             </p>
           </article>
         </div>

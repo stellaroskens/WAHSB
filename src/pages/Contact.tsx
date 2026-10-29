@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits } from "../content/media"
-import { club, coaches, pages } from "../content/site"
+import { club, coaches, pages, seasonRegistrationClosed } from "../content/site"
 
 type FormState = {
   name: string
@@ -64,6 +64,16 @@ export function Contact() {
           Questions about volunteering, practices, or supporting a bowler are welcome.
           Email the club, or use the form to see the layout. The form does not
           send or save a message.
+        </p>
+        <p>
+          <strong>{seasonRegistrationClosed.heading}</strong> {seasonRegistrationClosed.description}
+        </p>
+        <p>
+          {seasonRegistrationClosed.volunteerSecondary}{" "}
+          <Link to={seasonRegistrationClosed.volunteerCtaTo}>
+            {seasonRegistrationClosed.volunteerCtaLabel}
+          </Link>
+          .
         </p>
       </AthleticHero>
 

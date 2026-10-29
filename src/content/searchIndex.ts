@@ -3,9 +3,24 @@ import { pages } from "./site"
 export type SearchEntry = { to: string; label: string; detail: string; keywords: string }
 
 const publicEntries: SearchEntry[] = [
-  { to: "/", label: "Home", detail: "Homepage", keywords: pages.home.description },
-  { to: "/our-club", label: "Our Club", detail: "About the club and coaches", keywords: `${pages.club.description} coaches cliff meredith chris breshears about` },
-  { to: "/practices", label: "Practices", detail: "Practice information", keywords: `${pages.practices.description} lakeshore lanes schedule` },
+  {
+    to: "/",
+    label: "Home",
+    detail: "Homepage",
+    keywords: `${pages.home.description} registration closed 2026 2027 season capacity volunteer`,
+  },
+  {
+    to: "/our-club",
+    label: "Our Club",
+    detail: "About the club and coaches",
+    keywords: `${pages.club.description} coaches cliff meredith chris breshears about registration closed`,
+  },
+  {
+    to: "/practices",
+    label: "Practices",
+    detail: "Practice information",
+    keywords: `${pages.practices.description} lakeshore lanes schedule registration closed`,
+  },
   { to: "/tournaments", label: "Tournaments", detail: "Dates and venues", keywords: `${pages.tournaments.description} schedule directions venue` },
   { to: "/team-gear", label: "Team Gear", detail: "BSN SPORTS team shop", keywords: `${pages.teamGear.description} apparel clothing store shop bsn` },
   { to: "/sponsors", label: "Sponsors", detail: "Support the team", keywords: `${pages.sponsors.description} sponsorship donate lakeshore lanes` },
@@ -18,7 +33,12 @@ const publicEntries: SearchEntry[] = [
     detail: "Adult volunteers and Sterling Volunteers screening",
     keywords: `${pages.volunteer.description} volunteer sterling background check transportation driver`,
   },
-  { to: "/faq", label: "FAQ", detail: "Common questions", keywords: `${pages.faq.description} questions help volunteer capacity` },
+  {
+    to: "/faq",
+    label: "FAQ",
+    detail: "Common questions",
+    keywords: `${pages.faq.description} questions help volunteer registration closed 2026 2027 season`,
+  },
   { to: "/contact", label: "Contact Us", detail: "Email the club", keywords: `${pages.contact.description} email volunteer` },
 ]
 

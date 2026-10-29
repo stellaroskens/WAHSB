@@ -5,7 +5,7 @@ import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
 import { clothingLogo, homeHeroBanner, websiteLogo } from "../content/media"
-import { nav, pages, practiceLocation } from "../content/site"
+import { nav, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
 
 const links = nav
 
@@ -146,27 +146,14 @@ export function HomeReview() {
         </div>
       </section>
 
-      <section className="review-volunteers" aria-labelledby="review-volunteers-heading">
+      <section className="review-volunteers" aria-labelledby="season-registration-closed-heading">
         <div className="review-volunteers__inner">
           <article className="review-volunteers__card">
-            <h2 id="review-volunteers-heading">Volunteers make it possible</h2>
-            <p>
-              The Albany High School Bowling Club depends on the generosity of parents, families, and
-              community members who help make our bowling program possible.
-            </p>
-            <p>
-              While our student roster is currently full, we welcome adults interested in supporting
-              our existing athletes and club activities.
-            </p>
-            <ul className="review-volunteers__list">
-              <li>Tournament and event assistance</li>
-              <li>Fundraising and community events</li>
-              <li>Equipment and event setup</li>
-              <li>General club assistance</li>
-              <li>Student transportation, subject to additional approval</li>
-            </ul>
-            <Link className="review-volunteers__link" to="/volunteer">
-              Become a volunteer <span aria-hidden="true">→</span>
+            <h2 id="season-registration-closed-heading">{seasonRegistrationClosed.heading}</h2>
+            <p>{seasonRegistrationClosed.description}</p>
+            <p>{seasonRegistrationClosed.volunteerSecondary}</p>
+            <Link className="review-volunteers__link" to={seasonRegistrationClosed.volunteerCtaTo}>
+              {seasonRegistrationClosed.volunteerCtaLabel} <span aria-hidden="true">→</span>
             </Link>
           </article>
         </div>

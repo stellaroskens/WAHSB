@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero, SectionHeading } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits, websiteLogo } from "../content/media"
-import { bakerFrames, club, coaches, pages, studentCapacityNotice } from "../content/site"
+import { bakerFrames, club, coaches, pages, seasonRegistrationClosed } from "../content/site"
 
 const collegeLinks = [
   { href: "https://bowl.com/youth/high-school", label: "USBC High School Bowling" },
@@ -23,8 +23,8 @@ export function OurClub() {
             <a className="sw-btn" href="#coaches">
               Our Coaches
             </a>
-            <Link className="sw-btn sw-btn--ghost" to="/volunteer">
-              Volunteer Opportunities
+            <Link className="sw-btn sw-btn--ghost" to={seasonRegistrationClosed.volunteerCtaTo}>
+              {seasonRegistrationClosed.volunteerCtaLabel}
             </Link>
           </>
         }
@@ -45,7 +45,11 @@ export function OurClub() {
           Albany High School Bowling teaches the game and helps student athletes grow
           into it. The aim is skill, confidence, teamwork, and sportsmanship.
         </p>
-        <p>{studentCapacityNotice}</p>
+        <p>
+          <strong>{seasonRegistrationClosed.heading}</strong>
+        </p>
+        <p>{seasonRegistrationClosed.description}</p>
+        <p>{seasonRegistrationClosed.volunteerSecondary}</p>
       </AthleticHero>
 
       <section className="section sw-club__coaches" id="coaches" aria-labelledby="coaches-heading">
@@ -129,7 +133,11 @@ export function OurClub() {
 
           <article className="card club-info sw-club__info" aria-labelledby="volunteer-heading">
             <h2 id="volunteer-heading">Volunteers make it possible</h2>
-            <p>{studentCapacityNotice}</p>
+            <p>
+              <strong>{seasonRegistrationClosed.heading}</strong>
+            </p>
+            <p>{seasonRegistrationClosed.description}</p>
+            <p>{seasonRegistrationClosed.volunteerSecondary}</p>
             <p>
               The club depends on parents, families, and community members who support our existing
               athletes. Adults can help with tournaments, fundraising, setup, general club needs, and
@@ -143,8 +151,8 @@ export function OurClub() {
               <li>Background screening for volunteers uses Sterling Volunteers when leadership directs it.</li>
             </ul>
             <p className="club-action">
-              <Link className="sw-btn" to="/volunteer">
-                Become a volunteer
+              <Link className="sw-btn" to={seasonRegistrationClosed.volunteerCtaTo}>
+                {seasonRegistrationClosed.volunteerCtaLabel}
               </Link>
             </p>
           </article>
