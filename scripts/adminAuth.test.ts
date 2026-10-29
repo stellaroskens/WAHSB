@@ -6,8 +6,10 @@ import { parseAdminAuthUiFlag } from "../src/lib/auth/config.ts"
 import {
   STAFF_PASSWORD_HELP,
   STAFF_PASSWORD_MIN_LENGTH,
+  STAFF_PASSWORD_MISMATCH,
   STAFF_PASSWORD_TOO_SHORT,
   validateStaffPassword,
+  validateStaffPasswordPair,
 } from "../src/lib/auth/passwordPolicy.ts"
 import {
   isAuthorizedSuperAdmin,
@@ -19,25 +21,29 @@ import {
 } from "../src/lib/auth/roles.ts"
 
 describe("staff password policy", () => {
-  it("keeps a 12-character minimum without requiring special symbols", () => {
-    assert.equal(STAFF_PASSWORD_MIN_LENGTH, 12)
+  it("keeps a 5-character minimum without requiring symbols or uppercase", () => {
+    assert.equal(STAFF_PASSWORD_MIN_LENGTH, 5)
     assert.match(STAFF_PASSWORD_HELP, /Letters and numbers are enough/i)
     assert.match(STAFF_PASSWORD_HELP, /optional/i)
-    assert.deepEqual(validateStaffPassword("short"), { ok: false, error: STAFF_PASSWORD_TOO_SHORT })
-    assert.deepEqual(validateStaffPassword("elevenchars"), { ok: false, error: STAFF_PASSWORD_TOO_SHORT })
-    assert.deepEqual(validateStaffPassword("twelvechars1"), { ok: true })
-    assert.deepEqual(validateStaffPassword("AlbanyBowling"), { ok: true })
-    assert.deepEqual(validateStaffPassword("lettersnums1"), { ok: true })
-    assert.deepEqual(validateStaffPassword("WithSymbols!1"), { ok: true })
+    assert.match(STAFF_PASSWORD_HELP, /Uppercase letters are not required/i)
+    assert.deepEqual(validateStaffPassword("abcd"), { ok: false, error: STAFF_PASSWORD_TOO_SHORT })
+    assert.deepEqual(validateStaffPassword("abcde"), { ok: true })
+    assert.deepEqual(validateStaffPassword("bowl1"), { ok: true })
+    assert.deepEqual(validateStaffPassword("albany"), { ok: true })
+    assert.deepEqual(validateStaffPassword("With!"), { ok: true })
+    assert.deepEqual(validateStaffPasswordPair("abcde", "abcdf"), { ok: false, error: STAFF_PASSWORD_MISMATCH })
+    assert.deepEqual(validateStaffPasswordPair("abcde", "abcde"), { ok: true })
   })
 
   it("wires the shared policy into staff login forms", () => {
     const login = readFileSync(new URL("../src/pages/staff/StaffLogin.tsx", import.meta.url), "utf8")
-    assert.match(login, /validateStaffPassword/)
+    assert.match(login, /validateStaffPasswordPair/)
     assert.match(login, /STAFF_PASSWORD_HELP/)
     assert.match(login, /STAFF_PASSWORD_MIN_LENGTH/)
     assert.equal(/password\.length\s*<\s*12/.test(login), false)
     assert.equal(/require[sd]?\s+special|special symbols? (are )?required|must include.*(symbol|punctuation)/i.test(login), false)
+    const staff = readFileSync(new URL("../src/pages/admin/AdminStaff.tsx", import.meta.url), "utf8")
+    assert.match(staff, /at least 5 characters/)
   })
 })
 

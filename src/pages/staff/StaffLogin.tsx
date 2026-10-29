@@ -6,7 +6,7 @@ import { useAuth } from "../../lib/auth/AuthProvider"
 import {
   STAFF_PASSWORD_HELP,
   STAFF_PASSWORD_MIN_LENGTH,
-  validateStaffPassword,
+  validateStaffPasswordPair,
 } from "../../lib/auth/passwordPolicy"
 import { dashboardPathForRole, primaryStaffRole } from "../../lib/auth/roles"
 import { rolesFromUser } from "../../lib/auth/session"
@@ -93,11 +93,7 @@ export function StaffLogin() {
   const onAcceptInvite = async (event: FormEvent) => {
     event.preventDefault()
     if (!inviteToken) return
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.")
-      return
-    }
-    const passwordCheck = validateStaffPassword(password)
+    const passwordCheck = validateStaffPasswordPair(password, confirmPassword)
     if (!passwordCheck.ok) {
       setError(passwordCheck.error)
       return
@@ -107,7 +103,7 @@ export function StaffLogin() {
     try {
       await acceptStaffInvite(password)
       setMessage(
-        "Invitation accepted. Your username and role are assigned by an administrator after email verification — usernames alone are never proof of access.",
+        "Password saved with Netlify Identity. Invitation accepted. Your username and role are assigned by an administrator after email verification — usernames alone are never proof of access.",
       )
       setPassword("")
       setConfirmPassword("")
@@ -136,11 +132,7 @@ export function StaffLogin() {
 
   const onCompleteRecovery = async (event: FormEvent) => {
     event.preventDefault()
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.")
-      return
-    }
-    const passwordCheck = validateStaffPassword(password)
+    const passwordCheck = validateStaffPasswordPair(password, confirmPassword)
     if (!passwordCheck.ok) {
       setError(passwordCheck.error)
       return
@@ -149,7 +141,7 @@ export function StaffLogin() {
     setError(null)
     try {
       await setNewPassword(password)
-      setMessage("Password updated. Sign in with your new password.")
+      setMessage("Password saved with Netlify Identity. Sign in with your new password.")
     } catch (err) {
       fail(err)
     } finally {
