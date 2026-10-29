@@ -2,13 +2,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero, SectionHeading } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits, websiteLogo } from "../content/media"
-import { bakerFrames, club, coaches, pages, seasonRegistrationClosed } from "../content/site"
-
-const collegeLinks = [
-  { href: "https://bowl.com/youth/high-school", label: "USBC High School Bowling" },
-  { href: "https://bowl.com/youth/collegiate", label: "USBC Collegiate Bowling" },
-  { href: "https://smart.bowl.com/", label: "SMART Scholarship Information" },
-] as const
+import { bakerFrames, club, coaches, pageBodies, pages, seasonRegistrationClosed } from "../content/site"
 
 export function OurClub() {
   return (
@@ -16,12 +10,12 @@ export function OurClub() {
       <PageMeta title={pages.club.title} description={pages.club.description} />
       <AthleticHero
         scene="club"
-        title="Our Club"
+        title={pageBodies.club.heroTitle}
         subtitle={club.name}
         actions={
           <>
             <a className="sw-btn" href="#coaches">
-              Our Coaches
+              {pageBodies.club.coachesButtonLabel}
             </a>
             <Link className="sw-btn sw-btn--ghost" to={seasonRegistrationClosed.volunteerCtaTo}>
               {seasonRegistrationClosed.volunteerCtaLabel}
@@ -41,10 +35,9 @@ export function OurClub() {
           </div>
         }
       >
-        <p>
-          Albany High School Bowling teaches the game and helps student athletes grow
-          into it. The aim is skill, confidence, teamwork, and sportsmanship.
-        </p>
+        {pageBodies.club.intro.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
         <p>
           <strong>{seasonRegistrationClosed.heading}</strong>
         </p>
@@ -54,8 +47,8 @@ export function OurClub() {
 
       <section className="section sw-club__coaches" id="coaches" aria-labelledby="coaches-heading">
         <div className="wrap">
-          <SectionHeading id="coaches-heading" title="Our Coaches">
-            <p>Biographies below are summarized from the club’s current website.</p>
+          <SectionHeading id="coaches-heading" title={pageBodies.club.coachesHeading}>
+            <p>{pageBodies.club.coachesNote}</p>
           </SectionHeading>
           <div className="sw-club__coach-grid">
             {coaches.map((coach) => (
@@ -87,8 +80,8 @@ export function OurClub() {
               </svg>
             </span>
             <div className="sw-coach__id">
-              <p className="sw-chip">Club Administrator</p>
-              <h3>Maranda Fisher</h3>
+              <p className="sw-chip">{pageBodies.club.administratorTitle}</p>
+              <h3>{pageBodies.club.administratorName}</h3>
             </div>
           </article>
         </div>
@@ -97,23 +90,14 @@ export function OurClub() {
       <section className="section" aria-label="About the club">
         <div className="wrap sw-club__info-grid">
           <article className="card club-info sw-club__info" aria-labelledby="team-sport-heading">
-            <h2 id="team-sport-heading">A team sport</h2>
-            <p>
-              Practices build individual form, and tournaments turn that work into
-              a shared score. The club uses Baker format, where five bowlers
-              complete one game together. You do not have to carry every frame by
-              yourself.
-            </p>
+            <h2 id="team-sport-heading">{pageBodies.club.teamSport.heading}</h2>
+            {pageBodies.club.teamSport.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
             <ul className="plain-list">
-              <li>Bowling is both an individual skill and a team sport.</li>
-              <li>During practices, students develop their approach, release, accuracy, and consistency.</li>
-              <li>In Baker format, five bowlers share a single ten-frame game.</li>
-              <li>
-                In a standard five-bowler Baker lineup, bowlers take assigned frames, commonly 1 and 6,
-                2 and 7, 3 and 8, 4 and 9, and 5 and 10.
-              </li>
-              <li>Team members contribute to one combined score.</li>
-              <li>Encouragement, cooperation, focus, and sportsmanship are important.</li>
+              {pageBodies.club.teamSport.bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
             <ol className="sw-baker" aria-label="Standard five-bowler Baker lineup">
               {bakerFrames.map((row) => (
@@ -123,32 +107,28 @@ export function OurClub() {
                 </li>
               ))}
             </ol>
-            <p>Coaches determine the actual competition lineups and procedures.</p>
+            <p>{pageBodies.club.teamSport.lineupNote}</p>
             <p className="club-action">
-              <Link className="sw-btn" to="/contact">
-                Questions about team bowling?
+              <Link className="sw-btn" to={pageBodies.club.teamSport.buttonTo}>
+                {pageBodies.club.teamSport.buttonLabel}
               </Link>
             </p>
           </article>
 
           <article className="card club-info sw-club__info" aria-labelledby="volunteer-heading">
-            <h2 id="volunteer-heading">Volunteers make it possible</h2>
+            <h2 id="volunteer-heading">{pageBodies.club.volunteers.heading}</h2>
             <p>
               <strong>{seasonRegistrationClosed.heading}</strong>
             </p>
             <p>{seasonRegistrationClosed.description}</p>
             <p>{seasonRegistrationClosed.volunteerSecondary}</p>
-            <p>
-              The club depends on parents, families, and community members who support our existing
-              athletes. Adults can help with tournaments, fundraising, setup, general club needs, and
-              transportation when additional approval is granted.
-            </p>
+            {pageBodies.club.volunteers.paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
             <ul className="plain-list">
-              <li>Coaches teach approach, aiming, balance, release, scoring, and team bowling.</li>
-              <li>Bowling helps student athletes build confidence, friendships, patience, and teamwork.</li>
-              <li>Athletes on the roster can chase competitive scores or enjoy the game with teammates.</li>
-              <li>Adult volunteers help keep practices, events, and fundraisers running.</li>
-              <li>Background screening for volunteers uses Sterling Volunteers when leadership directs it.</li>
+              {pageBodies.club.volunteers.bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
             <p className="club-action">
               <Link className="sw-btn" to={seasonRegistrationClosed.volunteerCtaTo}>
@@ -160,29 +140,18 @@ export function OurClub() {
           <article className="card club-info sw-club__info sw-club__info--wide" aria-labelledby="college-heading">
             <div className="sw-club__college">
               <div>
-                <h2 id="college-heading">College bowling opportunities</h2>
-                <p>
-                  Some athletes continue on to college bowling. Ask a coach what that
-                  path looks like. The club can point you to current information.
-                </p>
+                <h2 id="college-heading">{pageBodies.club.college.heading}</h2>
+                <p>{pageBodies.club.college.intro}</p>
                 <ul className="plain-list">
-                  <li>Bowling can continue beyond high school.</li>
-                  <li>Some colleges offer bowling teams or collegiate bowling programs.</li>
-                  <li>Opportunities and participation requirements vary by institution.</li>
-                  <li>
-                    Students interested in collegiate bowling can speak with coaches about developing skills,
-                    tracking progress, and exploring programs.
-                  </li>
-                  <li>
-                    Scholarship opportunities and eligibility depend on individual programs and applicable
-                    requirements.
-                  </li>
+                  {pageBodies.club.college.bullets.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
               </div>
               <div className="sw-club__links">
-                <p>These USBC pages are general learning resources. They do not promise a scholarship, a roster spot, or eligibility.</p>
+                <p>{pageBodies.club.college.disclaimer}</p>
                 <ul>
-                  {collegeLinks.map((link) => (
+                  {pageBodies.club.college.links.map((link) => (
                     <li key={link.href}>
                       <a href={link.href} target="_blank" rel="noopener noreferrer">
                         {link.label}
@@ -192,8 +161,8 @@ export function OurClub() {
                   ))}
                 </ul>
                 <p className="club-action">
-                  <Link className="sw-btn sw-btn--outline" to="/contact">
-                    Ask a coach about college bowling
+                  <Link className="sw-btn sw-btn--outline" to={pageBodies.club.college.buttonTo}>
+                    {pageBodies.club.college.buttonLabel}
                   </Link>
                 </p>
               </div>
@@ -206,15 +175,11 @@ export function OurClub() {
         <div className="wrap">
           <div className="sw-cta-band">
             <div>
-              <h2 id="club-help-heading">Have questions? We&apos;re here to help.</h2>
-              <p>
-                Questions about practices, tournaments, volunteering, college bowling, or supporting our
-                athletes are welcome. Our coaches and club leadership can help you find the information
-                you need.
-              </p>
+              <h2 id="club-help-heading">{pageBodies.club.help.heading}</h2>
+              <p>{pageBodies.club.help.description}</p>
             </div>
-            <Link className="sw-btn" to="/contact">
-              Contact Us
+            <Link className="sw-btn" to={pageBodies.club.help.buttonTo}>
+              {pageBodies.club.help.buttonLabel}
             </Link>
           </div>
         </div>

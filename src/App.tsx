@@ -48,6 +48,7 @@ export default function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="content" element={<AdminContent />} />
+          <Route path="pages" element={<AdminContent />} />
           <Route path="connections" element={<AdminConnections />} />
           <Route path="announcements" element={<AdminAnnouncements />} />
           <Route path="tournaments" element={<AdminTournaments />} />
