@@ -1,10 +1,21 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions"
 import { findPlannedStaffByUsername } from "./_shared/plannedStaff.ts"
-import { PRIVILEGED_ROLE_NAMES } from "./_shared/privilegedRoles.ts"
+import { parseEmailAllowlist } from "./_shared/roles.ts"
+import { resolveSignupRoles } from "./_shared/signupRoles.ts"
+
+declare const Netlify: { env: { get(name: string): string | undefined } } | undefined
+
+function readAllowlist(): string[] {
+  const raw =
+    (typeof Netlify !== "undefined" ? Netlify.env.get("ADMIN_EMAIL_ALLOWLIST") : undefined) ??
+    process.env.ADMIN_EMAIL_ALLOWLIST
+  return parseEmailAllowlist(raw)
+}
 
 /**
  * Runs when an invited user accepts and the Identity user record is finalized.
- * Privileged roles are assigned only when username + planned_role match the approved roster.
+ * Coach and team administrator roles are assigned only when username + planned_role match the
+ * approved roster. An owner-assigned super_admin role is kept only for an allowlisted email.
  * Typing an email alone never grants access.
  */
 const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
@@ -28,13 +39,13 @@ const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) =
     ? existingApp.roles.filter((role): role is string => typeof role === "string")
     : []
 
-  let roles: string[] = incomingRoles.filter(
-    (role) => !(PRIVILEGED_ROLE_NAMES as readonly string[]).includes(role),
-  )
-
-  if (planned && plannedRole === planned.role) {
-    roles = [planned.role]
-  }
+  const roles = resolveSignupRoles({
+    email: user.email,
+    incomingRoles,
+    plannedRole,
+    planned,
+    allowlist: readAllowlist(),
+  })
 
   return {
     statusCode: 200,

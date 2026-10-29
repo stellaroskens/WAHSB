@@ -1,25 +1,19 @@
 import { useState, type FormEvent } from "react"
-import { Navigate } from "react-router-dom"
 import { PasswordRecoveryForm } from "../../components/auth/PasswordRecoveryForm"
 import { useAuth } from "../../lib/auth/AuthProvider"
-import { isRateLimitError } from "../../lib/auth/recovery"
-import { staffHomePath } from "../../lib/auth/roles"
-import { rolesFromUser } from "../../lib/auth/session"
-
-// Identity distinguishes unknown emails from wrong passwords in some responses; never echo that back.
-const LOGIN_FAILED =
-  "That email and password did not work. Check both, or use Forgot Password. Accounts are invitation-only."
-const TOO_MANY_ATTEMPTS = "Too many attempts. Please wait a few minutes before trying again."
+import { loginErrorMessage } from "../../lib/auth/postLogin"
+import { useStaffAccessCheck } from "../../lib/auth/useStaffAccessCheck"
 
 export function StaffSignInPanel() {
   const { user, loading, authUiEnabled, login, logout } = useAuth()
+  const access = useStaffAccessCheck(authUiEnabled)
   const [mode, setMode] = useState<"login" | "recovery">("login")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  if (loading) {
+  if (loading || access.checking) {
     return <p className="signin-status" role="status">Checking your sign-in…</p>
   }
 
@@ -31,12 +25,13 @@ export function StaffSignInPanel() {
     )
   }
 
-  if (user) {
-    const home = staffHomePath(rolesFromUser(user))
-    if (home) return <Navigate to={home} replace />
+  if (user && access.blockedMessage) {
     return (
-      <div className="signin-status" role="status">
-        <p>You are signed in, but this account does not have team access yet. Ask the coaches if you think this is a mistake.</p>
+      <div className="signin-status" role="alert">
+        <p>{access.blockedMessage}</p>
+        <button className="button button-primary" type="button" onClick={() => void access.check()}>
+          Try again
+        </button>
         <button className="button button-secondary" type="button" onClick={() => void logout()}>
           Sign out
         </button>
@@ -48,13 +43,12 @@ export function StaffSignInPanel() {
     event.preventDefault()
     setBusy(true)
     setError(null)
+    access.reset()
     try {
       await login(email, password)
       setPassword("")
-      // Full load so the Identity cookie reaches the CDN role checks on /admin, /coach, and /team-administrator.
-      window.location.assign("/sign-in")
     } catch (err) {
-      setError(isRateLimitError(err) ? TOO_MANY_ATTEMPTS : LOGIN_FAILED)
+      setError(loginErrorMessage(err))
     } finally {
       setBusy(false)
     }
@@ -62,6 +56,11 @@ export function StaffSignInPanel() {
 
   return (
     <div>
+      {access.blockedMessage ? (
+        <p className="signin-alert signin-alert--error" role="alert">
+          {access.blockedMessage}
+        </p>
+      ) : null}
       {error ? (
         <p className="signin-alert signin-alert--error" role="alert">
           {error}

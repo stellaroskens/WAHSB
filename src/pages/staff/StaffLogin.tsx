@@ -1,6 +1,6 @@
 import { AuthError } from "@netlify/identity"
 import { useState, type FormEvent } from "react"
-import { Link, Navigate } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { PasswordRecoveryForm } from "../../components/auth/PasswordRecoveryForm"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
@@ -9,8 +9,8 @@ import {
   STAFF_PASSWORD_MIN_LENGTH,
   validateStaffPasswordPair,
 } from "../../lib/auth/passwordPolicy"
-import { dashboardPathForRole, primaryStaffRole } from "../../lib/auth/roles"
-import { rolesFromUser } from "../../lib/auth/session"
+import { guardReasonMessage, loginErrorMessage } from "../../lib/auth/postLogin"
+import { useStaffAccessCheck } from "../../lib/auth/useStaffAccessCheck"
 
 export function StaffLogin() {
   const {
@@ -20,9 +20,16 @@ export function StaffLogin() {
     callbackKind,
     inviteToken,
     login,
+    logout,
     acceptStaffInvite,
     setNewPassword,
   } = useAuth()
+  const location = useLocation()
+  const [guardMessage, setGuardMessage] = useState(() =>
+    guardReasonMessage((location.state as { reason?: unknown } | null)?.reason),
+  )
+  const inCallback = callbackKind === "invite" || callbackKind === "recovery"
+  const access = useStaffAccessCheck(authUiEnabled && !inCallback && !guardMessage)
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -64,10 +71,16 @@ export function StaffLogin() {
     )
   }
 
-  const role = primaryStaffRole(rolesFromUser(user))
-  if (user && role && callbackKind !== "invite" && callbackKind !== "recovery") {
-    return <Navigate to={dashboardPathForRole(role)} replace />
+  if (access.checking) {
+    return (
+      <div className="admin-shell admin-shell--login">
+        <PageMeta title="Staff Login | Albany High School Bowling" description="Staff sign-in for Albany High School Bowling." />
+        <p role="status">Checking staff access…</p>
+      </div>
+    )
   }
+
+  const blockedMessage = access.blockedMessage ?? guardMessage
 
   const fail = (err: unknown) => {
     if (err instanceof AuthError) setError(err.message)
@@ -80,12 +93,14 @@ export function StaffLogin() {
     setBusy(true)
     setError(null)
     setMessage(null)
+    setGuardMessage(null)
+    access.reset()
     try {
       await login(email, password)
-      // Hard navigation so nf_jwt is present for CDN role checks and Functions.
-      window.location.assign("/staff/login")
+      setPassword("")
     } catch (err) {
-      fail(err)
+      setError(loginErrorMessage(err))
+    } finally {
       setBusy(false)
     }
   }
@@ -141,6 +156,27 @@ export function StaffLogin() {
         <h1>Staff login</h1>
         <p>Invitation-only. Accounts are not created by typing an email here.</p>
 
+        {blockedMessage && (
+          <div className="admin-alert admin-alert--error" role="alert">
+            <p>{blockedMessage}</p>
+            {user ? (
+              <div className="admin-form__actions">
+                <button className="admin-btn" type="button" onClick={() => void access.check()}>
+                  Try again
+                </button>
+                <button
+                  className="admin-btn admin-btn--ghost"
+                  type="button"
+                  onClick={() => {
+                    void logout().finally(() => setGuardMessage(null))
+                  }}
+                >
+                  Sign out
+                </button>
+              </div>
+            ) : null}
+          </div>
+        )}
         {error && (
           <p className="admin-alert admin-alert--error" role="alert">
             {error}

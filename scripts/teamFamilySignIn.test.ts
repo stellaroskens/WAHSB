@@ -62,12 +62,12 @@ describe("team and family sign-in page", () => {
   })
 
   it("routes by trusted roles read from the Identity user", () => {
-    assert.match(staffPanel, /staffHomePath\(rolesFromUser\(user\)\)/)
+    assert.match(staffPanel, /useStaffAccessCheck\(authUiEnabled\)/)
   })
 
   it("keeps login and recovery errors generic to avoid revealing which emails exist", () => {
     assert.doesNotMatch(staffPanel, /setError\(\s*(err|error)\.message/)
-    assert.match(staffPanel, /setError\(isRateLimitError\(err\) \? TOO_MANY_ATTEMPTS : LOGIN_FAILED\)/)
+    assert.match(staffPanel, /setError\(loginErrorMessage\(err\)\)/)
   })
 
   it("serves the sign-in and family pages uncached and unindexed", () => {
