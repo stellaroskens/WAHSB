@@ -9,6 +9,7 @@ import { AdminDashboard } from "./pages/admin/AdminDashboard"
 import { AdminLayout } from "./pages/admin/AdminLayout"
 import { AdminSettings } from "./pages/admin/AdminSettings"
 import { AdminStaff } from "./pages/admin/AdminStaff"
+import { AdminTournaments } from "./pages/admin/AdminTournaments"
 import { Bowlathon } from "./pages/Bowlathon"
 import { CoachDashboard } from "./pages/coach/CoachDashboard"
 import { Contact } from "./pages/Contact"
@@ -45,6 +46,7 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="content" element={<AdminContent />} />
           <Route path="connections" element={<AdminConnections />} />
+          <Route path="tournaments" element={<AdminTournaments />} />
           <Route path="settings" element={<AdminSettings />} />
           <Route path="staff" element={<AdminStaff />} />
         </Route>

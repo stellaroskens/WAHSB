@@ -85,6 +85,7 @@ describe("admin dashboard foundation", () => {
     assert.ok(available.has("staff-accounts"))
     assert.ok(available.has("website-pages"))
     assert.ok(available.has("payment-settings"))
+    assert.ok(available.has("tournament-management"))
   })
 })
 

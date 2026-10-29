@@ -23,8 +23,9 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     id: "tournament-management",
     title: "Tournament Management",
     description: "Schedule and publish tournament details.",
-    status: "unavailable",
-    statusLabel: "Unavailable until implemented",
+    status: "available",
+    statusLabel: "Open",
+    href: "/admin/tournaments",
   },
   {
     id: "coaches",
