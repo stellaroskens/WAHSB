@@ -16,6 +16,10 @@ export function AuthCallbackRedirect() {
       navigate("/sign-in", { replace: true })
       return
     }
+    if (callbackKind === "oauth" && !onSignIn && !onStaffLogin) {
+      navigate("/sign-in", { replace: true })
+      return
+    }
     if (onStaffLogin) return
     if (callbackKind === "invite" && inviteToken) {
       navigate("/staff/login", { replace: true })

@@ -1,10 +1,10 @@
 /**
  * Investigated and left off.
  *
- * Google: Identity can offer Google after an owner enables it under
- * Project configuration > Identity > External providers. Registration defaults
- * to open, so Google must stay off until registration is invite-only. This
- * site does not call oauthLogin.
+ * Google: the sign-in page offers Continue with Google. The redirect runs only
+ * after getSettings() reports the Google provider. This code does not enable
+ * that provider. Keep Identity registration invite-only. A Google login does
+ * not assign a role.
  *
  * Passwordless: @netlify/identity has no magic-link login. Invitation links
  * and password recovery are the supported email messages, and both still ask

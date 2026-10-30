@@ -7,6 +7,7 @@ import {
   ACTIVATION_TITLE,
   requestActivationContinue,
 } from "../../lib/auth/activation"
+import { GoogleSignInButton } from "../../components/auth/GoogleSignInButton"
 import { FUTURE_SIGN_IN_NOTE } from "../../lib/auth/futureSignIn"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { ActivationGuide } from "./ActivationGuide"
@@ -75,6 +76,7 @@ export function ActivateAccountSection() {
         family account. {ACTIVATION_CONFIRMATION}
       </p>
       <ActivationGuide />
+      <GoogleSignInButton />
       <p className="signin-help">{FUTURE_SIGN_IN_NOTE}</p>
     </section>
   )

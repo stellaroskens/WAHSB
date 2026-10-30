@@ -75,6 +75,16 @@
   margin: 0;
 }
 
+.signin-google {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.signin-google .signin-alert,
+.signin-google .signin-help {
+  margin: 0;
+}
+
 .signin__tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
