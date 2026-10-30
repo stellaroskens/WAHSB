@@ -1,6 +1,8 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { describe, it } from "node:test"
+import { validateAnnouncementDraft } from "../src/lib/content/announcementDraft.ts"
+import { ADMIN_SECTIONS } from "../src/lib/auth/adminSections.ts"
 import {
   DRAFT_PREVIEW_LABEL,
   EDITOR_PAGES,
@@ -135,5 +137,32 @@ describe("visual page editor", () => {
     assert.equal(rollback.includes("pageBodies"), false)
     assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("Fine-grained")))
     assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("Contents")))
+  })
+
+  it("covers every dashboard section and keeps announcements unsent", () => {
+    assert.equal(ADMIN_SECTIONS.every((section) => section.status === "available" && section.href), true)
+    assert.equal(content.pageBodies.volunteer.title, "Volunteer With Albany High School Bowling")
+    const next = editField(content, "practiceTournaments.0.month", "12")
+    assert.equal(next.practiceTournaments[0].month, 12)
+    assert.equal(next.practiceTournaments[1].month, content.practiceTournaments[1].month)
+    const announcement = validateAnnouncementDraft({
+      title: "Practice update",
+      subject: "Practice update",
+      message: "See the website for the public schedule.",
+      audienceDescription: "Families of athletes already on the roster",
+    })
+    assert.equal(announcement.ok, true)
+    const listed = validateAnnouncementDraft({
+      title: "List",
+      subject: "List",
+      message: "a@example.com b@example.com",
+      audienceDescription: "parents@example.com",
+    })
+    assert.equal(listed.ok, false)
+    const history = readFileSync(new URL("../netlify/functions/content-history.ts", import.meta.url), "utf8")
+    const announcements = readFileSync(new URL("../netlify/functions/announcement-drafts.ts", import.meta.url), "utf8")
+    assert.match(history, /requireSuperAdmin/)
+    assert.match(announcements, /sending: "disabled"/)
+    assert.doesNotMatch(announcements, /nodemailer|sendMail/)
   })
 })

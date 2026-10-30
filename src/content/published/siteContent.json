@@ -418,6 +418,47 @@
       "leadBeforeShopName": "We're moving our team gear shopping experience to",
       "buttonBeforeShopName": "Visit",
       "missingStorefrontNote": "A dedicated Albany High School Bowling storefront link will be added when available."
+    },
+    "volunteer": {
+      "eyebrow": "Support our athletes",
+      "title": "Volunteer With Albany High School Bowling",
+      "intro": [
+        "The Albany High School Bowling Club depends on the generosity of parents, families, and community members who help make our bowling program possible."
+      ],
+      "waysHeading": "Ways adults can help",
+      "waysIntro": "Volunteer roles support the athletes already on the roster. Availability and approval depend on club needs and applicable school procedures.",
+      "opportunities": [
+        "Tournament and event assistance",
+        "Fundraising and community events",
+        "Equipment and event setup",
+        "General club assistance",
+        "Student transportation, subject to additional approval"
+      ],
+      "waysButtonLabel": "Contact club leadership",
+      "waysButtonTo": "/contact",
+      "screeningHeading": "Volunteer Background Checks",
+      "screeningParagraphs": [
+        "Albany High School Bowling uses Sterling Volunteers as its preferred third-party background-screening provider for adult volunteers. Screening helps protect student athletes and supports safe club activities.",
+        "This website does not collect sensitive personal information for background checks, and it does not process screening applications. Screening is handled through Sterling Volunteers and any school or club procedures that leadership confirms."
+      ],
+      "screeningNotice": "Contact club leadership before you order a background check. Completing a screening does not mean you are automatically authorized to volunteer with the club.",
+      "screeningMissing": "An organization-specific Sterling Volunteers invitation link has not been published here yet. Use the informational link below to learn about Sterling Volunteers, then email club leadership for current screening instructions.",
+      "screeningReady": "Use the club’s Sterling Volunteers invitation link only after leadership confirms you should begin screening for a volunteer role.",
+      "screeningAskLabel": "Ask leadership first",
+      "transportHeading": "Help With Transportation",
+      "transportParagraphs": [
+        "Helping with student transportation is separate from general volunteer screening. Adults interested in driving or otherwise supporting travel for athletes may need additional authorization beyond a standard volunteer background check.",
+        "This site does not claim that a standard Sterling Volunteers package includes a motor vehicle record (MVR) review, and it does not claim that any transportation requirements are already satisfied."
+      ],
+      "transportListIntro": "Requirements for transportation help may include:",
+      "transportItems": [
+        "A valid driver’s license",
+        "Proof of auto insurance",
+        "A motor vehicle record (MVR) review, when required by the school or club",
+        "Written authorization from club leadership and any applicable school or district procedures"
+      ],
+      "transportClosing": "Ask club leadership what is currently required before offering rides or arranging student transportation.",
+      "transportButtonLabel": "Contact Us"
     }
   }
 }

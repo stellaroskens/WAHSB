@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { SUPER_ADMIN_ROLE } from "../../lib/auth/roles"
@@ -15,8 +16,17 @@ export function AdminSettings() {
         description="Administrator account settings for Albany High School Bowling."
       />
       <div className="admin-page__intro">
-        <h2>Settings</h2>
-        <p>Signed-in administrator details. Staff invitations arrive in Phase 2.</p>
+        <h2>Site settings</h2>
+        <p>Shared content is edited in Website Pages. This screen shows the signed-in account and where those settings live.</p>
+        <p>
+          <Link to="/admin/content?page=home">Navigation and registration notice</Link>
+          {" · "}
+          <Link to="/admin/content?page=practices">Practice location</Link>
+          {" · "}
+          <Link to="/admin/content?page=volunteer">Volunteer links</Link>
+          {" · "}
+          <Link to="/admin/staff">Staff accounts</Link>
+        </p>
       </div>
       <dl className="admin-settings">
         <div>

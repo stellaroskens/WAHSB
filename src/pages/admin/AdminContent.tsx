@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import published from "../../content/published/siteContent.json"
 import {
@@ -23,18 +23,32 @@ import { parseSiteContent, validateSiteContent, type SiteContent, type SiteConte
 
 const publishedContent = parseSiteContent(published)
 
-async function readBody(response: Response): Promise<{ error?: string; code?: string; commitSha?: string; note?: string }> {
+async function readBody(response: Response): Promise<{
+  error?: string
+  code?: string
+  commitSha?: string
+  note?: string
+  content?: unknown
+}> {
   const text = await response.text()
   try {
-    return JSON.parse(text) as { error?: string; code?: string; commitSha?: string; note?: string }
+    return JSON.parse(text) as {
+      error?: string
+      code?: string
+      commitSha?: string
+      note?: string
+      content?: unknown
+    }
   } catch {
     return { error: "Draft storage could not be reached. Nothing was saved." }
   }
 }
 
 export function AdminContent() {
+  const [params] = useSearchParams()
+  const requestedPage = params.get("page")
   const [content, setContent] = useState<SiteContent>(() => structuredClone(publishedContent))
-  const [pageId, setPageId] = useState("home")
+  const [pageId, setPageId] = useState(requestedPage && pageById(requestedPage) ? requestedPage : "home")
   const [sectionId, setSectionId] = useState("home-hero")
   const [draftId, setDraftId] = useState("working-draft")
   const [draftStatus, setDraftStatus] = useState<string | null>(null)
@@ -54,6 +68,32 @@ export function AdminContent() {
   useEffect(() => {
     if (!rawDirty) setRawText(JSON.stringify(content, null, 2))
   }, [content, rawDirty])
+
+  useEffect(() => {
+    const requested = params.get("page")
+    if (requested && pageById(requested)) choosePage(requested)
+    const sha = params.get("version")
+    if (!sha || !/^[a-f0-9]{7,40}$/i.test(sha)) return
+    void (async () => {
+      const response = await fetch(`/api/content/history?sha=${encodeURIComponent(sha)}`, { credentials: "include" })
+      const body = await readBody(response)
+      if (!response.ok) {
+        setError(failureMessage(response.status, body))
+        if (response.status === 503 || body.code === "github_token_missing") setGithubMissing(true)
+        return
+      }
+      const loaded = contentFromDraftPayload({ draft: { status: "historical", content: body.content } })
+      if (!loaded.ok) {
+        setError(loaded.message)
+        return
+      }
+      setContent(loaded.content)
+      setDraftStatus(null)
+      setMessage(`Loaded published version ${sha.slice(0, 7)} into the editor. It is not live again until you publish it.`)
+    })()
+    // choosePage is recreated each render; the query string is the trigger.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params])
 
   useEffect(() => {
     void (async () => {

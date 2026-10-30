@@ -4,6 +4,8 @@ import { Layout } from "./components/Layout"
 import { RequireStaff } from "./lib/auth/RequireStaff"
 import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
 import { AdminAnnouncements } from "./pages/admin/AdminAnnouncements"
+import { AdminHistory } from "./pages/admin/AdminHistory"
+import { AdminMedia } from "./pages/admin/AdminMedia"
 import { AdminConnections } from "./pages/admin/AdminConnections"
 import { AdminContent } from "./pages/admin/AdminContent"
 import { AdminDashboard } from "./pages/admin/AdminDashboard"
@@ -53,6 +55,8 @@ export default function App() {
           <Route path="announcements" element={<AdminAnnouncements />} />
           <Route path="tournaments" element={<AdminTournaments />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="media" element={<AdminMedia />} />
+          <Route path="history" element={<AdminHistory />} />
           <Route path="staff" element={<AdminStaff />} />
         </Route>
 

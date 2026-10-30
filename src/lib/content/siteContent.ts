@@ -87,6 +87,28 @@ export type PageBodies = {
     buttonBeforeShopName: string
     missingStorefrontNote: string
   }
+  volunteer: {
+    eyebrow: string
+    title: string
+    intro: string[]
+    waysHeading: string
+    waysIntro: string
+    opportunities: string[]
+    waysButtonLabel: string
+    waysButtonTo: string
+    screeningHeading: string
+    screeningParagraphs: string[]
+    screeningNotice: string
+    screeningMissing: string
+    screeningReady: string
+    screeningAskLabel: string
+    transportHeading: string
+    transportParagraphs: string[]
+    transportListIntro: string
+    transportItems: string[]
+    transportClosing: string
+    transportButtonLabel: string
+  }
 }
 
 export type PracticeLocationContent = {
@@ -345,6 +367,22 @@ export function validateSiteContent(input: unknown): SiteContentIssue[] {
     })
   }
   if (!Array.isArray(input.fundraisers)) issues.push({ path: "fundraisers", message: "fundraisers must be an array." })
+  else validateFundraisers(input.fundraisers, issues)
+  if (!isRecord(input.fundraiserContact)) {
+    issues.push({ path: "fundraiserContact", message: "Fundraiser contact is required." })
+  } else {
+    checkText(input.fundraiserContact.name, "fundraiserContact.name", issues, CONTENT_LIMITS.label)
+    checkText(input.fundraiserContact.email, "fundraiserContact.email", issues, CONTENT_LIMITS.label)
+    if (typeof input.fundraiserContact.email === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.fundraiserContact.email)) {
+      issues.push({ path: "fundraiserContact.email", message: "Use a valid email address." })
+    }
+  }
+  if (input.sterlingVolunteerInvitationUrl !== null) {
+    checkHttps(input.sterlingVolunteerInvitationUrl, "sterlingVolunteerInvitationUrl", issues)
+  }
+  checkHttps(input.sterlingVolunteersInfoUrl, "sterlingVolunteersInfoUrl", issues)
+  if (Array.isArray(input.venues)) validateVenues(input.venues, issues)
+  if (Array.isArray(input.practiceTournaments)) validateTournamentFields(input.practiceTournaments, issues)
 
   validatePracticeLocation(input.practiceLocation, issues)
   validatePageBodies(input.pageBodies, issues)
@@ -496,6 +534,107 @@ function validatePageBodies(value: unknown, issues: SiteContentIssue[]) {
   checkText(gear.leadBeforeShopName, "pageBodies.teamGear.leadBeforeShopName", issues, CONTENT_LIMITS.paragraph)
   checkText(gear.buttonBeforeShopName, "pageBodies.teamGear.buttonBeforeShopName", issues, CONTENT_LIMITS.label)
   checkText(gear.missingStorefrontNote, "pageBodies.teamGear.missingStorefrontNote", issues, CONTENT_LIMITS.paragraph)
+
+  const volunteer = isRecord(value.volunteer) ? value.volunteer : null
+  if (!volunteer) {
+    issues.push({ path: "pageBodies.volunteer", message: "Volunteer page copy is required." })
+  } else {
+    checkText(volunteer.eyebrow, "pageBodies.volunteer.eyebrow", issues, CONTENT_LIMITS.label)
+    checkText(volunteer.title, "pageBodies.volunteer.title", issues, CONTENT_LIMITS.heading)
+    checkLines(volunteer.intro, "pageBodies.volunteer.intro", issues, 1)
+    checkText(volunteer.waysHeading, "pageBodies.volunteer.waysHeading", issues, CONTENT_LIMITS.heading)
+    checkText(volunteer.waysIntro, "pageBodies.volunteer.waysIntro", issues, CONTENT_LIMITS.paragraph)
+    checkLines(volunteer.opportunities, "pageBodies.volunteer.opportunities", issues, 1)
+    checkText(volunteer.waysButtonLabel, "pageBodies.volunteer.waysButtonLabel", issues, CONTENT_LIMITS.label)
+    checkInternal(volunteer.waysButtonTo, "pageBodies.volunteer.waysButtonTo", issues)
+    checkText(volunteer.screeningHeading, "pageBodies.volunteer.screeningHeading", issues, CONTENT_LIMITS.heading)
+    checkLines(volunteer.screeningParagraphs, "pageBodies.volunteer.screeningParagraphs", issues, 1)
+    checkText(volunteer.screeningNotice, "pageBodies.volunteer.screeningNotice", issues, CONTENT_LIMITS.paragraph)
+    checkText(volunteer.screeningMissing, "pageBodies.volunteer.screeningMissing", issues, CONTENT_LIMITS.paragraph)
+    checkText(volunteer.screeningReady, "pageBodies.volunteer.screeningReady", issues, CONTENT_LIMITS.paragraph)
+    checkText(volunteer.screeningAskLabel, "pageBodies.volunteer.screeningAskLabel", issues, CONTENT_LIMITS.label)
+    checkText(volunteer.transportHeading, "pageBodies.volunteer.transportHeading", issues, CONTENT_LIMITS.heading)
+    checkLines(volunteer.transportParagraphs, "pageBodies.volunteer.transportParagraphs", issues, 1)
+    checkText(volunteer.transportListIntro, "pageBodies.volunteer.transportListIntro", issues, CONTENT_LIMITS.paragraph)
+    checkLines(volunteer.transportItems, "pageBodies.volunteer.transportItems", issues, 1)
+    checkText(volunteer.transportClosing, "pageBodies.volunteer.transportClosing", issues, CONTENT_LIMITS.paragraph)
+    checkText(volunteer.transportButtonLabel, "pageBodies.volunteer.transportButtonLabel", issues, CONTENT_LIMITS.label)
+  }
+}
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const CLOCK = /^([01]\d|2[0-3]):[0-5]\d$/
+const PUBLIC_FILE = /^\/[A-Za-z0-9/_.-]+$/
+
+function validateFundraisers(records: unknown[], issues: SiteContentIssue[]) {
+  records.forEach((record, index) => {
+    if (!isRecord(record)) {
+      issues.push({ path: `fundraisers.${index}`, message: "Invalid fundraiser." })
+      return
+    }
+    checkText(record.business, `fundraisers.${index}.business`, issues, CONTENT_LIMITS.label)
+    checkText(record.place, `fundraisers.${index}.place`, issues, CONTENT_LIMITS.label)
+    checkText(record.when, `fundraisers.${index}.when`, issues, CONTENT_LIMITS.heading)
+    checkText(record.time, `fundraisers.${index}.time`, issues, CONTENT_LIMITS.label)
+    checkText(record.id, `fundraisers.${index}.id`, issues, CONTENT_LIMITS.label)
+    for (const key of ["image", "flyer"] as const) {
+      const path = `fundraisers.${index}.${key}`
+      checkText(record[key], path, issues, CONTENT_LIMITS.link)
+      if (typeof record[key] === "string" && (!PUBLIC_FILE.test(record[key]) || !record[key].startsWith("/flyers/"))) {
+        issues.push({ path, message: "Use an approved file under /flyers/." })
+      }
+    }
+  })
+}
+
+function validateVenues(records: unknown[], issues: SiteContentIssue[]) {
+  records.forEach((record, index) => {
+    if (!isRecord(record)) {
+      issues.push({ path: `venues.${index}`, message: "Invalid venue." })
+      return
+    }
+    checkText(record.id, `venues.${index}.id`, issues, CONTENT_LIMITS.label)
+    checkText(record.name, `venues.${index}.name`, issues, CONTENT_LIMITS.heading)
+    checkText(record.address, `venues.${index}.address`, issues, CONTENT_LIMITS.heading)
+    checkText(record.phone, `venues.${index}.phone`, issues, 40)
+    checkHttps(record.website, `venues.${index}.website`, issues)
+    if (record.email !== null) {
+      checkText(record.email, `venues.${index}.email`, issues, CONTENT_LIMITS.label)
+      if (typeof record.email === "string" && !EMAIL.test(record.email)) {
+        issues.push({ path: `venues.${index}.email`, message: "Use a valid email address, or leave it empty." })
+      }
+    }
+    if (record.contactUrl !== null) checkHttps(record.contactUrl, `venues.${index}.contactUrl`, issues)
+  })
+}
+
+function validateTournamentFields(records: unknown[], issues: SiteContentIssue[]) {
+  records.forEach((record, index) => {
+    if (!isRecord(record)) return
+    checkText(record.name, `practiceTournaments.${index}.name`, issues, CONTENT_LIMITS.heading)
+    for (const key of ["month", "day"] as const) {
+      const value = record[key]
+      const max = key === "month" ? 12 : 31
+      if (typeof value !== "number" || !Number.isInteger(value) || value < 1 || value > max) {
+        issues.push({ path: `practiceTournaments.${index}.${key}`, message: `Use a whole number from 1 to ${max}.` })
+      }
+    }
+    if (
+      record.year !== null &&
+      (typeof record.year !== "number" || !Number.isInteger(record.year) || record.year < 2024 || record.year > 2035)
+    ) {
+      issues.push({ path: `practiceTournaments.${index}.year`, message: "Use a four-digit year, or leave it empty." })
+    }
+    for (const key of ["startTime", "endTime"] as const) {
+      const value = record[key]
+      if (value !== null && (typeof value !== "string" || !CLOCK.test(value))) {
+        issues.push({ path: `practiceTournaments.${index}.${key}`, message: "Use 24-hour HH:MM, or leave both times empty." })
+      }
+    }
+    if (record.arrivalNote !== null) {
+      checkText(record.arrivalNote, `practiceTournaments.${index}.arrivalNote`, issues, CONTENT_LIMITS.paragraph)
+    }
+  })
 }
 
 export function parseSiteContent(input: unknown): SiteContent {
