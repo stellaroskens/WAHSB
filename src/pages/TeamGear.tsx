@@ -2,7 +2,7 @@ import { AthleticHero } from "../components/AthleticHero"
 import { ExternalLinkIcon } from "../components/header/icons"
 import { PageMeta } from "../components/PageMeta"
 import { websiteLogoTransparent } from "../content/media"
-import { club, pages, teamGearShop } from "../content/site"
+import { club, pageBodies, pages, teamGearShop } from "../content/site"
 
 export function TeamGear() {
   return (
@@ -10,8 +10,8 @@ export function TeamGear() {
       <PageMeta title={pages.teamGear.title} description={pages.teamGear.description} />
       <AthleticHero
         scene="gear"
-        eyebrow="Team shop"
-        title="Team Gear"
+        eyebrow={pageBodies.teamGear.eyebrow}
+        title={pageBodies.teamGear.title}
         subtitle={club.name}
         art={
           <img
@@ -29,8 +29,8 @@ export function TeamGear() {
       <section className="section" aria-labelledby="team-gear-shop-heading">
         <div className="wrap">
           <article className="card sw-team-gear__card">
-            <h2 id="team-gear-shop-heading">Albany High School Bowling Team Gear</h2>
-            <p>We're moving our team gear shopping experience to {teamGearShop.name}.</p>
+            <h2 id="team-gear-shop-heading">{pageBodies.teamGear.heading}</h2>
+            <p>{`${pageBodies.teamGear.leadBeforeShopName} ${teamGearShop.name}.`}</p>
             <p className="sw-team-gear__actions">
               <a
                 className="sw-btn sw-btn--plain"
@@ -38,14 +38,14 @@ export function TeamGear() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Visit {teamGearShop.name}
+                {pageBodies.teamGear.buttonBeforeShopName} {teamGearShop.name}
                 <ExternalLinkIcon />
                 <span className="visually-hidden"> (opens in a new tab)</span>
               </a>
             </p>
             {teamGearShop.teamStoreUrl === null ? (
               <p className="sw-team-gear__note">
-                A dedicated Albany High School Bowling storefront link will be added when available.
+                {pageBodies.teamGear.missingStorefrontNote}
               </p>
             ) : null}
           </article>

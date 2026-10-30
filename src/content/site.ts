@@ -27,6 +27,7 @@ export const club = {
 
 export const nav = siteContent.nav
 export const pages = siteContent.pages
+export const pageBodies = siteContent.pageBodies
 export const seasonRegistrationClosed = siteContent.seasonRegistrationClosed
 /** @deprecated Prefer seasonRegistrationClosed.description for new copy. */
 export const studentCapacityNotice = seasonRegistrationClosed.description
@@ -50,21 +51,7 @@ export const bowlathonEvent: { date: string | null } = {
   date: null,
 }
 
-export const practiceLocation = {
-  name: "Lakeshore Lanes",
-  street: "5432 Pacific Blvd SW",
-  locality: "Albany, OR 97321",
-  address: "5432 Pacific Blvd SW, Albany, OR 97321",
-  phone: "(541) 926-4631",
-  phoneHref: "tel:+15419264631",
-  website: "https://www.lakeshorelanesonline.com/",
-  directions:
-    "https://www.google.com/maps/dir/?api=1&destination=5432%20Pacific%20Blvd%20SW%2C%20Albany%2C%20OR%2097321",
-  logoSrc: "/lakeshore-lanes.avif",
-  logoWidth: 324,
-  logoHeight: 348,
-  detail: "Days and times are not posted yet. Lane access is arranged with the center.",
-} as const
+export const practiceLocation = siteContent.practiceLocation
 
 export const tournamentEvents = [
   {
@@ -89,13 +76,7 @@ export const tournamentEvents = [
   },
 ] as const
 
-export const bakerFrames = [
-  { bowler: "Bowler 1", frames: "Frames 1 and 6" },
-  { bowler: "Bowler 2", frames: "Frames 2 and 7" },
-  { bowler: "Bowler 3", frames: "Frames 3 and 8" },
-  { bowler: "Bowler 4", frames: "Frames 4 and 9" },
-  { bowler: "Bowler 5", frames: "Frames 5 and 10" },
-] as const
+export const bakerFrames = pageBodies.club.bakerFrames
 
 export const arrival = [
   { label: "Arrive", value: "8:00 a.m." },
