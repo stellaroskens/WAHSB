@@ -1,3 +1,5 @@
+import { validateBowlerProfiles, type BowlerProfile } from "./bowlerProfiles.ts"
+
 export type PageMetaContent = { title: string; description: string }
 
 export type HomeCardContent = {
@@ -109,6 +111,12 @@ export type PageBodies = {
     transportClosing: string
     transportButtonLabel: string
   }
+  bowlers: {
+    eyebrow: string
+    title: string
+    intro: string
+    empty: string
+  }
 }
 
 export type PracticeLocationContent = {
@@ -175,6 +183,7 @@ export type SiteContent = {
     flyer: string
   }[]
   fundraiserContact: { name: string; email: string }
+  bowlerProfiles: BowlerProfile[]
 }
 
 export type SiteContentIssue = { path: string; message: string }
@@ -193,6 +202,7 @@ const REQUIRED_PAGE_KEYS = [
   "faq",
   "fundraisers",
   "teamGear",
+  "bowlers",
 ] as const
 
 const KNOWN_COACH_IDS = ["cliff-meredith", "chris-breshears"] as const
@@ -386,6 +396,7 @@ export function validateSiteContent(input: unknown): SiteContentIssue[] {
 
   validatePracticeLocation(input.practiceLocation, issues)
   validatePageBodies(input.pageBodies, issues)
+  validateBowlerProfiles(input.bowlerProfiles, issues)
 
   return issues
 }
@@ -559,6 +570,16 @@ function validatePageBodies(value: unknown, issues: SiteContentIssue[]) {
     checkLines(volunteer.transportItems, "pageBodies.volunteer.transportItems", issues, 1)
     checkText(volunteer.transportClosing, "pageBodies.volunteer.transportClosing", issues, CONTENT_LIMITS.paragraph)
     checkText(volunteer.transportButtonLabel, "pageBodies.volunteer.transportButtonLabel", issues, CONTENT_LIMITS.label)
+  }
+
+  const bowlers = isRecord(value.bowlers) ? value.bowlers : null
+  if (!bowlers) {
+    issues.push({ path: "pageBodies.bowlers", message: "Meet the Bowlers copy is required." })
+  } else {
+    checkText(bowlers.eyebrow, "pageBodies.bowlers.eyebrow", issues, CONTENT_LIMITS.label)
+    checkText(bowlers.title, "pageBodies.bowlers.title", issues, CONTENT_LIMITS.heading)
+    checkText(bowlers.intro, "pageBodies.bowlers.intro", issues, CONTENT_LIMITS.paragraph)
+    checkText(bowlers.empty, "pageBodies.bowlers.empty", issues, CONTENT_LIMITS.paragraph)
   }
 }
 

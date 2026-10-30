@@ -11,6 +11,11 @@ const ASSETS = [
   { label: "Lakeshore Lanes logo", path: "/lakeshore-lanes.avif", use: "Homepage, Practices, and Sponsors" },
   { label: "Panda Express flyer", path: "/flyers/panda-express.pdf", use: "Fundraiser page" },
   { label: "Burgerville flyer", path: "/flyers/burgerville.pdf", use: "Fundraiser page" },
+  {
+    label: "Bowler silhouette",
+    path: "/images/bowler-silhouette.svg",
+    use: "Meet the Bowlers placeholder. This is not a student photograph.",
+  },
 ]
 
 export function AdminMedia() {

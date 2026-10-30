@@ -37,6 +37,7 @@ export type EditorSection = {
   help: string
   fields: EditorField[]
   lockedReason?: string
+  custom?: "bowler-profiles"
 }
 
 const page = (
@@ -51,6 +52,14 @@ const page = (
 export const EDITOR_PAGES: EditorPage[] = [
   page("home", "Home", "/", "full", "Editable", "Headings, buttons, cards, the registration notice, and the Lakeshore thank-you."),
   page("our-club", "Our Club", "/our-club", "full", "Editable", "Club introduction, team bowling, volunteers, college links, and the help banner."),
+  page(
+    "meet-the-bowlers",
+    "Meet the Bowlers",
+    "/meet-the-bowlers",
+    "full",
+    "Editable",
+    "Public introductions. The sample profile stays a draft until it is explicitly approved. Real student profiles cannot be published from this file.",
+  ),
   page("coaches", "Coach profiles", "/our-club#coaches", "full", "Editable", "Public names, roles, and biographies. This does not change who can sign in."),
   page("team-gear", "Team Gear", "/team-gear", "full", "Editable", "Shop wording and the BSN SPORTS links."),
   page("practices", "Practices", "/practices", "partial", "Partly editable", "Search text and the shared Lakeshore Lanes location. The practice introduction stays in the page layout."),
@@ -97,7 +106,7 @@ function locked(id: string, pageIds: string[], label: string, reason: string): E
 
 const registration: EditorSection = {
   id: "registration",
-  pageIds: ["home", "our-club", "practices", "tournaments", "volunteer", "contact"],
+  pageIds: ["home", "our-club", "practices", "tournaments", "volunteer", "contact", "meet-the-bowlers"],
   label: "Registration closed notice",
   help: "The same notice is shown on every page that uses it. Saving here updates all of those pages. It does not open student registration.",
   fields: [
@@ -129,6 +138,27 @@ const practiceLocation: EditorSection = {
 
 export const EDITOR_SECTIONS: EditorSection[] = [
   seo("home", "home"),
+  seo("meet-the-bowlers", "bowlers"),
+  {
+    id: "bowlers-intro",
+    pageIds: ["meet-the-bowlers"],
+    label: "Page introduction",
+    help: "The public heading and the sentence shown when no approved profile is visible.",
+    fields: [
+      field("pageBodies.bowlers.eyebrow", "Small label"),
+      field("pageBodies.bowlers.title", "Heading"),
+      field("pageBodies.bowlers.intro", "Introduction", "textarea"),
+      field("pageBodies.bowlers.empty", "Empty-state sentence", "textarea"),
+    ],
+  },
+  {
+    id: "bowler-profiles",
+    pageIds: ["meet-the-bowlers"],
+    label: "Bowler profiles",
+    help: "Add, edit, hide, reorder, or remove profiles. Publishing a profile here only updates this draft until you publish the content file.",
+    fields: [],
+    custom: "bowler-profiles",
+  },
   registration,
   {
     id: "home-hero",

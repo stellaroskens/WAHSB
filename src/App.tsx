@@ -20,6 +20,7 @@ import { FamilyDashboard } from "./pages/FamilyDashboard"
 import { Faq } from "./pages/Faq"
 import { Fundraisers } from "./pages/Fundraisers"
 import { HomeReview } from "./pages/HomeReview"
+import { MeetTheBowlers } from "./pages/MeetTheBowlers"
 import { NotFound } from "./pages/NotFound"
 import { OurClub } from "./pages/OurClub"
 import { Practices } from "./pages/Practices"
@@ -81,6 +82,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomeReview />} />
           <Route path="our-club" element={<OurClub />} />
+          <Route path="meet-the-bowlers" element={<MeetTheBowlers />} />
           <Route path="practices" element={<Practices />} />
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="sponsors" element={<Sponsors />} />
