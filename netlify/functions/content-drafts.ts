@@ -1,4 +1,5 @@
 import type { Config, Context } from "@netlify/functions"
+import { draftRecordStatus } from "../../src/lib/content/pageEditor.ts"
 import { parseSiteContent, validateSiteContent } from "../../src/lib/content/siteContent.ts"
 import { DRAFTS_PREFIX, getFileContent, githubConfig, listDraftFiles, putFileContent } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
@@ -61,17 +62,18 @@ export default async (req: Request, context: Context) => {
       hasPermission(auth.roles, "edit_scheduling_ops")
     if (!canSave) return json(403, { error: "forbidden" })
 
-    const body = (await req.json()) as { id?: string; content?: unknown; message?: string }
+    const body = (await req.json()) as { id?: string; content?: unknown; message?: string; submitForApproval?: boolean }
     const id = (body.id || `draft-${Date.now()}`).replace(/[^a-zA-Z0-9_-]/g, "")
     const issues = validateSiteContent(body.content)
     if (issues.length) return json(400, { error: "validation_failed", issues })
     parseSiteContent(body.content)
+    const status = draftRecordStatus(body.submitForApproval === true)
 
     const path = `${DRAFTS_PREFIX}${id}.json`
     const existing = await getFileContent(gh, path)
     const payload = JSON.stringify(
       {
-        status: "draft",
+        status,
         updatedAt: new Date().toISOString(),
         updatedBy: auth.email,
         content: body.content,
@@ -87,7 +89,7 @@ export default async (req: Request, context: Context) => {
       existing.ok ? existing.sha : undefined,
     )
     if (!saved.ok) return json(400, { error: saved.message })
-    return json(200, { ok: true, id, commitSha: saved.commitSha, status: "draft" })
+    return json(200, { ok: true, id, commitSha: saved.commitSha, status })
   }
 
   return json(405, { error: "Method not allowed." })

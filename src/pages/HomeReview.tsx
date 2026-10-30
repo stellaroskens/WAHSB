@@ -5,7 +5,7 @@ import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
 import { clothingLogo, homeHeroBanner, websiteLogo } from "../content/media"
-import { nav, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
+import { nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
 
 const links = nav
 
@@ -56,8 +56,8 @@ export function HomeReview() {
           </nav>
           <div className="review-tools">
             <SiteSearch tone="light" />
-            <Link className="review-header-donate" to="/bowl-a-thon" onClick={() => setOpen(false)}>
-              Donate or Pledge
+            <Link className="review-header-donate" to={pageBodies.home.hero.buttonTo} onClick={() => setOpen(false)}>
+              {pageBodies.home.hero.buttonLabel}
             </Link>
             <AccountButton />
             <button
@@ -83,15 +83,15 @@ export function HomeReview() {
           width={homeHeroBanner.width}
           height={homeHeroBanner.height}
           fetchPriority="high"
-          alt="Bowl-A-Thon"
+          alt={pageBodies.home.hero.imageAlt}
         />
         <h1 id="review-hero-heading" className="review-hero__title">
-          Strike up support for our bowlers.
+          {pageBodies.home.hero.heading}
         </h1>
         <div className="review-hero__cta">
-          <p>Give a flat donation or pledge an amount per pin.</p>
-          <Link className="review-pledge" to="/bowl-a-thon">
-            Donate or Pledge
+          <p>{pageBodies.home.hero.description}</p>
+          <Link className="review-pledge" to={pageBodies.home.hero.buttonTo}>
+            {pageBodies.home.hero.buttonLabel}
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h12M13 6l6 6-6 6" />
             </svg>
@@ -104,28 +104,25 @@ export function HomeReview() {
           <div className="review-club__divider">
             <span className="review-club__rule review-club__rule--left" aria-hidden="true" />
             <span className="review-club__divider-mark" aria-hidden="true" />
-            <span className="review-club__divider-label">More than a game</span>
+            <span className="review-club__divider-label">{pageBodies.home.club.eyebrow}</span>
             <span className="review-club__rule review-club__rule--right" aria-hidden="true" />
           </div>
 
           <div className="review-club__grid">
             <div className="review-club__content">
               <h2 id="review-club-title" className="review-club__heading">
-                <span className="is-navy">Build skills.</span>
-                <span className="is-red">Find your team.</span>
+                <span className="is-navy">{pageBodies.home.club.headingNavy}</span>
+                <span className="is-red">{pageBodies.home.club.headingRed}</span>
               </h2>
 
-              <p className="review-club__description">
-                Albany High School Bowling builds focus, determination, confidence, teamwork, and
-                school pride — on and off the lanes.
-              </p>
+              <p className="review-club__description">{pageBodies.home.club.description}</p>
 
               <div className="review-club__actions">
-                <Link to="/our-club" className="review-club__button review-club__button--primary">
-                  Learn more about our club <span aria-hidden="true">→</span>
+                <Link to={pageBodies.home.club.primaryTo} className="review-club__button review-club__button--primary">
+                  {pageBodies.home.club.primaryLabel} <span aria-hidden="true">→</span>
                 </Link>
-                <Link to="/our-club#coaches" className="review-club__button review-club__button--secondary">
-                  Meet our team <span aria-hidden="true">→</span>
+                <Link to={pageBodies.home.club.secondaryTo} className="review-club__button review-club__button--secondary">
+                  {pageBodies.home.club.secondaryLabel} <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
@@ -164,13 +161,13 @@ export function HomeReview() {
           <div className="review-cards__grid">
             <article className="review-cards__card">
               <div className="review-cards__visual review-cards__visual--lanes">
-                <img src="/images/home-card-practices.png" width={510} height={185} alt="" />
+                <img src="/images/home-card-practices.png" width={510} height={185} alt={pageBodies.home.cards[0].imageAlt} />
               </div>
               <div className="review-cards__body">
-                <h2>Practices</h2>
-                <p>Practices are located at Lakeshore Lanes in Albany.</p>
-                <Link className="review-cards__link" to="/practices">
-                  Practice details <span aria-hidden="true">→</span>
+                <h2>{pageBodies.home.cards[0].heading}</h2>
+                <p>{pageBodies.home.cards[0].description}</p>
+                <Link className="review-cards__link" to={pageBodies.home.cards[0].linkTo}>
+                  {pageBodies.home.cards[0].linkLabel} <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </article>
@@ -182,27 +179,27 @@ export function HomeReview() {
                   width={clothingLogo.width}
                   height={clothingLogo.height}
                   loading="lazy"
-                  alt="Albany High School Bowling clothing logo"
+                  alt={pageBodies.home.cards[1].imageAlt}
                 />
               </div>
               <div className="review-cards__body">
-                <h2>Team gear</h2>
-                <p>Our team gear shop is moving to BSN SPORTS.</p>
-                <Link className="review-cards__link" to="/team-gear">
-                  View team gear <span aria-hidden="true">→</span>
+                <h2>{pageBodies.home.cards[1].heading}</h2>
+                <p>{pageBodies.home.cards[1].description}</p>
+                <Link className="review-cards__link" to={pageBodies.home.cards[1].linkTo}>
+                  {pageBodies.home.cards[1].linkLabel} <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </article>
 
             <article className="review-cards__card">
               <div className="review-cards__visual review-cards__visual--ball">
-                <img src="/images/home-card-tournaments.png" width={175} height={145} alt="" />
+                <img src="/images/home-card-tournaments.png" width={175} height={145} alt={pageBodies.home.cards[2].imageAlt} />
               </div>
               <div className="review-cards__body">
-                <h2>Tournaments</h2>
-                <p>Find upcoming tournament information, schedules, and locations.</p>
-                <Link className="review-cards__link" to="/tournaments">
-                  View schedule <span aria-hidden="true">→</span>
+                <h2>{pageBodies.home.cards[2].heading}</h2>
+                <p>{pageBodies.home.cards[2].description}</p>
+                <Link className="review-cards__link" to={pageBodies.home.cards[2].linkTo}>
+                  {pageBodies.home.cards[2].linkLabel} <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </article>
@@ -212,7 +209,7 @@ export function HomeReview() {
 
       <section className="review-fundraisers" aria-labelledby="review-fundraisers-title">
         <div className="review-fundraisers__inner">
-          <h2 id="review-fundraisers-title">Upcoming fundraisers</h2>
+          <h2 id="review-fundraisers-title">{pageBodies.home.fundraisersHeading}</h2>
           <div className="review-fundraisers__grid">
             {fundraisers.map((event) => (
               <article className="review-fundraisers__card" key={event.id}>
@@ -221,7 +218,7 @@ export function HomeReview() {
                 <p>{event.place}</p>
                 <p className="review-fundraisers__time">{event.time}</p>
                 <Link to={`/fundraisers#${event.id}`}>
-                  View fundraiser details <span aria-hidden="true">→</span>
+                  {pageBodies.home.fundraiserLinkLabel} <span aria-hidden="true">→</span>
                 </Link>
               </article>
             ))}
@@ -235,17 +232,12 @@ export function HomeReview() {
             src={practiceLocation.logoSrc}
             width={practiceLocation.logoWidth}
             height={practiceLocation.logoHeight}
-            alt="Lakeshore Lanes logo"
+            alt={`${practiceLocation.name} logo`}
             loading="lazy"
           />
           <div className="review-thanks__copy">
-            <h2 id="review-thanks-title">Thank you, Lakeshore Lanes!</h2>
-            <p>
-              Albany High School Bowling appreciates Lakeshore Lanes for supporting our
-              student athletes through lane access and practice time. Your support helps
-              our bowlers develop their skills, build confidence, and grow together as a
-              team.
-            </p>
+            <h2 id="review-thanks-title">{pageBodies.home.thanks.heading}</h2>
+            <p>{pageBodies.home.thanks.description}</p>
             <p className="review-thanks__place">
               {practiceLocation.name}
               <br />
@@ -255,11 +247,11 @@ export function HomeReview() {
             </p>
             <div className="review-thanks__actions">
               <a href={practiceLocation.directions} target="_blank" rel="noopener noreferrer">
-                Get directions
+                {pageBodies.home.thanks.directionsLabel}
                 <span className="visually-hidden"> (opens in a new tab)</span>
               </a>
               <a href={practiceLocation.website} target="_blank" rel="noopener noreferrer">
-                Visit website
+                {pageBodies.home.thanks.websiteLabel}
                 <span className="visually-hidden"> (opens in a new tab)</span>
               </a>
               <a href={practiceLocation.phoneHref}>Call {practiceLocation.name}</a>
@@ -271,9 +263,9 @@ export function HomeReview() {
       <footer className="review-footer">
         <div className="review-footer__inner">
           <h2 className="review-footer__title">
-            Albany High School Bowling
+            {pageBodies.home.footerTitle}
             <span aria-hidden="true"> · </span>
-            Bowl-A-Thon
+            {pageBodies.home.footerEventLabel}
           </h2>
           <div className="review-footer__divider" />
           <nav className="review-footer__nav" aria-label="Homepage footer navigation">

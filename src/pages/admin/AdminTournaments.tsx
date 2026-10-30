@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { practiceTournaments, venues } from "../../content/site"
 import { calendarFile } from "../../lib/calendar"
@@ -12,8 +13,9 @@ export function AdminTournaments() {
       <div className="admin-page__intro">
         <h2>Tournament management</h2>
         <p>
-          Read-only verification of the five published venues and Google Calendar / ICS readiness. Editing still goes
-          through the content editor; start times remain unset until the club confirms them.
+          Read-only check of venues and calendar files. Edit the dates in{" "}
+          <Link to="/admin/content?page=tournaments">Practices and Tournaments</Link>. Start times stay empty until
+          the club confirms them.
         </p>
       </div>
 

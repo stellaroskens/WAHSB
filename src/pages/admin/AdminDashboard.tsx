@@ -11,7 +11,18 @@ export function AdminDashboard() {
       />
       <div className="admin-page__intro">
         <h2>Dashboard</h2>
-        <p>Sections without an Open badge stay unavailable — no fake controls.</p>
+        <p>Open a section to edit the content that section can save. A super administrator does not need extra roles to view the coach or Club Administrator dashboards.</p>
+        <p>
+          <Link to="/admin/content">Website Page Editor</Link>
+          {" · "}
+          <Link to="/coach">Coach Dashboard</Link>
+          {" · "}
+          <Link to="/team-administrator">Club Administrator Dashboard</Link>
+          {" · "}
+          <Link to="/admin/connections">Financial Settings</Link>
+          {" · "}
+          <Link to="/admin/staff">Staff Management</Link>
+        </p>
       </div>
       <ul className="admin-section-list">
         {ADMIN_SECTIONS.map((section) => (

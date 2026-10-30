@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { hasPermission } from "../../lib/auth/permissions"
+import { isSuperAdmin } from "../../lib/auth/roles"
 import { rolesFromUser } from "../../lib/auth/session"
 
 export function CoachDashboard() {
@@ -41,6 +42,7 @@ export function CoachDashboard() {
         <div className="admin-page__intro">
           <h2>Coach dashboard</h2>
           <p>Permitted coaching actions only. Payment management and staff role management are not available here.</p>
+          {isSuperAdmin(roles) ? <p><Link to="/admin">Return to Main Admin Dashboard</Link></p> : null}
         </div>
         <ul className="admin-section-list">
           <li className="admin-section-list__item">

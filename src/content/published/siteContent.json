@@ -116,6 +116,20 @@
     "url": "https://www.bsnsports.com/",
     "teamStoreUrl": null
   },
+  "practiceLocation": {
+    "name": "Lakeshore Lanes",
+    "street": "5432 Pacific Blvd SW",
+    "locality": "Albany, OR 97321",
+    "address": "5432 Pacific Blvd SW, Albany, OR 97321",
+    "phone": "(541) 926-4631",
+    "phoneHref": "tel:+15419264631",
+    "website": "https://www.lakeshorelanesonline.com/",
+    "directions": "https://www.google.com/maps/dir/?api=1&destination=5432%20Pacific%20Blvd%20SW%2C%20Albany%2C%20OR%2097321",
+    "logoSrc": "/lakeshore-lanes.avif",
+    "logoWidth": 324,
+    "logoHeight": 348,
+    "detail": "Days and times are not posted yet. Lane access is arranged with the center."
+  },
   "seasonRegistrationClosed": {
     "heading": "2026–2027 SEASON REGISTRATION CLOSED",
     "description": "The Albany High School Bowling Club has reached capacity for the 2026–2027 season. We are not accepting additional student bowlers this season. Thank you for your interest and support!",
@@ -270,5 +284,181 @@
   "fundraiserContact": {
     "name": "Maranda",
     "email": "albanyhsbowling@gmail.com"
+  },
+  "pageBodies": {
+    "home": {
+      "hero": {
+        "imageAlt": "Bowl-A-Thon",
+        "heading": "Strike up support for our bowlers.",
+        "description": "Give a flat donation or pledge an amount per pin.",
+        "buttonLabel": "Donate or Pledge",
+        "buttonTo": "/bowl-a-thon"
+      },
+      "club": {
+        "eyebrow": "More than a game",
+        "headingNavy": "Build skills.",
+        "headingRed": "Find your team.",
+        "description": "Albany High School Bowling builds focus, determination, confidence, teamwork, and school pride — on and off the lanes.",
+        "primaryLabel": "Learn more about our club",
+        "primaryTo": "/our-club",
+        "secondaryLabel": "Meet our team",
+        "secondaryTo": "/our-club#coaches"
+      },
+      "cards": [
+        {
+          "heading": "Practices",
+          "description": "Practices are located at Lakeshore Lanes in Albany.",
+          "linkLabel": "Practice details",
+          "linkTo": "/practices",
+          "imageAlt": ""
+        },
+        {
+          "heading": "Team gear",
+          "description": "Our team gear shop is moving to BSN SPORTS.",
+          "linkLabel": "View team gear",
+          "linkTo": "/team-gear",
+          "imageAlt": "Albany High School Bowling clothing logo"
+        },
+        {
+          "heading": "Tournaments",
+          "description": "Find upcoming tournament information, schedules, and locations.",
+          "linkLabel": "View schedule",
+          "linkTo": "/tournaments",
+          "imageAlt": ""
+        }
+      ],
+      "fundraisersHeading": "Upcoming fundraisers",
+      "fundraiserLinkLabel": "View fundraiser details",
+      "thanks": {
+        "heading": "Thank you, Lakeshore Lanes!",
+        "description": "Albany High School Bowling appreciates Lakeshore Lanes for supporting our student athletes through lane access and practice time. Your support helps our bowlers develop their skills, build confidence, and grow together as a team.",
+        "directionsLabel": "Get directions",
+        "websiteLabel": "Visit website"
+      },
+      "footerTitle": "Albany High School Bowling",
+      "footerEventLabel": "Bowl-A-Thon"
+    },
+    "club": {
+      "heroTitle": "Our Club",
+      "coachesButtonLabel": "Our Coaches",
+      "intro": [
+        "Albany High School Bowling teaches the game and helps student athletes grow into it. The aim is skill, confidence, teamwork, and sportsmanship."
+      ],
+      "coachesHeading": "Our Coaches",
+      "coachesNote": "Biographies below are summarized from the club’s current website.",
+      "administratorTitle": "Club Administrator",
+      "administratorName": "Maranda Fisher",
+      "teamSport": {
+        "heading": "A team sport",
+        "paragraphs": [
+          "Practices build individual form, and tournaments turn that work into a shared score. The club uses Baker format, where five bowlers complete one game together. You do not have to carry every frame by yourself."
+        ],
+        "bullets": [
+          "Bowling is both an individual skill and a team sport.",
+          "During practices, students develop their approach, release, accuracy, and consistency.",
+          "In Baker format, five bowlers share a single ten-frame game.",
+          "In a standard five-bowler Baker lineup, bowlers take assigned frames, commonly 1 and 6, 2 and 7, 3 and 8, 4 and 9, and 5 and 10.",
+          "Team members contribute to one combined score.",
+          "Encouragement, cooperation, focus, and sportsmanship are important."
+        ],
+        "lineupNote": "Coaches determine the actual competition lineups and procedures.",
+        "buttonLabel": "Questions about team bowling?",
+        "buttonTo": "/contact"
+      },
+      "bakerFrames": [
+        { "bowler": "Bowler 1", "frames": "Frames 1 and 6" },
+        { "bowler": "Bowler 2", "frames": "Frames 2 and 7" },
+        { "bowler": "Bowler 3", "frames": "Frames 3 and 8" },
+        { "bowler": "Bowler 4", "frames": "Frames 4 and 9" },
+        { "bowler": "Bowler 5", "frames": "Frames 5 and 10" }
+      ],
+      "volunteers": {
+        "heading": "Volunteers make it possible",
+        "paragraphs": [
+          "The club depends on parents, families, and community members who support our existing athletes. Adults can help with tournaments, fundraising, setup, general club needs, and transportation when additional approval is granted."
+        ],
+        "bullets": [
+          "Coaches teach approach, aiming, balance, release, scoring, and team bowling.",
+          "Bowling helps student athletes build confidence, friendships, patience, and teamwork.",
+          "Athletes on the roster can chase competitive scores or enjoy the game with teammates.",
+          "Adult volunteers help keep practices, events, and fundraisers running.",
+          "Background screening for volunteers uses Sterling Volunteers when leadership directs it."
+        ]
+      },
+      "college": {
+        "heading": "College bowling opportunities",
+        "intro": "Some athletes continue on to college bowling. Ask a coach what that path looks like. The club can point you to current information.",
+        "bullets": [
+          "Bowling can continue beyond high school.",
+          "Some colleges offer bowling teams or collegiate bowling programs.",
+          "Opportunities and participation requirements vary by institution.",
+          "Students interested in collegiate bowling can speak with coaches about developing skills, tracking progress, and exploring programs.",
+          "Scholarship opportunities and eligibility depend on individual programs and applicable requirements."
+        ],
+        "disclaimer": "These USBC pages are general learning resources. They do not promise a scholarship, a roster spot, or eligibility.",
+        "links": [
+          { "href": "https://bowl.com/youth/high-school", "label": "USBC High School Bowling" },
+          { "href": "https://bowl.com/youth/collegiate", "label": "USBC Collegiate Bowling" },
+          { "href": "https://smart.bowl.com/", "label": "SMART Scholarship Information" }
+        ],
+        "buttonLabel": "Ask a coach about college bowling",
+        "buttonTo": "/contact"
+      },
+      "help": {
+        "heading": "Have questions? We're here to help.",
+        "description": "Questions about practices, tournaments, volunteering, college bowling, or supporting our athletes are welcome. Our coaches and club leadership can help you find the information you need.",
+        "buttonLabel": "Contact Us",
+        "buttonTo": "/contact"
+      }
+    },
+    "teamGear": {
+      "eyebrow": "Team shop",
+      "title": "Team Gear",
+      "heading": "Albany High School Bowling Team Gear",
+      "leadBeforeShopName": "We're moving our team gear shopping experience to",
+      "buttonBeforeShopName": "Visit",
+      "missingStorefrontNote": "A dedicated Albany High School Bowling storefront link will be added when available."
+    },
+    "volunteer": {
+      "eyebrow": "Support our athletes",
+      "title": "Volunteer With Albany High School Bowling",
+      "intro": [
+        "The Albany High School Bowling Club depends on the generosity of parents, families, and community members who help make our bowling program possible."
+      ],
+      "waysHeading": "Ways adults can help",
+      "waysIntro": "Volunteer roles support the athletes already on the roster. Availability and approval depend on club needs and applicable school procedures.",
+      "opportunities": [
+        "Tournament and event assistance",
+        "Fundraising and community events",
+        "Equipment and event setup",
+        "General club assistance",
+        "Student transportation, subject to additional approval"
+      ],
+      "waysButtonLabel": "Contact club leadership",
+      "waysButtonTo": "/contact",
+      "screeningHeading": "Volunteer Background Checks",
+      "screeningParagraphs": [
+        "Albany High School Bowling uses Sterling Volunteers as its preferred third-party background-screening provider for adult volunteers. Screening helps protect student athletes and supports safe club activities.",
+        "This website does not collect sensitive personal information for background checks, and it does not process screening applications. Screening is handled through Sterling Volunteers and any school or club procedures that leadership confirms."
+      ],
+      "screeningNotice": "Contact club leadership before you order a background check. Completing a screening does not mean you are automatically authorized to volunteer with the club.",
+      "screeningMissing": "An organization-specific Sterling Volunteers invitation link has not been published here yet. Use the informational link below to learn about Sterling Volunteers, then email club leadership for current screening instructions.",
+      "screeningReady": "Use the club’s Sterling Volunteers invitation link only after leadership confirms you should begin screening for a volunteer role.",
+      "screeningAskLabel": "Ask leadership first",
+      "transportHeading": "Help With Transportation",
+      "transportParagraphs": [
+        "Helping with student transportation is separate from general volunteer screening. Adults interested in driving or otherwise supporting travel for athletes may need additional authorization beyond a standard volunteer background check.",
+        "This site does not claim that a standard Sterling Volunteers package includes a motor vehicle record (MVR) review, and it does not claim that any transportation requirements are already satisfied."
+      ],
+      "transportListIntro": "Requirements for transportation help may include:",
+      "transportItems": [
+        "A valid driver’s license",
+        "Proof of auto insurance",
+        "A motor vehicle record (MVR) review, when required by the school or club",
+        "Written authorization from club leadership and any applicable school or district procedures"
+      ],
+      "transportClosing": "Ask club leadership what is currently required before offering rides or arranging student transportation.",
+      "transportButtonLabel": "Contact Us"
+    }
   }
 }

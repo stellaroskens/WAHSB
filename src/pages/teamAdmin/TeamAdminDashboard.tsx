@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { hasPermission } from "../../lib/auth/permissions"
+import { isSuperAdmin } from "../../lib/auth/roles"
 import { rolesFromUser } from "../../lib/auth/session"
 
 export function TeamAdminDashboard() {
@@ -47,6 +48,7 @@ export function TeamAdminDashboard() {
             Scheduling, announcements, and volunteer coordination support. Super-admin account management and financial
             payouts are blocked by default.
           </p>
+          {isSuperAdmin(roles) ? <p><Link to="/admin">Return to Main Admin Dashboard</Link></p> : null}
         </div>
         <ul className="admin-section-list">
           <li className="admin-section-list__item">

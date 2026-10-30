@@ -285,7 +285,8 @@
 }
 
 .admin-panel-form input,
-.admin-panel-form select {
+.admin-panel-form select,
+.admin-panel-form textarea {
   width: 100%;
   padding: 0.7rem 0.8rem;
   border: 1px solid var(--line);
@@ -297,6 +298,10 @@
 .admin-section-list__item a {
   color: #ffd2d0;
   font-weight: 700;
+}
+
+.admin-panel-form a.admin-editor__live {
+  color: var(--blue);
 }
 
 .admin-help {
@@ -354,6 +359,96 @@
   margin: 1.75rem 0 0.75rem;
   color: #ffd2d0;
   font-size: 1.05rem;
+}
+
+.admin-editor {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.admin-editor__pages {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+}
+
+.admin-editor__pages button {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(8, 18, 56, 0.35);
+  color: #f5f7fb;
+  font: inherit;
+  text-align: left;
+}
+
+.admin-editor__pages button.is-selected {
+  border-color: #c12927;
+  background: rgba(193, 41, 39, 0.22);
+}
+
+.admin-editor__pages small {
+  color: #ffd2d0;
+}
+
+.admin-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px solid #c12927;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+
+.admin-preview__banner {
+  margin: 0 0 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #c12927;
+}
+
+.admin-preview dl {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.admin-preview dt {
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.admin-preview dd {
+  margin: 0.15rem 0 0;
+  white-space: pre-wrap;
+}
+
+.admin-advanced {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+}
+
+.admin-advanced summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.admin-advanced ol {
+  margin: 0.75rem 0 0;
+  padding-left: 1.2rem;
+}
+
+@media (min-width: 900px) {
+  .admin-editor {
+    grid-template-columns: 16rem minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 700px) {
