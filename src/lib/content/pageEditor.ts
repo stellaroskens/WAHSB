@@ -148,6 +148,7 @@ export const EDITOR_SECTIONS: EditorSection[] = [
       field("pageBodies.bowlers.eyebrow", "Small label"),
       field("pageBodies.bowlers.title", "Heading"),
       field("pageBodies.bowlers.intro", "Introduction", "textarea"),
+      field("pageBodies.bowlers.privacy", "Photo privacy note", "textarea"),
       field("pageBodies.bowlers.empty", "Empty-state sentence", "textarea"),
     ],
   },

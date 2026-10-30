@@ -20,7 +20,9 @@ import { FamilyDashboard } from "./pages/FamilyDashboard"
 import { Faq } from "./pages/Faq"
 import { Fundraisers } from "./pages/Fundraisers"
 import { HomeReview } from "./pages/HomeReview"
+import { BowlerProfilePage } from "./pages/BowlerProfilePage"
 import { MeetTheBowlers } from "./pages/MeetTheBowlers"
+import { StaffBowlerEditor } from "./pages/staff/StaffBowlerEditor"
 import { NotFound } from "./pages/NotFound"
 import { OurClub } from "./pages/OurClub"
 import { Practices } from "./pages/Practices"
@@ -69,6 +71,14 @@ export default function App() {
             </RequireStaff>
           }
         />
+        <Route
+          path="coach/bowlers"
+          element={
+            <RequireStaff allow={["coach", "super_admin"]}>
+              <StaffBowlerEditor />
+            </RequireStaff>
+          }
+        />
 
         <Route
           path="team-administrator"
@@ -78,11 +88,20 @@ export default function App() {
             </RequireStaff>
           }
         />
+        <Route
+          path="team-administrator/bowlers"
+          element={
+            <RequireStaff allow={["team_administrator", "super_admin"]}>
+              <StaffBowlerEditor />
+            </RequireStaff>
+          }
+        />
 
         <Route element={<Layout />}>
           <Route index element={<HomeReview />} />
           <Route path="our-club" element={<OurClub />} />
           <Route path="meet-the-bowlers" element={<MeetTheBowlers />} />
+          <Route path="meet-the-bowlers/:playerId" element={<BowlerProfilePage />} />
           <Route path="practices" element={<Practices />} />
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="sponsors" element={<Sponsors />} />

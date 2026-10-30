@@ -14,8 +14,15 @@ const ASSETS = [
   {
     label: "Bowler silhouette",
     path: "/images/bowler-silhouette.svg",
-    use: "Meet the Bowlers placeholder. This is not a student photograph.",
+    use: "Older placeholder. Player cards now use a school logo or the AHSB logo.",
   },
+  { label: "AHSB logo", path: "/images/schools/ahsb-main-logo.png", use: "Meet the Bowlers branding. Not a student photo." },
+  { label: "South Albany logo", path: "/images/schools/south-albany-logo.png", use: "South Albany player cards. Full logo." },
+  { label: "South Albany eagle", path: "/images/schools/south-albany-mark.png", use: "South Albany simplified mark." },
+  { label: "West Albany logo", path: "/images/schools/west-albany-logo.png", use: "West Albany player cards. Full logo." },
+  { label: "West Albany bulldog", path: "/images/schools/west-albany-mark.png", use: "West Albany simplified mark." },
+  { label: "Lebanon logo", path: "/images/schools/lebanon-logo.png", use: "Lebanon player cards. Full logo." },
+  { label: "Lebanon initials", path: "/images/schools/lebanon-mark.png", use: "Lebanon simplified mark." },
 ]
 
 export function AdminMedia() {

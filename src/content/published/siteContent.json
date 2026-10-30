@@ -54,8 +54,8 @@
       "description": "We're moving our Albany High School Bowling team gear shopping experience to BSN SPORTS."
     },
     "bowlers": {
-      "title": "Meet the Bowlers | Albany High School Bowling",
-      "description": "Approved public introductions for Albany High School Bowling. Student registration for the 2026–2027 season is closed. This page does not list scores, contact details, or a private roster."
+      "title": "Meet the Bowlers | AHSB",
+      "description": "Meet the Bowlers for Albany High School Bowling. Placeholder cards are not student records. Student registration for the 2026–2027 season is closed."
     }
   },
   "nav": [
@@ -70,11 +70,6 @@
       "end": false
     },
     {
-      "to": "/meet-the-bowlers",
-      "label": "Meet the Bowlers",
-      "end": false
-    },
-    {
       "to": "/practices",
       "label": "Practices",
       "end": false
@@ -82,6 +77,11 @@
     {
       "to": "/tournaments",
       "label": "Tournaments",
+      "end": false
+    },
+    {
+      "to": "/meet-the-bowlers",
+      "label": "Meet the Bowlers",
       "end": false
     },
     {
@@ -375,11 +375,26 @@
         "buttonTo": "/contact"
       },
       "bakerFrames": [
-        { "bowler": "Bowler 1", "frames": "Frames 1 and 6" },
-        { "bowler": "Bowler 2", "frames": "Frames 2 and 7" },
-        { "bowler": "Bowler 3", "frames": "Frames 3 and 8" },
-        { "bowler": "Bowler 4", "frames": "Frames 4 and 9" },
-        { "bowler": "Bowler 5", "frames": "Frames 5 and 10" }
+        {
+          "bowler": "Bowler 1",
+          "frames": "Frames 1 and 6"
+        },
+        {
+          "bowler": "Bowler 2",
+          "frames": "Frames 2 and 7"
+        },
+        {
+          "bowler": "Bowler 3",
+          "frames": "Frames 3 and 8"
+        },
+        {
+          "bowler": "Bowler 4",
+          "frames": "Frames 4 and 9"
+        },
+        {
+          "bowler": "Bowler 5",
+          "frames": "Frames 5 and 10"
+        }
       ],
       "volunteers": {
         "heading": "Volunteers make it possible",
@@ -406,9 +421,18 @@
         ],
         "disclaimer": "These USBC pages are general learning resources. They do not promise a scholarship, a roster spot, or eligibility.",
         "links": [
-          { "href": "https://bowl.com/youth/high-school", "label": "USBC High School Bowling" },
-          { "href": "https://bowl.com/youth/collegiate", "label": "USBC Collegiate Bowling" },
-          { "href": "https://smart.bowl.com/", "label": "SMART Scholarship Information" }
+          {
+            "href": "https://bowl.com/youth/high-school",
+            "label": "USBC High School Bowling"
+          },
+          {
+            "href": "https://bowl.com/youth/collegiate",
+            "label": "USBC Collegiate Bowling"
+          },
+          {
+            "href": "https://smart.bowl.com/",
+            "label": "SMART Scholarship Information"
+          }
         ],
         "buttonLabel": "Ask a coach about college bowling",
         "buttonTo": "/contact"
@@ -470,27 +494,168 @@
       "transportButtonLabel": "Contact Us"
     },
     "bowlers": {
-      "eyebrow": "Albany High School Bowling",
+      "eyebrow": "AHSB",
       "title": "Meet the Bowlers",
-      "intro": "Approved introductions appear here after the club publishes them. Students are not asked to share personal information on this page.",
-      "empty": "Approved bowler profiles will appear here after the club publishes them."
+      "intro": "Meet the student athletes who represent Albany High School Bowling. Explore their bowling journeys, team achievements, and tournament experiences.",
+      "privacy": "Families may choose whether an approved player photograph appears publicly. Until a photograph is approved, the selected school logo is shown.",
+      "empty": "No bowler cards match that search or school."
     }
   },
   "bowlerProfiles": [
     {
-      "id": "sample-bowler",
-      "displayName": "Sample Bowler",
-      "roleLabel": "Team member",
-      "introduction": "This is a sample profile showing how approved bowler information will appear.",
-      "favoriteThing": "This sample does not include a personal favorite.",
-      "interests": null,
-      "quote": null,
-      "imagePath": "/images/bowler-silhouette.svg",
-      "imageAlt": "Generic bowler silhouette",
+      "id": "bowler-1",
+      "displayName": "Bowler 1",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-2",
+      "displayName": "Bowler 2",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-3",
+      "displayName": "Bowler 3",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-4",
+      "displayName": "Bowler 4",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-5",
+      "displayName": "Bowler 5",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-6",
+      "displayName": "Bowler 6",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-7",
+      "displayName": "Bowler 7",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "bowler-8",
+      "displayName": "Bowler 8",
+      "school": null,
+      "logoStyle": null,
+      "yearsBowling": null,
+      "grade": null,
+      "age": null,
+      "introduction": null,
+      "photoVisibility": "unavailable",
+      "publicationStatus": "published",
+      "hidden": false,
+      "placeholder": true,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
+    },
+    {
+      "id": "jeremiah-roskens",
+      "displayName": "Jeremiah Roskens",
+      "school": "lebanon",
+      "logoStyle": "full",
+      "yearsBowling": 2,
+      "grade": null,
+      "age": 14,
+      "introduction": null,
+      "photoVisibility": "unavailable",
       "publicationStatus": "draft",
       "hidden": true,
-      "sample": true,
-      "sampleApproved": false
+      "placeholder": false,
+      "sample": false,
+      "sampleApproved": false,
+      "guardianApproved": false
     }
-  ]
+  ],
+  "bowlerResults": [],
+  "bowlerHonors": []
 }

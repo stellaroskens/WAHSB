@@ -1,109 +1,142 @@
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { describe, it } from "node:test"
+import { mayEditBowlerProfiles, mayPublishBowlerProfiles } from "../src/lib/auth/permissions.ts"
+import { COACH_ROLE, SUPER_ADMIN_ROLE, TEAM_ADMINISTRATOR_ROLE } from "../src/lib/auth/roles.ts"
 import {
-  consentAllowsPublication,
-  readConsentRecord,
-  type BowlerConsentRecord,
-} from "../src/lib/content/bowlerConsent.ts"
-import {
-  SAMPLE_BOWLER_ID,
-  blankBowlerProfile,
-  moveBowlerProfile,
+  JEREMIAH_PROFILE_ID,
+  isPublicBowler,
   profilePublishDecision,
-  removeBowlerProfile,
+  publicBowlerArtwork,
   updateBowlerProfile,
   visibleBowlerProfiles,
 } from "../src/lib/content/bowlerProfiles.ts"
+import { bowlingAverage, countPercents, eventIsUpcoming, formatStat, validateBowlerRecords } from "../src/lib/content/bowlerStats.ts"
+import { SCHOOLS } from "../src/lib/content/schoolLogos.ts"
 import { parseSiteContent, validateSiteContent } from "../src/lib/content/siteContent.ts"
-import { FAMILY_ACCESS_OPEN, FAMILY_TEST_PROCEDURE, FAMILY_TEST_READY, familyPathIsDenied, familySessionMayAccess } from "../src/lib/family/familyAccess.ts"
+import { FAMILY_ACCESS_OPEN, familyPathIsDenied, familySessionMayAccess } from "../src/lib/family/familyAccess.ts"
 
-const published = JSON.parse(
-  readFileSync(new URL("../src/content/published/siteContent.json", import.meta.url), "utf8"),
-) as unknown
+const published = JSON.parse(readFileSync(new URL("../src/content/published/siteContent.json", import.meta.url), "utf8")) as unknown
 
-const consent = (patch: Partial<BowlerConsentRecord>): BowlerConsentRecord => ({
-  profileId: "bowler-1",
-  guardianPermission: "documented",
-  clubSchoolApproval: "documented",
-  approvedFields: ["displayName", "introduction", "favoriteThing", "photograph"],
-  photographPermission: "approved",
-  consentDate: "2026-10-01",
-  withdrawalStatus: "none",
-  ...patch,
-})
-
-describe("Meet the Bowlers", () => {
-  it("keeps the fictional sample off the public page", () => {
+describe("Meet the Bowlers directory", () => {
+  it("publishes eight placeholders and keeps Jeremiah off the public page", () => {
     assert.equal(validateSiteContent(published).length, 0)
     const content = parseSiteContent(published)
-    const sample = content.bowlerProfiles.find((profile) => profile.id === SAMPLE_BOWLER_ID)
-    assert.ok(sample)
-    assert.equal(sample.displayName, "Sample Bowler")
-    assert.equal(sample.roleLabel, "Team member")
-    assert.equal(sample.introduction, "This is a sample profile showing how approved bowler information will appear.")
-    assert.equal(sample.publicationStatus, "draft")
-    assert.equal(sample.hidden, true)
-    assert.equal(sample.sampleApproved, false)
-    assert.equal(visibleBowlerProfiles(content.bowlerProfiles).length, 0)
-    assert.equal(content.pageBodies.bowlers.title, "Meet the Bowlers")
-    assert.match(readFileSync(new URL("../src/App.tsx", import.meta.url), "utf8"), /meet-the-bowlers/)
-    assert.match(readFileSync(new URL("../src/content/searchIndex.ts", import.meta.url), "utf8"), /\/meet-the-bowlers/)
-    assert.match(readFileSync(new URL("../src/pages/MeetTheBowlers.tsx", import.meta.url), "utf8"), /visibleBowlerProfiles/)
+    const visible = visibleBowlerProfiles(content.bowlerProfiles)
+    assert.deepEqual(
+      visible.map((profile) => profile.displayName),
+      ["Bowler 1", "Bowler 2", "Bowler 3", "Bowler 4", "Bowler 5", "Bowler 6", "Bowler 7", "Bowler 8"],
+    )
+    assert.equal(visible.every((profile) => profile.school === null && profile.age === null && profile.yearsBowling === null), true)
+    const jeremiah = content.bowlerProfiles.find((profile) => profile.id === JEREMIAH_PROFILE_ID)
+    assert.ok(jeremiah)
+    assert.equal(jeremiah.displayName, "Jeremiah Roskens")
+    assert.equal(jeremiah.school, "lebanon")
+    assert.equal(jeremiah.age, 14)
+    assert.equal(jeremiah.yearsBowling, 2)
+    assert.equal(jeremiah.grade, null)
+    assert.equal(jeremiah.guardianApproved, false)
+    assert.equal(jeremiah.publicationStatus, "draft")
+    assert.equal(isPublicBowler(jeremiah), false)
+    assert.equal(profilePublishDecision(jeremiah).ok, false)
+    assert.equal(publicBowlerArtwork(jeremiah).src, SCHOOLS.lebanon.full)
+    assert.equal(publicBowlerArtwork(visible[0]).src, "/images/schools/ahsb-main-logo.png")
+    const hidden = updateBowlerProfile([jeremiah], jeremiah.id, { photoVisibility: "hidden", logoStyle: "mark" })
+    assert.equal(publicBowlerArtwork(hidden[0]).src, SCHOOLS.lebanon.mark)
+    assert.notEqual(publicBowlerArtwork(hidden[0]).src, SCHOOLS.lebanon.full)
+    assert.match(readFileSync(new URL("../src/App.tsx", import.meta.url), "utf8"), /meet-the-bowlers\/:playerId/)
   })
 
-  it("saves an allowed biography edit and drops a removed or hidden profile", () => {
+  it("calculates only entered statistics and rejects an upcoming event as attended", () => {
+    const percents = countPercents({ strikes: 10, spares: 5, opens: 5 })
+    assert.equal(percents?.strikePct, 50)
+    assert.equal(percents?.fillPct, 75)
+    assert.equal(countPercents({ strikes: 1, spares: null, opens: 1 }), null)
+    assert.equal(bowlingAverage({ total: 450, gamesPlayed: 3 }), 150)
+    assert.equal(bowlingAverage({ total: null, gamesPlayed: 3 }), null)
+    assert.equal(formatStat(null), "Not entered")
     const content = parseSiteContent(published)
-    const edited = updateBowlerProfile(content.bowlerProfiles, SAMPLE_BOWLER_ID, {
-      introduction: "This is a sample profile showing how approved bowler information will appear.",
-    })
-    const next = { ...content, bowlerProfiles: edited }
-    assert.equal(validateSiteContent(next).length, 0)
-    assert.equal(next.bowlerProfiles[0].introduction, content.bowlerProfiles[0].introduction)
-    const hidden = updateBowlerProfile(edited, SAMPLE_BOWLER_ID, { hidden: true, publicationStatus: "hidden", sampleApproved: true })
-    assert.equal(visibleBowlerProfiles(hidden).length, 0)
-    assert.equal(removeBowlerProfile(edited, SAMPLE_BOWLER_ID).some((profile) => profile.id === SAMPLE_BOWLER_ID), false)
-    const added = [...edited, blankBowlerProfile(edited)]
-    const reordered = moveBowlerProfile(added, added[1].id, -1)
-    assert.equal(reordered[0].id, added[1].id)
+    const issues: { path: string; message: string }[] = []
+    validateBowlerRecords(
+      [
+        {
+          id: "result-1",
+          profileId: "bowler-1",
+          tournamentId: "not-a-venue",
+          tournamentName: "Unknown",
+          date: null,
+          school: null,
+          bowlingCenter: null,
+          gamesPlayed: null,
+          strikes: null,
+          spares: null,
+          opens: null,
+          total: null,
+          highGame: 301,
+          highSeries: null,
+          notes: null,
+          status: "draft",
+        },
+      ],
+      [],
+      new Set(content.bowlerProfiles.map((profile) => profile.id)),
+      content.practiceTournaments,
+      issues,
+      new Date(2026, 9, 30),
+    )
+    assert.equal(issues.some((issue) => issue.message.includes("not on the club schedule")), true)
+    assert.equal(issues.some((issue) => issue.path.endsWith("highGame")), true)
+    const upcoming: { path: string; message: string }[] = []
+    validateBowlerRecords(
+      [
+        {
+          id: "result-2",
+          profileId: "bowler-1",
+          tournamentId: content.practiceTournaments[0].id,
+          tournamentName: content.practiceTournaments[0].name,
+          date: null,
+          school: null,
+          bowlingCenter: null,
+          gamesPlayed: null,
+          strikes: null,
+          spares: null,
+          opens: null,
+          total: null,
+          highGame: null,
+          highSeries: null,
+          notes: null,
+          status: "draft",
+        },
+      ],
+      [],
+      new Set(["bowler-1"]),
+      content.practiceTournaments,
+      upcoming,
+      new Date(2026, 9, 30),
+    )
+    assert.equal(upcoming.some((issue) => issue.message.includes("upcoming")), true)
+    assert.equal(eventIsUpcoming(content.practiceTournaments[0], new Date(2026, 9, 30)), true)
+    assert.equal(content.practiceTournaments.every((event) => event.startTime === null), true)
   })
 
-  it("blocks publishing without explicit sample approval or private consent", () => {
-    const content = parseSiteContent(published)
-    const forced = {
-      ...content,
-      bowlerProfiles: updateBowlerProfile(content.bowlerProfiles, SAMPLE_BOWLER_ID, {
-        publicationStatus: "published" as const,
-        hidden: false,
-        sampleApproved: false,
-      }),
-    }
-    assert.ok(validateSiteContent(forced).some((issue) => issue.message.includes("cannot be published")))
-    const decision = profilePublishDecision(content.bowlerProfiles[0])
-    assert.equal(decision.ok, false)
-    const student = blankBowlerProfile([])
-    assert.equal(profilePublishDecision({ ...student, sample: false, sampleApproved: false }).ok, false)
-    assert.equal(readConsentRecord({ ...consent({}), guardianEmail: "a@example.com" }).ok, false)
-    assert.equal(consentAllowsPublication(consent({ guardianPermission: "not_recorded" })).ok, false)
-    assert.equal(consentAllowsPublication(consent({ withdrawalStatus: "withdrawn" })).ok, false)
-    assert.equal(consentAllowsPublication(consent({ guardianPermission: "expired" })).ok, false)
-    assert.equal(consentAllowsPublication(consent({ consentDate: "2020-01-01" }), new Date("2026-10-30")).ok, false)
-    const consentFn = readFileSync(new URL("../netlify/functions/bowler-consent.ts", import.meta.url), "utf8")
-    assert.match(consentFn, /requireSuperAdmin/)
-    assert.doesNotMatch(consentFn, /putFileContent|siteContent\.json/)
-    assert.match(consentFn, /saved: false/)
-  })
-
-  it("keeps a family session out of staff and financial pages", () => {
+  it("limits editing to staff roles and keeps family access closed", () => {
+    assert.equal(mayEditBowlerProfiles([SUPER_ADMIN_ROLE]), true)
+    assert.equal(mayEditBowlerProfiles([COACH_ROLE]), true)
+    assert.equal(mayEditBowlerProfiles([TEAM_ADMINISTRATOR_ROLE]), true)
+    assert.equal(mayEditBowlerProfiles([]), false)
+    assert.equal(mayEditBowlerProfiles(["family"]), false)
+    assert.equal(mayPublishBowlerProfiles([SUPER_ADMIN_ROLE]), true)
+    assert.equal(mayPublishBowlerProfiles([COACH_ROLE]), false)
+    assert.equal(mayPublishBowlerProfiles([TEAM_ADMINISTRATOR_ROLE]), false)
     assert.equal(FAMILY_ACCESS_OPEN, false)
-    assert.equal(FAMILY_TEST_READY, false)
-    assert.equal(FAMILY_TEST_PROCEDURE.some((step) => /@/.test(step)), false)
     assert.equal(familySessionMayAccess("/admin"), false)
-    assert.equal(familySessionMayAccess("/coach"), false)
-    assert.equal(familySessionMayAccess("/team-administrator"), false)
-    assert.equal(familySessionMayAccess("/admin/connections"), false)
+    assert.equal(familySessionMayAccess("/coach/bowlers"), false)
     assert.equal(familyPathIsDenied("/admin/connections"), true)
-    assert.equal(familyPathIsDenied("/family/household/other"), true)
-    assert.equal(familySessionMayAccess("/family/household/other"), false)
+    const drafts = readFileSync(new URL("../netlify/functions/content-drafts.ts", import.meta.url), "utf8")
+    const publish = readFileSync(new URL("../netlify/functions/content-publish.ts", import.meta.url), "utf8")
+    assert.match(drafts, /edit_coaching_info/)
+    assert.match(drafts, /edit_scheduling_ops/)
+    assert.match(publish, /requireSuperAdmin/)
+    assert.match(publish, /approve_publishing/)
   })
 })
