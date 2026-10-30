@@ -105,10 +105,11 @@ describe("admin dashboard foundation", () => {
     const titles = ADMIN_SECTIONS.map((section) => section.title)
     assert.deepEqual(titles, [
       "Website Pages",
-      "Tournament Management",
+      "Practices and Tournaments",
       "Coaches",
       "Volunteers",
       "Fundraisers",
+      "Sponsors",
       "Payment Settings",
       "Email Announcements",
       "Staff Accounts",

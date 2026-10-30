@@ -51,10 +51,11 @@ async function gh<T>(
 export async function getFileContent(
   config: { token: string; owner: string; repo: string; branch: string },
   path: string,
+  ref = config.branch,
 ): Promise<{ ok: true; content: string; sha: string } | { ok: false; status: number; message: string }> {
   const result = await gh<{ content?: string; sha?: string; encoding?: string }>(
     config,
-    `/contents/${path}?ref=${encodeURIComponent(config.branch)}`,
+    `/contents/${path}?ref=${encodeURIComponent(ref)}`,
   )
   if (!result.ok) return result
   if (!result.data.content || !result.data.sha) {
@@ -102,6 +103,34 @@ export async function listDraftFiles(
     files: result.data
       .filter((item) => item.type === "file" && item.name.endsWith(".json"))
       .map((item) => ({ name: item.name, path: item.path })),
+  }
+}
+
+export async function listPathCommits(
+  config: { token: string; owner: string; repo: string; branch: string },
+  path: string,
+): Promise<
+  | { ok: true; commits: { sha: string; message: string; date: string | null; url: string | null }[] }
+  | { ok: false; status: number; message: string }
+> {
+  const result = await gh<
+    Array<{ sha?: string; html_url?: string; commit?: { message?: string; author?: { date?: string } } }>
+  >(
+    config,
+    `/commits?path=${encodeURIComponent(path)}&sha=${encodeURIComponent(config.branch)}&per_page=20`,
+  )
+  if (!result.ok) return result
+  if (!Array.isArray(result.data)) return { ok: true, commits: [] }
+  return {
+    ok: true,
+    commits: result.data
+      .filter((item) => typeof item.sha === "string")
+      .map((item) => ({
+        sha: item.sha as string,
+        message: item.commit?.message?.split("\n")[0] ?? "Content update",
+        date: item.commit?.author?.date ?? null,
+        url: item.html_url ?? null,
+      })),
   }
 }
 

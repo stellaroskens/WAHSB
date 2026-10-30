@@ -20,6 +20,8 @@ export function AdminLayout() {
           <NavLink to="/admin/announcements">Announcements</NavLink>
           <NavLink to="/admin/tournaments">Tournaments</NavLink>
           <NavLink to="/admin/staff">Staff</NavLink>
+          <NavLink to="/admin/media">Media</NavLink>
+          <NavLink to="/admin/history">History</NavLink>
           <NavLink to="/admin/settings">Settings</NavLink>
         </nav>
         <div className="admin-topbar__account">

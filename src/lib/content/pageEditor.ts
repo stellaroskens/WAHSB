@@ -25,7 +25,7 @@ export type EditorPage = {
 export type EditorField = {
   path: string
   label: string
-  kind: "text" | "textarea" | "internal" | "https" | "optional-https" | "lines"
+  kind: "text" | "textarea" | "internal" | "https" | "optional-https" | "optional-text" | "email" | "number" | "lines"
   help?: string
   required: boolean
 }
@@ -54,12 +54,12 @@ export const EDITOR_PAGES: EditorPage[] = [
   page("coaches", "Coach profiles", "/our-club#coaches", "full", "Editable", "Public names, roles, and biographies. This does not change who can sign in."),
   page("team-gear", "Team Gear", "/team-gear", "full", "Editable", "Shop wording and the BSN SPORTS links."),
   page("practices", "Practices", "/practices", "partial", "Partly editable", "Search text and the shared Lakeshore Lanes location. The practice introduction stays in the page layout."),
-  page("tournaments", "Tournaments", "/tournaments", "partial", "Partly editable", "Search text and the shared registration notice. Dates stay in Tournament Management."),
+  page("tournaments", "Tournaments", "/tournaments", "partial", "Partly editable", "Dates, venues, and search text. The etiquette article on the public page is still in the page layout."),
   page("sponsors", "Sponsors", "/sponsors", "partial", "Partly editable", "Search text and the shared Lakeshore location. Sponsor listings stay empty until the club approves one."),
-  page("fundraisers", "Fundraisers", "/fundraisers", "partial", "Partly editable", "Search text only. Campaign cards stay in the content file for a later fundraiser editor."),
+  page("fundraisers", "Fundraisers", "/fundraisers", "partial", "Partly editable", "Campaign names, dates, times, and flyer files. The longer how-to instructions stay in the page layout."),
   page("bowl-a-thon", "Bowl-a-thon", "/bowl-a-thon", "partial", "Partly editable", "Search text only. The pledge form is a preview and does not collect a pledge."),
   page("resources", "Bowling Resources", "/resources", "partial", "Partly editable", "Search text only. Resource listings are still written in code."),
-  page("volunteer", "Volunteer Opportunities", "/volunteer", "partial", "Partly editable", "Search text and the shared registration notice. Screening records are not stored here."),
+  page("volunteer", "Volunteer Opportunities", "/volunteer", "full", "Editable", "Public volunteer copy and Sterling Volunteers links. Screening results are not stored."),
   page("faq", "FAQ", "/faq", "partial", "Partly editable", "Search text only. Questions and answers are still written in code."),
   page("contact", "Contact", "/contact", "partial", "Partly editable", "Search text and the shared registration notice. The contact form does not send mail."),
   page("sponsor-qr", "Sponsorship QR", "/sponsor-qr", "unavailable", "Not editable yet", "This page is still written in the page component."),
@@ -72,8 +72,10 @@ function field(
   label: string,
   kind: EditorField["kind"] = "text",
   help?: string,
+  required?: boolean,
 ): EditorField {
-  return { path, label, kind, help, required: kind !== "optional-https" && !path.endsWith("imageAlt") }
+  const optional = kind === "optional-https" || kind === "optional-text" || path.endsWith("imageAlt")
+  return { path, label, kind, help, required: required ?? !optional }
 }
 
 function seo(pageId: string, pageKey: string): EditorSection {
@@ -373,11 +375,98 @@ export const EDITOR_SECTIONS: EditorSection[] = [
   },
   seo("practices", "practices"),
   seo("tournaments", "tournaments"),
+  {
+    id: "venues",
+    pageIds: ["tournaments"],
+    label: "Venues",
+    help: "These are the published bowling centers. Venue ids stay fixed so tournament dates do not lose their location.",
+    fields: [0, 1, 2, 3, 4].flatMap((index) => [
+      field(`venues.${index}.name`, `Venue ${index + 1} name`),
+      field(`venues.${index}.address`, `Venue ${index + 1} address`),
+      field(`venues.${index}.phone`, `Venue ${index + 1} phone`),
+      field(`venues.${index}.email`, `Venue ${index + 1} email`, "email", "Leave blank if no public email is approved.", false),
+      field(`venues.${index}.website`, `Venue ${index + 1} website`, "https"),
+      field(`venues.${index}.contactUrl`, `Venue ${index + 1} contact page`, "optional-https"),
+    ]),
+  },
+  {
+    id: "tournament-dates",
+    pageIds: ["tournaments", "practices"],
+    label: "Practice tournament dates",
+    help: "Leave both times empty until the club confirms them. Do not enter a start time without an end time. Venue id must match a venue above.",
+    fields: [0, 1, 2, 3, 4].flatMap((index) => [
+      field(`practiceTournaments.${index}.name`, `Event ${index + 1} name`),
+      field(`practiceTournaments.${index}.month`, `Event ${index + 1} month`, "number"),
+      field(`practiceTournaments.${index}.day`, `Event ${index + 1} day`, "number"),
+      field(`practiceTournaments.${index}.year`, `Event ${index + 1} year`, "number", "Leave blank only if the year is not confirmed."),
+      field(`practiceTournaments.${index}.venueId`, `Event ${index + 1} venue id`),
+      field(`practiceTournaments.${index}.startTime`, `Event ${index + 1} start`, "optional-text", "24-hour HH:MM, or blank."),
+      field(`practiceTournaments.${index}.endTime`, `Event ${index + 1} end`, "optional-text", "24-hour HH:MM, or blank."),
+      field(`practiceTournaments.${index}.arrivalNote`, `Event ${index + 1} arrival note`, "optional-text"),
+    ]),
+  },
   seo("sponsors", "sponsors"),
   seo("fundraisers", "fundraisers"),
+  {
+    id: "fundraiser-records",
+    pageIds: ["fundraisers", "home"],
+    label: "Fundraiser cards",
+    help: "These names, dates, and files appear on the homepage and the fundraiser page. Adding a third campaign still needs a layout change. Flyer files must already be in /flyers/.",
+    fields: [
+      field("fundraisers.0.business", "First business"),
+      field("fundraisers.0.place", "First place"),
+      field("fundraisers.0.when", "First date"),
+      field("fundraisers.0.time", "First time"),
+      field("fundraisers.0.image", "First flyer image", "text", "Use a path such as /flyers/example.webp."),
+      field("fundraisers.0.flyer", "First flyer PDF", "text", "Use a path such as /flyers/example.pdf."),
+      field("fundraisers.1.business", "Second business"),
+      field("fundraisers.1.place", "Second place"),
+      field("fundraisers.1.when", "Second date"),
+      field("fundraisers.1.time", "Second time"),
+      field("fundraisers.1.image", "Second flyer image"),
+      field("fundraisers.1.flyer", "Second flyer PDF"),
+      field("fundraiserContact.name", "Public contact name"),
+      field("fundraiserContact.email", "Public contact email", "email"),
+    ],
+  },
   seo("bowl-a-thon", "bowlathon"),
   seo("resources", "resources"),
   seo("volunteer", "volunteer"),
+  {
+    id: "volunteer-copy",
+    pageIds: ["volunteer"],
+    label: "Volunteer information",
+    help: "Public descriptions only. Do not enter screening results, license numbers, or private contact lists.",
+    fields: [
+      field("pageBodies.volunteer.eyebrow", "Small label"),
+      field("pageBodies.volunteer.title", "Page heading"),
+      field("pageBodies.volunteer.intro", "Introduction", "lines"),
+      field("pageBodies.volunteer.waysHeading", "Ways to help heading"),
+      field("pageBodies.volunteer.waysIntro", "Ways to help introduction", "textarea"),
+      field("pageBodies.volunteer.opportunities", "Ways to help", "lines"),
+      field("pageBodies.volunteer.waysButtonLabel", "Contact button"),
+      field("pageBodies.volunteer.waysButtonTo", "Contact button destination", "internal"),
+      field("pageBodies.volunteer.screeningHeading", "Screening heading"),
+      field("pageBodies.volunteer.screeningParagraphs", "Screening paragraphs", "lines"),
+      field("pageBodies.volunteer.screeningNotice", "Screening notice", "textarea"),
+      field("pageBodies.volunteer.screeningMissing", "Text when no invitation link is set", "textarea"),
+      field("pageBodies.volunteer.screeningReady", "Text when an invitation link is set", "textarea"),
+      field("pageBodies.volunteer.screeningAskLabel", "Ask-first button"),
+      field("sterlingVolunteersInfoUrl", "Sterling Volunteers information link", "https"),
+      field(
+        "sterlingVolunteerInvitationUrl",
+        "Sterling Volunteers invitation link",
+        "optional-https",
+        "Leave blank until the club publishes an invitation link. A link does not approve a volunteer.",
+      ),
+      field("pageBodies.volunteer.transportHeading", "Transportation heading"),
+      field("pageBodies.volunteer.transportParagraphs", "Transportation paragraphs", "lines"),
+      field("pageBodies.volunteer.transportListIntro", "Requirements introduction"),
+      field("pageBodies.volunteer.transportItems", "Possible requirements", "lines"),
+      field("pageBodies.volunteer.transportClosing", "Closing note", "textarea"),
+      field("pageBodies.volunteer.transportButtonLabel", "Transportation button"),
+    ],
+  },
   seo("faq", "faq"),
   seo("contact", "contact"),
   locked(
@@ -385,12 +474,6 @@ export const EDITOR_SECTIONS: EditorSection[] = [
     ["practices"],
     "Practice introduction",
     "The practice introduction and FAQ embeds are still written in the page component. The location fields above are the part this editor can save.",
-  ),
-  locked(
-    "tournaments-body",
-    ["tournaments"],
-    "Tournament schedule",
-    "Tournament dates are stored in this content file and reviewed in Tournament Management. This page editor does not change dates yet, so a date cannot be saved from here by mistake.",
   ),
   locked(
     "sponsors-body",
@@ -401,8 +484,8 @@ export const EDITOR_SECTIONS: EditorSection[] = [
   locked(
     "fundraisers-body",
     ["fundraisers"],
-    "Fundraiser campaigns",
-    "Campaign cards are in the content file, but this first editor does not change payment or campaign details.",
+    "Participation instructions",
+    "The how-to-participate paragraphs for each restaurant are still written in the page layout. Names, dates, times, and flyer files are in Fundraiser cards.",
   ),
   locked(
     "bowlathon-body",
@@ -417,10 +500,10 @@ export const EDITOR_SECTIONS: EditorSection[] = [
     "Resource descriptions are still written in code, outside the published content file.",
   ),
   locked(
-    "volunteer-body",
-    ["volunteer"],
-    "Volunteer instructions",
-    "The Sterling Volunteers page and the rest of the volunteer article are not in this first set of fields. Screening results are never stored in GitHub.",
+    "tournaments-body",
+    ["tournaments"],
+    "Tournament page article",
+    "Etiquette and format explanations on the public tournaments page are still written in the page layout. Dates and venues are edited above.",
   ),
   locked(
     "faq-body",
@@ -485,7 +568,14 @@ function writePath(source: SiteContent, path: string, value: unknown) {
 
 function coerce(item: EditorField, raw: string): unknown {
   if (item.kind === "lines") return raw.split(/\r?\n/)
-  if (item.kind === "optional-https") return raw.trim() ? raw.trim() : null
+  if (item.kind === "optional-https" || item.kind === "optional-text" || item.kind === "email") {
+    return raw.trim() ? raw.trim() : null
+  }
+  if (item.kind === "number") {
+    if (!raw.trim()) return null
+    const value = Number(raw)
+    return Number.isInteger(value) ? value : raw
+  }
   return raw
 }
 
@@ -516,8 +606,9 @@ export function prepareContentForSave(content: SiteContent): SiteContent {
       )
     } else if (typeof value === "string") {
       const trimmed = value.trim()
-      writePath(next, item.path, item.kind === "optional-https" ? trimmed || null : trimmed)
-    } else if (item.kind === "optional-https") {
+      const clears = item.kind === "optional-https" || item.kind === "optional-text" || item.kind === "email"
+      writePath(next, item.path, clears ? trimmed || null : trimmed)
+    } else if (item.kind === "optional-https" || item.kind === "optional-text" || item.kind === "email") {
       writePath(next, item.path, null)
     }
   }
