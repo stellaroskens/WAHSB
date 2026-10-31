@@ -1,3 +1,6 @@
+import { validateBowlerProfiles, type BowlerProfile } from "./bowlerProfiles.ts"
+import { validateBowlerRecords, type BowlerHonor, type BowlerResult } from "./bowlerStats.ts"
+
 export type PageMetaContent = { title: string; description: string }
 
 export type HomeCardContent = {
@@ -109,6 +112,13 @@ export type PageBodies = {
     transportClosing: string
     transportButtonLabel: string
   }
+  bowlers: {
+    eyebrow: string
+    title: string
+    intro: string
+    privacy: string
+    empty: string
+  }
 }
 
 export type PracticeLocationContent = {
@@ -175,6 +185,9 @@ export type SiteContent = {
     flyer: string
   }[]
   fundraiserContact: { name: string; email: string }
+  bowlerProfiles: BowlerProfile[]
+  bowlerResults: BowlerResult[]
+  bowlerHonors: BowlerHonor[]
 }
 
 export type SiteContentIssue = { path: string; message: string }
@@ -193,6 +206,7 @@ const REQUIRED_PAGE_KEYS = [
   "faq",
   "fundraisers",
   "teamGear",
+  "bowlers",
 ] as const
 
 const KNOWN_COACH_IDS = ["cliff-meredith", "chris-breshears"] as const
@@ -386,6 +400,23 @@ export function validateSiteContent(input: unknown): SiteContentIssue[] {
 
   validatePracticeLocation(input.practiceLocation, issues)
   validatePageBodies(input.pageBodies, issues)
+  validateBowlerProfiles(input.bowlerProfiles, issues)
+  const profileIds = new Set(
+    Array.isArray(input.bowlerProfiles)
+      ? input.bowlerProfiles.flatMap((profile) =>
+          typeof profile === "object" && profile && "id" in profile && typeof profile.id === "string" ? [profile.id] : [],
+        )
+      : [],
+  )
+  const events = Array.isArray(input.practiceTournaments)
+    ? input.practiceTournaments.flatMap((event) => {
+        if (typeof event !== "object" || !event || !("id" in event)) return []
+        const row = event as { id?: unknown; year?: unknown; month?: unknown; day?: unknown }
+        if (typeof row.id !== "string" || typeof row.month !== "number" || typeof row.day !== "number") return []
+        return [{ id: row.id, year: typeof row.year === "number" ? row.year : null, month: row.month, day: row.day }]
+      })
+    : []
+  validateBowlerRecords(input.bowlerResults, input.bowlerHonors, profileIds, events, issues)
 
   return issues
 }
@@ -559,6 +590,17 @@ function validatePageBodies(value: unknown, issues: SiteContentIssue[]) {
     checkLines(volunteer.transportItems, "pageBodies.volunteer.transportItems", issues, 1)
     checkText(volunteer.transportClosing, "pageBodies.volunteer.transportClosing", issues, CONTENT_LIMITS.paragraph)
     checkText(volunteer.transportButtonLabel, "pageBodies.volunteer.transportButtonLabel", issues, CONTENT_LIMITS.label)
+  }
+
+  const bowlers = isRecord(value.bowlers) ? value.bowlers : null
+  if (!bowlers) {
+    issues.push({ path: "pageBodies.bowlers", message: "Meet the Bowlers copy is required." })
+  } else {
+    checkText(bowlers.eyebrow, "pageBodies.bowlers.eyebrow", issues, CONTENT_LIMITS.label)
+    checkText(bowlers.title, "pageBodies.bowlers.title", issues, CONTENT_LIMITS.heading)
+    checkText(bowlers.intro, "pageBodies.bowlers.intro", issues, CONTENT_LIMITS.paragraph)
+    checkText(bowlers.privacy, "pageBodies.bowlers.privacy", issues, CONTENT_LIMITS.paragraph)
+    checkText(bowlers.empty, "pageBodies.bowlers.empty", issues, CONTENT_LIMITS.paragraph)
   }
 }
 

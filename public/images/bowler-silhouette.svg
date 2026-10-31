@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Generic bowler silhouette">
+  <rect width="240" height="240" rx="24" fill="#0a1c48"/>
+  <circle cx="120" cy="78" r="36" fill="#f4f7fb"/>
+  <path fill="#f4f7fb" d="M52 214c6-48 32-74 68-74s62 26 68 74"/>
+  <circle cx="168" cy="150" r="18" fill="#c8102e"/>
+</svg>

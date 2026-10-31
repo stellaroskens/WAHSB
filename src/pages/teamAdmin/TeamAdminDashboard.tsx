@@ -49,6 +49,9 @@ export function TeamAdminDashboard() {
             payouts are blocked by default.
           </p>
           {isSuperAdmin(roles) ? <p><Link to="/admin">Return to Main Admin Dashboard</Link></p> : null}
+          <p>
+            <Link to="/team-administrator/bowlers">Meet the Bowlers</Link>
+          </p>
         </div>
         <ul className="admin-section-list">
           <li className="admin-section-list__item">

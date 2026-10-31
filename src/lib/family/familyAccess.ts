@@ -32,6 +32,35 @@ export const FAMILY_DASHBOARD_PLANNED = [
   { title: "Contact preferences", detail: "How the team reaches your family." },
 ] as const
 
+/**
+ * One adult test account can be prepared later. No address is stored here, and this change does not send an invitation.
+ * Type the website owner's own adult email only in Netlify Identity when the prerequisites below are true.
+ */
+export const FAMILY_TEST_READY = false
+
+export const FAMILY_TEST_PROCEDURE = [
+  "Leave family access closed. Do not send an invitation from this site.",
+  "Do not put an email address, student name, or household relationship in the repository.",
+  "Wait until a protected database and server-side family authorization exist.",
+  "In Netlify Identity, invite one adult email address the website owner already controls. Do not invent an address, and do not commit it.",
+  "Do not create a student record or link the test account to a household.",
+  "After a future activation, confirm that account cannot open the administrator dashboard, the coach dashboard, the Club Administrator dashboard, payment settings, or another household.",
+] as const
+
+export const FAMILY_DENIED_PATHS = ["/admin", "/coach", "/team-administrator", "/admin/connections"] as const
+
+export function familyPathIsDenied(pathname: string): boolean {
+  const path = pathname.startsWith("/") ? pathname : `/${pathname}`
+  if (path.includes("household") || path.includes("roster")) return true
+  return FAMILY_DENIED_PATHS.some((denied) => path === denied || path.startsWith(`${denied}/`))
+}
+
+/** Family sessions stay closed. These paths stay denied even if a family role is added later. */
+export function familySessionMayAccess(pathname: string): boolean {
+  if (!FAMILY_ACCESS_OPEN || !FAMILY_TEST_READY) return false
+  return !familyPathIsDenied(pathname)
+}
+
 /** Must all exist before real family accounts or student records are enabled. */
 export const FAMILY_ACCESS_PREREQUISITES = [
   "Approved team roster supplied by the coaches",

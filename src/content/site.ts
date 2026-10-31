@@ -28,6 +28,9 @@ export const club = {
 export const nav = siteContent.nav
 export const pages = siteContent.pages
 export const pageBodies = siteContent.pageBodies
+export const bowlerProfiles = siteContent.bowlerProfiles
+export const bowlerResults = siteContent.bowlerResults
+export const bowlerHonors = siteContent.bowlerHonors
 export const seasonRegistrationClosed = siteContent.seasonRegistrationClosed
 /** @deprecated Prefer seasonRegistrationClosed.description for new copy. */
 export const studentCapacityNotice = seasonRegistrationClosed.description
