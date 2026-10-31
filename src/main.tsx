@@ -8,6 +8,7 @@ import "./styles/sitewide.css"
 import "./styles/header.css"
 import "./styles/admin.css"
 import "./styles/signin.css"
+import "./styles/bowlers.css"
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

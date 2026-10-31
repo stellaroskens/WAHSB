@@ -20,6 +20,7 @@ import {
   type EditorField,
 } from "../../lib/content/pageEditor"
 import { parseSiteContent, validateSiteContent, type SiteContent, type SiteContentIssue } from "../../lib/content/siteContent"
+import { BowlerProfileEditor } from "./BowlerProfileEditor"
 
 const publishedContent = parseSiteContent(published)
 
@@ -306,7 +307,9 @@ export function AdminContent() {
             <>
               <h3>{section.label}</h3>
               <p className="admin-help">{section.help}</p>
-              {section.lockedReason ? (
+              {section.custom === "bowler-profiles" ? (
+                <BowlerProfileEditor content={content} onChange={setContent} />
+              ) : section.lockedReason ? (
                 <p className="admin-alert" role="status">
                   {section.lockedReason}
                 </p>

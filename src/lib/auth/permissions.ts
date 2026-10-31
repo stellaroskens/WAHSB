@@ -73,6 +73,18 @@ export function hasPermission(roles: unknown, permission: StaffPermission): bool
   return permissionsForRoles(roles).includes(permission)
 }
 
+export function mayEditBowlerProfiles(roles: unknown): boolean {
+  return (
+    hasPermission(roles, "edit_public_content") ||
+    hasPermission(roles, "edit_coaching_info") ||
+    hasPermission(roles, "edit_scheduling_ops")
+  )
+}
+
+export function mayPublishBowlerProfiles(roles: unknown): boolean {
+  return hasPermission(roles, "approve_publishing")
+}
+
 export function roleMayAccessPath(role: StaffRole | null, pathname: string): boolean {
   if (!role) return false
   if (role === SUPER_ADMIN_ROLE) return true
