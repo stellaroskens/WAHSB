@@ -1,0 +1,302 @@
+.meet-bowlers {
+  background:
+    radial-gradient(circle at top right, rgba(20, 60, 148, 0.45), transparent 28rem),
+    linear-gradient(180deg, #071433 0%, var(--sw-navy) 40%, #081226 100%);
+  color: #e7eefb;
+  padding: 1.25rem 0 3rem;
+}
+
+.meet-bowlers h1,
+.meet-bowlers h2,
+.meet-bowlers h3 {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.meet-hero,
+.meet-directory,
+.meet-upcoming,
+.meet-profile,
+.meet-summary,
+.meet-table-wrap,
+.meet-bowlers > section {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto 1.5rem;
+}
+
+.meet-hero__logo {
+  width: min(100%, 28rem);
+  height: auto;
+}
+
+.meet-hero__eyebrow {
+  margin: 0.8rem 0 0.2rem;
+  color: #ffd0d6;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.meet-hero h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 7vw, 4.6rem);
+  line-height: 0.92;
+}
+
+.meet-hero__privacy,
+.meet-note,
+.meet-empty,
+.meet-missing {
+  color: #c9d4ea;
+}
+
+.meet-filters {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.meet-filters label {
+  display: grid;
+  gap: 0.3rem;
+  color: #d5e0f5;
+}
+
+.meet-filters input,
+.meet-filters select {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: #10224d;
+  color: #fff;
+  padding: 0.4rem 0.7rem;
+}
+
+.meet-filters__check {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meet-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meet-card {
+  display: grid;
+  gap: 0.45rem;
+  height: 100%;
+  padding: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 3px solid var(--sw-red);
+  border-radius: 14px;
+  background: #10244f;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.meet-card a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.meet-card__view {
+  color: #fff;
+  font-weight: 700;
+}
+
+.meet-card__view:focus-visible,
+.meet-card a:focus-visible,
+.meet-back a:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.bowler-frame {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #0b1736;
+}
+
+.bowler-frame--card {
+  aspect-ratio: 4 / 5;
+}
+
+.bowler-frame--profile {
+  aspect-ratio: 4 / 5;
+  width: min(100%, 18rem);
+}
+
+.bowler-frame img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+}
+
+.meet-group {
+  margin: 1.2rem 0 0.6rem;
+}
+
+.meet-upcoming__list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meet-upcoming li,
+.meet-profile,
+.meet-summary,
+.meet-table-wrap,
+.meet-bowlers > section {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(8, 22, 52, 0.72);
+  padding: 1rem;
+}
+
+.meet-upcoming li {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.meet-upcoming__date {
+  display: grid;
+  justify-items: center;
+  min-width: 4.5rem;
+  margin: 0;
+  color: #fff;
+}
+
+.meet-upcoming__date strong {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.meet-upcoming a,
+.meet-back a,
+.meet-missing a {
+  color: #fff;
+}
+
+.meet-profile {
+  display: grid;
+  gap: 1rem;
+}
+
+.meet-profile h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4rem);
+}
+
+.meet-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.6rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meet-facts li {
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: #143c94;
+}
+
+.meet-summary ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meet-summary li {
+  padding: 0.75rem;
+  border-top: 3px solid var(--sw-red);
+  background: #10244f;
+}
+
+.meet-summary span,
+.meet-table {
+  color: #d5e0f5;
+}
+
+.meet-summary strong {
+  display: block;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.meet-table-scroll {
+  overflow-x: auto;
+}
+
+.meet-table {
+  width: 100%;
+  min-width: 68rem;
+  border-collapse: collapse;
+}
+
+.meet-table th,
+.meet-table td {
+  padding: 0.55rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.meet-honors {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+@media (min-width: 700px) {
+  .meet-grid,
+  .meet-summary ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .meet-filters {
+    grid-template-columns: 1.4fr 1fr 1fr auto;
+    align-items: end;
+  }
+
+  .meet-upcoming li,
+  .meet-profile {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    align-items: center;
+  }
+}
+
+@media (min-width: 1100px) {
+  .meet-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meet-card {
+    transition: none;
+  }
+}
+
+@media (hover: hover) {
+  .meet-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meet-card:hover {
+    transform: none;
+  }
+}

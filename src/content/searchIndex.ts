@@ -16,6 +16,12 @@ const publicEntries: SearchEntry[] = [
     keywords: `${pages.club.description} coaches cliff meredith chris breshears about registration closed`,
   },
   {
+    to: "/meet-the-bowlers",
+    label: "Meet the Bowlers",
+    detail: "Approved public bowler introductions",
+    keywords: `${pages.bowlers.description} bowlers profiles registration closed`,
+  },
+  {
     to: "/practices",
     label: "Practices",
     detail: "Practice information",

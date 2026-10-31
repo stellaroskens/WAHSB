@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { SUPER_ADMIN_ROLE } from "../../lib/auth/roles"
+import { FAMILY_ACCESS_OPEN, FAMILY_TEST_PROCEDURE, FAMILY_TEST_READY } from "../../lib/family/familyAccess"
 import { rolesFromUser, usernameFromUser } from "../../lib/auth/session"
 
 export function AdminSettings() {
@@ -26,6 +27,8 @@ export function AdminSettings() {
           <Link to="/admin/content?page=volunteer">Volunteer links</Link>
           {" · "}
           <Link to="/admin/staff">Staff accounts</Link>
+          {" · "}
+          <Link to="/admin/content?page=meet-the-bowlers">Meet the Bowlers</Link>
         </p>
       </div>
       <dl className="admin-settings">
@@ -46,6 +49,19 @@ export function AdminSettings() {
         <div>
           <dt>Roles on this session</dt>
           <dd>{roles.length ? roles.join(", ") : "None"}</dd>
+        </div>
+        <div>
+          <dt>Family access test</dt>
+          <dd>
+            {FAMILY_ACCESS_OPEN || FAMILY_TEST_READY
+              ? "Family access is open."
+              : "Not ready. No invitation is sent, and no email address is stored here."}
+            <ol>
+              {FAMILY_TEST_PROCEDURE.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ol>
+          </dd>
         </div>
         <div>
           <dt>Multi-factor authentication</dt>

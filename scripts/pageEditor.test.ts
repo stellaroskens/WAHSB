@@ -40,6 +40,7 @@ describe("visual page editor", () => {
     for (const route of [
       "/",
       "/our-club",
+      "/meet-the-bowlers",
       "/practices",
       "/tournaments",
       "/sponsors",
