@@ -58,7 +58,7 @@ export const EDITOR_PAGES: EditorPage[] = [
     "/meet-the-bowlers",
     "full",
     "Editable",
-    "Public introductions. The sample profile stays a draft until it is explicitly approved. Real student profiles cannot be published from this file.",
+    "Public introductions for the eight placeholder cards. Real student profiles cannot be published from this file.",
   ),
   page("coaches", "Coach profiles", "/our-club#coaches", "full", "Editable", "Public names, roles, and biographies. This does not change who can sign in."),
   page("team-gear", "Team Gear", "/team-gear", "full", "Editable", "Shop wording and the BSN SPORTS links."),

@@ -637,23 +637,6 @@
       "sample": false,
       "sampleApproved": false,
       "guardianApproved": false
-    },
-    {
-      "id": "jeremiah-roskens",
-      "displayName": "Jeremiah Roskens",
-      "school": "lebanon",
-      "logoStyle": "full",
-      "yearsBowling": 2,
-      "grade": null,
-      "age": 14,
-      "introduction": null,
-      "photoVisibility": "unavailable",
-      "publicationStatus": "draft",
-      "hidden": true,
-      "placeholder": false,
-      "sample": false,
-      "sampleApproved": false,
-      "guardianApproved": false
     }
   ],
   "bowlerResults": [],

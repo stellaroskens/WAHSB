@@ -6,7 +6,7 @@ import type { SchoolId } from "./schoolLogos.ts"
  * Strike % = strikes / (strikes + spares + opens), when all three counts are entered and the sum is greater than zero.
  * Fill % = (strikes + spares) / (strikes + spares + opens), on that same count.
  * Those counts are first-ball strikes, converted spares, and opens. They are not inferred from pinfall.
- * Average = total pins / games played, when both numbers are entered.
+ * Average = total pins / games played, using only rows where both numbers are entered. A missing total is left out. It is not counted as zero.
  * Participation % is not calculated. The schedule does not store how many games a bowler could have bowled.
  * High game and high series are entered results, not guessed from the other columns.
  * A blank cell means the number was not entered. It is not a verified zero.
@@ -155,10 +155,15 @@ export function publishedResultsFor(results: readonly BowlerResult[], profileId:
 }
 
 export function summaryFromResults(results: readonly BowlerResult[]) {
-  const games = results.reduce((sum, result) => sum + (result.gamesPlayed ?? 0), 0)
-  const gamesKnown = results.some((result) => result.gamesPlayed != null)
-  const pins = results.reduce((sum, result) => sum + (result.total ?? 0), 0)
-  const pinsKnown = results.some((result) => result.total != null)
+  const enteredGames = results.filter((result) => result.gamesPlayed != null)
+  const games = enteredGames.length
+    ? enteredGames.reduce((sum, result) => sum + (result.gamesPlayed as number), 0)
+    : null
+  const complete = results.filter((result) => result.total != null && result.gamesPlayed != null && result.gamesPlayed > 0)
+  const average = complete.length
+    ? complete.reduce((sum, result) => sum + (result.total as number), 0) /
+      complete.reduce((sum, result) => sum + (result.gamesPlayed as number), 0)
+    : null
   const highGame = results.reduce<number | null>((best, result) => {
     if (result.highGame == null) return best
     return best == null ? result.highGame : Math.max(best, result.highGame)
@@ -167,10 +172,9 @@ export function summaryFromResults(results: readonly BowlerResult[]) {
     if (result.highSeries == null) return best
     return best == null ? result.highSeries : Math.max(best, result.highSeries)
   }, null)
-  const average = gamesKnown && pinsKnown && games > 0 ? pins / games : null
   return {
     tournaments: results.length,
-    games: gamesKnown ? games : null,
+    games,
     average,
     highGame,
     highSeries,

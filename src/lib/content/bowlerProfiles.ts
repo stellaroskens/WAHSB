@@ -5,7 +5,6 @@
 
 import { AHSB_LOGO, SCHOOLS, SCHOOL_IDS, schoolLogo, type LogoStyle, type SchoolId } from "./schoolLogos.ts"
 
-export const JEREMIAH_PROFILE_ID = "jeremiah-roskens"
 export const BOWLER_STATUSES = ["draft", "pending_approval", "published", "hidden", "archived"] as const
 export type BowlerPublicationStatus = (typeof BOWLER_STATUSES)[number]
 export type PhotoVisibility = "unavailable" | "hidden"
@@ -44,6 +43,10 @@ const FORBIDDEN_KEYS = [
   "roster",
   "household",
   "imageData",
+  "image",
+  "imagePath",
+  "photo",
+  "photoPath",
 ]
 
 export function isPublicBowler(profile: BowlerProfile): boolean {
@@ -165,7 +168,7 @@ export function blankBowlerProfile(existing: readonly BowlerProfile[]): BowlerPr
   let n = existing.length + 1
   let id = `bowler-${n}`
   const taken = new Set(existing.map((profile) => profile.id))
-  while (taken.has(id) || id === JEREMIAH_PROFILE_ID) {
+  while (taken.has(id)) {
     n += 1
     id = `bowler-${n}`
   }
@@ -222,7 +225,7 @@ export function profilePublishDecision(profile: BowlerProfile): { ok: true; prof
   return {
     ok: false,
     reason:
-      "This profile stays unpublished. A real student needs private guardian and club approval, which is not connected. The Lebanon logo can stand in for a photo, and a checkbox does not make the profile family-approved.",
+      "This profile stays unpublished. A real student needs private guardian and club approval, which is not connected. A checkbox does not make the profile family-approved.",
   }
 }
 

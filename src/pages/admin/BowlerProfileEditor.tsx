@@ -78,8 +78,8 @@ export function BowlerProfileEditor({ content, onChange }: Props) {
   return (
     <div className="bowler-editor">
       <p className="admin-help">
-        Placeholder cards can be published because they are not student records. Jeremiah Roskens stays a draft. Student
-        photographs are not uploaded here. Private image storage is not configured, so nothing is uploaded.
+        Placeholder cards can be published because they are not student records. A real student profile stays unpublished.
+        Student photographs are not uploaded here. Private image storage is not configured, so nothing is uploaded.
       </p>
       <button className="admin-btn" type="button" onClick={() => replaceProfiles([...profiles, blankBowlerProfile(profiles)])}>
         Add player
