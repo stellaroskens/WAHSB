@@ -75,15 +75,19 @@
 }
 
 .portal-logo {
-  display: block;
-  padding: 0.8rem 0.9rem 0.7rem;
+  display: grid;
+  place-items: center;
+  min-height: 176px;
+  padding: 0.7rem 0.85rem;
   border-bottom: 1px solid #e6ebf2;
 }
 
 .portal-logo img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 148px;
+  object-fit: contain;
 }
 
 .portal-side nav {
@@ -172,8 +176,8 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  min-height: 68px;
-  padding: 0.4rem 1rem;
+  height: 68px;
+  padding: 0 1rem;
   background: linear-gradient(90deg, var(--portal-header), #12386a 55%, #0b274d);
   color: #fff;
 }
@@ -339,8 +343,8 @@
 .portal-workflow {
   position: relative;
   display: block;
-  min-height: 128px;
-  padding: 0.85rem 0.9rem 2rem;
+  height: 128px;
+  padding: 0.75rem 0.85rem 1.8rem;
   overflow: hidden;
   border-radius: 10px;
   color: #fff;
@@ -536,21 +540,149 @@
   padding: 0.75rem;
 }
 
-.portal-content .admin-page {
+.portal-content .admin-page:not(.portal-dashboard) {
   width: min(1180px, calc(100% - 2rem));
-  margin: 1rem auto;
-  padding: 1rem 1.1rem 1.4rem;
+  margin: 1rem auto 2rem;
+  padding: 0 1.1rem 1.4rem;
+  border: 1px solid var(--portal-line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(11, 31, 72, 0.05);
+}
+
+.portal-content .portal-dashboard {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 2rem;
+  border: 0;
+  background: transparent;
+}
+
+.portal-content .admin-page:not(.portal-dashboard) .admin-page__intro {
+  margin: 0 -1.1rem 1rem;
+  padding: 0.9rem 1.1rem 1rem;
+  background: linear-gradient(90deg, #0d2b57, #1a4d8d);
+  color: #fff;
+  border-radius: 11px 11px 0 0;
+}
+
+.portal-content .admin-page:not(.portal-dashboard) .admin-page__intro h2,
+.portal-content .admin-page:not(.portal-dashboard) .admin-page__intro p,
+.portal-content .admin-page:not(.portal-dashboard) .admin-page__intro a {
+  color: #fff;
+}
+
+.portal-content .admin-page h2,
+.portal-content .admin-card h2,
+.portal-content .admin-panel-form h3,
+.portal-content .admin-subheading {
+  color: var(--portal-navy);
+  font-family: var(--display);
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.portal-content .admin-page:not(.portal-dashboard) .admin-page__intro h2::after {
+  content: "";
+  display: block;
+  width: 3.4rem;
+  height: 3px;
+  margin-top: 0.4rem;
+  background: var(--portal-red);
+  transform: skewX(-18deg);
+}
+
+.portal-content .admin-section-list {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.portal-content .admin-section-list__item,
+.portal-content .admin-card,
+.portal-content .admin-panel-form,
+.portal-content .admin-preview,
+.portal-content .admin-editor {
+  border: 1px solid var(--portal-line);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff, var(--portal-card));
+  color: var(--portal-text);
+}
+
+.portal-content .admin-section-list__item {
+  border-left: 4px solid var(--portal-red);
+}
+
+.portal-content .admin-section-list__item h3 {
+  color: var(--portal-navy);
+  font-family: var(--display);
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.portal-content .admin-badge {
+  background: var(--portal-navy);
+  color: #fff;
+}
+
+.portal-content .admin-editor__pages {
+  padding: 0.7rem;
+  border-radius: 12px;
+  background: var(--portal-navy);
+}
+
+.portal-content .admin-editor__pages button.is-selected {
+  background: var(--portal-red);
+  border-color: var(--portal-red);
+  color: #fff;
+}
+
+.portal-content .admin-table-wrap,
+.portal-content .link-table {
   border: 1px solid var(--portal-line);
   border-radius: 12px;
   background: #fff;
 }
 
-.portal-content .admin-page h2,
-.portal-content .admin-card h2 {
-  color: var(--portal-navy);
+.portal-content .admin-table th {
+  background: var(--portal-navy);
+  color: #fff;
   font-family: var(--display);
   font-style: italic;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.portal-content .admin-panel-form input,
+.portal-content .admin-panel-form select,
+.portal-content .admin-panel-form textarea,
+.portal-content .admin-form input,
+.portal-content .admin-form select,
+.portal-content .admin-form textarea,
+.portal-content .admin-table input,
+.portal-content .admin-table select,
+.portal-content .admin-page > label input {
+  border: 1px solid var(--portal-line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--portal-text);
+}
+
+.portal-content .admin-btn:not(.admin-btn--ghost) {
+  background: var(--portal-red);
+  border-radius: 8px;
+}
+
+.portal-content .admin-preview__banner {
+  background: var(--portal-navy);
+  color: #fff;
+}
+
+.portal-content .admin-alert {
+  border-left: 4px solid var(--portal-navy);
+  border-radius: 8px;
+}
+
+.portal-content .admin-alert--error {
+  border-left-color: var(--portal-red);
 }
 
 .portal-backdrop {
@@ -624,6 +756,11 @@
   .portal-actions {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .portal-workflow {
+    height: auto;
+    min-height: 128px;
   }
 
   .portal-header__account span {

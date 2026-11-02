@@ -51,25 +51,25 @@ export function AdminDashboard() {
         <Link className="portal-workflow portal-workflow--admin" to="/admin/settings">
           <IconShield />
           <h3>Admin workflow</h3>
-          <p>Site content, staff permissions, and club settings for this Super Administrator login.</p>
+          <p>Site content, staff permissions, and club settings.</p>
           <span className="portal-workflow__go"><IconArrow /></span>
         </Link>
         <Link className="portal-workflow portal-workflow--coach" to="/coach">
           <IconWhistle />
           <h3>Coach workflow</h3>
-          <p>Open the coach dashboard with this login. A second coach account is not required.</p>
+          <p>Open the coach dashboard with this same login.</p>
           <span className="portal-workflow__go"><IconArrow /></span>
         </Link>
         <Link className="portal-workflow portal-workflow--team" to="/team-administrator">
           <IconPeople />
           <h3>Team admin workflow</h3>
-          <p>Open the Club Administrator dashboard without signing in as another person.</p>
+          <p>Open club scheduling tools without another login.</p>
           <span className="portal-workflow__go"><IconArrow /></span>
         </Link>
         <Link className="portal-workflow portal-workflow--family" to="/admin/family">
           <IconPeople />
           <h3>Parent / guest workflow</h3>
-          <p>Family access is closed. This screen does not open student or household records.</p>
+          <p>Family access is closed. No student records open here.</p>
           <span className="portal-workflow__go"><IconArrow /></span>
         </Link>
       </section>
