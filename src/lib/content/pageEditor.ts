@@ -5,7 +5,7 @@ export const DRAFT_PREVIEW_LABEL = "DRAFT PREVIEW — NOT PUBLISHED"
 export const GITHUB_SETUP_STEPS = [
   "Create a fine-grained personal access token. Do not create a classic personal access token.",
   "In GitHub, open Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token.",
-  "Resource owner: the account that owns stellarkoskens/WAHSB. Repository access: Only select repositories → WAHSB.",
+  "Resource owner: the account that owns stellaroskens/WAHSB. Repository access: Only select repositories → WAHSB.",
   "Repository permission: Contents → Read and write. Leave every other permission at No access. Metadata stays Read-only because GitHub requires it.",
   "In Netlify, open Project configuration → Environment variables → Add a variable. Key: GITHUB_CONTENT_TOKEN. Mark it secret. Scope it to Functions for production and deploy previews.",
   "Do not paste the token into this page, into chat, or into frontend code. Redeploy the site so the function can read the variable.",

@@ -138,6 +138,8 @@ describe("visual page editor", () => {
     assert.equal(rollback.includes("pageBodies"), false)
     assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("Fine-grained")))
     assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("Contents")))
+    assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("stellaroskens/WAHSB")))
+    assert.equal(GITHUB_SETUP_STEPS.some((step) => step.includes("stellarkoskens")), false)
   })
 
   it("covers every dashboard section and keeps announcements unsent", () => {
