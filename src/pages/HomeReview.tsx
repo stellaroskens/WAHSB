@@ -5,6 +5,12 @@ import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
 import { clothingLogo, homeHeroBanner, websiteLogo } from "../content/media"
+import {
+  currentPublicFundraisers,
+  fundraiserStatusLabel,
+  fundraiserTiming,
+  homeFundraiserTitle,
+} from "../lib/events/fundraiserTiming"
 import { nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
 
 const links = nav
@@ -29,6 +35,18 @@ export function HomeReview() {
     document.addEventListener("keydown", onKeyDown)
     return () => document.removeEventListener("keydown", onKeyDown)
   }, [open])
+
+  const now = new Date()
+  const currentFundraisers = currentPublicFundraisers(fundraisers, now)
+  const fundraiserHeading =
+    currentFundraisers.length === 0
+      ? "Fundraisers"
+      : homeFundraiserTitle(
+          pageBodies.home.fundraisersHeading,
+          currentFundraisers.some((event) => fundraiserTiming(event.when, event.time, now) === "active")
+            ? "active"
+            : "upcoming",
+        )
 
   return (
     <div className="home-review">
@@ -209,20 +227,28 @@ export function HomeReview() {
 
       <section className="review-fundraisers" aria-labelledby="review-fundraisers-title">
         <div className="review-fundraisers__inner">
-          <h2 id="review-fundraisers-title">{pageBodies.home.fundraisersHeading}</h2>
-          <div className="review-fundraisers__grid">
-            {fundraisers.map((event) => (
-              <article className="review-fundraisers__card" key={event.id}>
-                <p className="review-fundraisers__date">{event.when}</p>
-                <h3>{event.business}</h3>
-                <p>{event.place}</p>
-                <p className="review-fundraisers__time">{event.time}</p>
-                <Link to={`/fundraisers#${event.id}`}>
-                  {pageBodies.home.fundraiserLinkLabel} <span aria-hidden="true">→</span>
-                </Link>
-              </article>
-            ))}
-          </div>
+          <h2 id="review-fundraisers-title">{fundraiserHeading}</h2>
+          {currentFundraisers.length === 0 ? (
+            <p>No current fundraiser is posted.</p>
+          ) : (
+            <div className="review-fundraisers__grid">
+              {currentFundraisers.map((event) => {
+                const timing = fundraiserTiming(event.when, event.time, now)
+                return (
+                  <article className="review-fundraisers__card" key={event.id}>
+                    <p className={`sw-status${timing === "past" ? " sw-status--past" : ""}`}>{fundraiserStatusLabel(timing)}</p>
+                    <p className="review-fundraisers__date">{event.when}</p>
+                    <h3>{event.business}</h3>
+                    <p>{event.place}</p>
+                    <p className="review-fundraisers__time">{event.time}</p>
+                    <Link to={`/fundraisers#${event.id}`}>
+                      {pageBodies.home.fundraiserLinkLabel} <span aria-hidden="true">→</span>
+                    </Link>
+                  </article>
+                )
+              })}
+            </div>
+          )}
         </div>
       </section>
 

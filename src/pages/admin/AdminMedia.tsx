@@ -9,7 +9,6 @@ const ASSETS = [
   { label: "Practices card", path: "/images/home-card-practices.png", use: "Homepage card" },
   { label: "Tournaments card", path: "/images/home-card-tournaments.png", use: "Homepage card" },
   { label: "Lakeshore Lanes logo", path: "/lakeshore-lanes.avif", use: "Homepage, Practices, and Sponsors" },
-  { label: "Panda Express flyer", path: "/flyers/panda-express.pdf", use: "Fundraiser page" },
   { label: "Burgerville flyer", path: "/flyers/burgerville.pdf", use: "Fundraiser page" },
   {
     label: "Bowler silhouette",

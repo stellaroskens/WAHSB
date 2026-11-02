@@ -47,7 +47,7 @@
     },
     "fundraisers": {
       "title": "Fundraisers | Albany High School Bowling",
-      "description": "Upcoming Albany High School Bowling fundraisers at Panda Express and Burgerville, including dates, times, and how to participate."
+      "description": "The Burgerville fundraiser for Albany High School Bowling, including the date, time, and how to participate."
     },
     "teamGear": {
       "title": "Team Gear | Albany High School Bowling",
@@ -267,17 +267,6 @@
     }
   ],
   "fundraisers": [
-    {
-      "id": "panda-express",
-      "business": "Panda Express",
-      "place": "Albany",
-      "when": "Friday, October 30, 2026",
-      "time": "9:30 AM – 10:00 PM",
-      "image": "/flyers/panda-express-960.webp",
-      "imageWidth": 1271,
-      "imageHeight": 1800,
-      "flyer": "/flyers/panda-express.pdf"
-    },
     {
       "id": "burgerville",
       "business": "Burgerville",
