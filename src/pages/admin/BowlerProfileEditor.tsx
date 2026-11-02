@@ -85,6 +85,10 @@ export function BowlerProfileEditor({ content, onChange }: Props) {
         Add player
       </button>
       <p className="admin-help">Photo upload, crop, and replace are not available until private storage is connected.</p>
+      <h3 id="player-statistics">Player statistics</h3>
+      <p className="admin-help">
+        Tournament participation, scores, and honors are edited on each player card. A blank score stays blank. It is not treated as zero.
+      </p>
       {profiles.map((profile, index) => {
         const artwork = publicBowlerArtwork(profile)
         return (

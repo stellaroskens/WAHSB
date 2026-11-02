@@ -617,6 +617,61 @@ export function fieldText(content: SiteContent, item: EditorField): string {
   return String(value)
 }
 
+const BOWLER_REVIEW_FIELDS = [
+  "displayName",
+  "school",
+  "logoStyle",
+  "yearsBowling",
+  "grade",
+  "age",
+  "introduction",
+  "photoVisibility",
+  "publicationStatus",
+  "hidden",
+] as const
+
+function reviewValue(value: unknown): string {
+  if (value == null || value === "") return "(empty)"
+  if (typeof value === "boolean") return value ? "yes" : "no"
+  if (Array.isArray(value)) return value.map(String).join(", ") || "(empty)"
+  return String(value)
+}
+
+export type ContentChange = { label: string; before: string; after: string }
+
+/** Plain-language differences between the editor copy and the published file. */
+export function reviewContentChanges(current: SiteContent, baseline: SiteContent): ContentChange[] {
+  const changes: ContentChange[] = []
+  for (const item of FIELDS) {
+    const before = reviewValue(readPath(baseline, item.path))
+    const after = reviewValue(readPath(current, item.path))
+    if (before !== after) changes.push({ label: item.label, before, after })
+  }
+
+  const ids = new Set([
+    ...current.bowlerProfiles.map((profile) => profile.id),
+    ...baseline.bowlerProfiles.map((profile) => profile.id),
+  ])
+  for (const id of ids) {
+    const before = baseline.bowlerProfiles.find((profile) => profile.id === id)
+    const after = current.bowlerProfiles.find((profile) => profile.id === id)
+    if (!before || !after) {
+      changes.push({
+        label: `Bowler ${after?.displayName || before?.displayName || id}`,
+        before: before ? before.displayName : "(not in the published file)",
+        after: after ? after.displayName : "(removed from this editor copy)",
+      })
+      continue
+    }
+    for (const key of BOWLER_REVIEW_FIELDS) {
+      const previous = reviewValue(before[key])
+      const next = reviewValue(after[key])
+      if (previous !== next) changes.push({ label: `${after.displayName}: ${key}`, before: previous, after: next })
+    }
+  }
+  return changes
+}
+
 export function editField(content: SiteContent, path: string, raw: string): SiteContent {
   const item = FIELD_BY_PATH.get(path)
   if (!item) throw new Error("That field is not editable.")

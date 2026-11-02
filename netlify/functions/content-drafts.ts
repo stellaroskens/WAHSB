@@ -2,7 +2,7 @@ import type { Config, Context } from "@netlify/functions"
 import { draftRecordStatus } from "../../src/lib/content/pageEditor.ts"
 import { parseSiteContent, validateSiteContent } from "../../src/lib/content/siteContent.ts"
 import { DRAFTS_PREFIX, getFileContent, githubConfig, listDraftFiles, putFileContent } from "./_shared/githubContent.ts"
-import { hasPermission } from "./_shared/permissions.ts"
+import { mayEditSiteDrafts } from "./_shared/permissions.ts"
 import { requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 
@@ -21,15 +21,7 @@ export default async (req: Request, context: Context) => {
   if (req.method === "GET") {
     const auth = await requireEnabledStaffAuth()
     if (!auth.ok) return auth.response
-    if (
-      !hasPermission(auth.roles, "edit_public_content") &&
-      !hasPermission(auth.roles, "propose_tournament_updates") &&
-      !hasPermission(auth.roles, "propose_announcements") &&
-      !hasPermission(auth.roles, "edit_coaching_info") &&
-      !hasPermission(auth.roles, "edit_scheduling_ops")
-    ) {
-      return json(403, { error: "forbidden" })
-    }
+    if (!mayEditSiteDrafts(auth.roles)) return json(403, { error: "forbidden" })
 
     const url = new URL(req.url)
     const id = url.searchParams.get("id")
@@ -54,13 +46,7 @@ export default async (req: Request, context: Context) => {
   if (req.method === "POST") {
     const auth = await requireEnabledStaffAuth()
     if (!auth.ok) return auth.response
-    const canSave =
-      hasPermission(auth.roles, "edit_public_content") ||
-      hasPermission(auth.roles, "propose_tournament_updates") ||
-      hasPermission(auth.roles, "propose_announcements") ||
-      hasPermission(auth.roles, "edit_coaching_info") ||
-      hasPermission(auth.roles, "edit_scheduling_ops")
-    if (!canSave) return json(403, { error: "forbidden" })
+    if (!mayEditSiteDrafts(auth.roles)) return json(403, { error: "forbidden" })
 
     const body = (await req.json()) as { id?: string; content?: unknown; message?: string; submitForApproval?: boolean }
     const id = (body.id || `draft-${Date.now()}`).replace(/[^a-zA-Z0-9_-]/g, "")

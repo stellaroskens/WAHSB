@@ -48,7 +48,13 @@ export function TeamAdminDashboard() {
             Scheduling, announcements, and volunteer coordination support. Super-admin account management and financial
             payouts are blocked by default.
           </p>
-          {isSuperAdmin(roles) ? <p><Link to="/admin">Return to Main Admin Dashboard</Link></p> : null}
+          {isSuperAdmin(roles) ? (
+            <p>
+              <Link to="/admin/club">Manage Club Administrator Settings</Link>
+              {" · "}
+              <Link to="/admin">Return to Main Admin Dashboard</Link>
+            </p>
+          ) : null}
           <p>
             <Link to="/team-administrator/bowlers">Meet the Bowlers</Link>
           </p>

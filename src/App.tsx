@@ -4,14 +4,18 @@ import { Layout } from "./components/Layout"
 import { RequireStaff } from "./lib/auth/RequireStaff"
 import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
 import { AdminAnnouncements } from "./pages/admin/AdminAnnouncements"
+import { AdminConsent } from "./pages/admin/AdminConsent"
 import { AdminHistory } from "./pages/admin/AdminHistory"
 import { AdminMedia } from "./pages/admin/AdminMedia"
 import { AdminConnections } from "./pages/admin/AdminConnections"
 import { AdminContent } from "./pages/admin/AdminContent"
 import { AdminDashboard } from "./pages/admin/AdminDashboard"
+import { AdminFamily } from "./pages/admin/AdminFamily"
 import { AdminLayout } from "./pages/admin/AdminLayout"
+import { AdminClub, AdminCoaches } from "./pages/admin/AdminRoleAccess"
 import { AdminSettings } from "./pages/admin/AdminSettings"
 import { AdminStaff } from "./pages/admin/AdminStaff"
+import { AdminSystemStatus } from "./pages/admin/AdminSystemStatus"
 import { AdminTournaments } from "./pages/admin/AdminTournaments"
 import { Bowlathon } from "./pages/Bowlathon"
 import { CoachDashboard } from "./pages/coach/CoachDashboard"
@@ -54,6 +58,9 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="content" element={<AdminContent />} />
           <Route path="pages" element={<AdminContent />} />
+          <Route path="bowlers" element={<StaffBowlerEditor />} />
+          <Route path="coaches" element={<AdminCoaches />} />
+          <Route path="club" element={<AdminClub />} />
           <Route path="connections" element={<AdminConnections />} />
           <Route path="announcements" element={<AdminAnnouncements />} />
           <Route path="tournaments" element={<AdminTournaments />} />
@@ -61,6 +68,9 @@ export default function App() {
           <Route path="media" element={<AdminMedia />} />
           <Route path="history" element={<AdminHistory />} />
           <Route path="staff" element={<AdminStaff />} />
+          <Route path="family" element={<AdminFamily />} />
+          <Route path="consent" element={<AdminConsent />} />
+          <Route path="status" element={<AdminSystemStatus />} />
         </Route>
 
         <Route

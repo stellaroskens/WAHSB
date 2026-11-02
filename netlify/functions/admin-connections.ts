@@ -9,6 +9,7 @@ import {
   CONNECTIONS_PATH,
   getFileContent,
   githubConfig,
+  listPathCommits,
   putFileContent,
 } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
@@ -62,6 +63,8 @@ export default async (req: Request, context: Context) => {
     }
 
     const gh = githubConfig()
+    const history = gh.ok ? await listPathCommits(gh, CONNECTIONS_PATH) : { ok: false as const }
+    const commits = history.ok ? history.commits : []
     if (gh.ok) {
       const file = await getFileContent(gh, CONNECTIONS_PATH)
       if (file.ok) {
@@ -71,6 +74,7 @@ export default async (req: Request, context: Context) => {
             connections: config,
             canApprovePayments: hasPermission(auth.roles, "manage_payments"),
             githubConfigured: true,
+            history: commits,
           })
         } catch (error) {
           return json(500, { error: error instanceof Error ? error.message : "Invalid connections file." })
@@ -83,6 +87,7 @@ export default async (req: Request, context: Context) => {
       connections: parseSiteConnections(bundledConnections),
       canApprovePayments: hasPermission(auth.roles, "manage_payments"),
       githubConfigured: false,
+      history: commits,
       note: "GITHUB_CONTENT_TOKEN not set — showing bundled connections; saves require GitHub.",
     })
   }

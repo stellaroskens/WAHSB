@@ -42,7 +42,13 @@ export function CoachDashboard() {
         <div className="admin-page__intro">
           <h2>Coach dashboard</h2>
           <p>Permitted coaching actions only. Payment management and staff role management are not available here.</p>
-          {isSuperAdmin(roles) ? <p><Link to="/admin">Return to Main Admin Dashboard</Link></p> : null}
+          {isSuperAdmin(roles) ? (
+            <p>
+              <Link to="/admin/coaches">Manage Coach Settings</Link>
+              {" · "}
+              <Link to="/admin">Return to Main Admin Dashboard</Link>
+            </p>
+          ) : null}
           <p>
             <Link to="/coach/bowlers">Meet the Bowlers</Link>
           </p>

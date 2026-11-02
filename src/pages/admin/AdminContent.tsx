@@ -15,6 +15,7 @@ import {
   pageById,
   prepareContentForSave,
   publishRequestBody,
+  reviewContentChanges,
   sectionsForPage,
   successMessage,
   type EditorField,
@@ -59,20 +60,16 @@ export function AdminContent() {
   const [githubMissing, setGithubMissing] = useState(false)
   const [busy, setBusy] = useState(false)
   const [previewing, setPreviewing] = useState(false)
-  const [rawText, setRawText] = useState("")
-  const [rawDirty, setRawDirty] = useState(false)
+  const [reviewing, setReviewing] = useState(false)
 
   const page = pageById(pageId) ?? EDITOR_PAGES[0]
   const sections = useMemo(() => sectionsForPage(page.id), [page.id])
   const section = sections.find((item) => item.id === sectionId) ?? sections[0]
 
   useEffect(() => {
-    if (!rawDirty) setRawText(JSON.stringify(content, null, 2))
-  }, [content, rawDirty])
-
-  useEffect(() => {
     const requested = params.get("page")
-    if (requested && pageById(requested)) choosePage(requested)
+    const requestedSection = params.get("section") ?? undefined
+    if (requested && pageById(requested)) choosePage(requested, requestedSection)
     const sha = params.get("version")
     if (!sha || !/^[a-f0-9]{7,40}$/i.test(sha)) return
     void (async () => {
@@ -107,11 +104,13 @@ export function AdminContent() {
     })()
   }, [])
 
-  const choosePage = (nextPageId: string) => {
+  const choosePage = (nextPageId: string, nextSectionId?: string) => {
     setPageId(nextPageId)
     const nextSections = sectionsForPage(nextPageId)
-    setSectionId(nextSections[0]?.id ?? "")
+    const match = nextSectionId && nextSections.some((item) => item.id === nextSectionId) ? nextSectionId : nextSections[0]?.id
+    setSectionId(match ?? "")
     setPreviewing(false)
+    setReviewing(false)
   }
 
   const onField = (item: EditorField, value: string) => {
@@ -213,7 +212,7 @@ export function AdminContent() {
       if (!loaded.ok) throw new Error(loaded.message)
       setContent(loaded.content)
       setDraftStatus(loaded.status)
-      setRawDirty(false)
+      setReviewing(false)
       setMessage(`Loaded draft “${draftId}” (${loaded.status}). The live site is unchanged.`)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load that draft.")
@@ -226,29 +225,20 @@ export function AdminContent() {
     setContent(structuredClone(publishedContent))
     setDraftStatus(null)
     setIssues([])
-    setRawDirty(false)
     setPreviewing(false)
+    setReviewing(false)
     setMessage("Showing the published content bundled with this site. Unsaved edits were cleared.")
   }
 
-  const onApplyRaw = () => {
-    try {
-      const parsed = JSON.parse(rawText) as unknown
-      const nextIssues = validateSiteContent(parsed)
-      setIssues(nextIssues)
-      if (nextIssues.length) {
-        setError("The raw content file has validation errors, so it was not applied.")
-        return
-      }
-      setContent(parseSiteContent(parsed))
-      setRawDirty(false)
-      setError(null)
-      setMessage("Raw content applied to the form. It is not saved until you save a draft or publish.")
-    } catch {
-      setError("That text is not valid JSON. The form was not changed.")
+  const approveAndPublish = () => {
+    if (draftStatus !== "pending_approval") {
+      setError("Submit this draft for approval before using Approve and publish. Nothing was published.")
+      return
     }
+    void onPublish()
   }
 
+  const changes = reviewing ? reviewContentChanges(content, publishedContent) : []
   const sectionIssues = section ? issuesForSection(content, section, issues) : []
 
   return (
@@ -361,9 +351,21 @@ export function AdminContent() {
             <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => setPreviewing(true)}>
               Preview
             </button>
+            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => setReviewing(true)}>
+              Review changes
+            </button>
+            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={approveAndPublish}>
+              Approve and publish
+            </button>
             <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void onPublish()}>
               Publish
             </button>
+            <Link className="admin-btn admin-btn--ghost" to="/admin/history">
+              View history
+            </Link>
+            <Link className="admin-btn admin-btn--ghost" to="/admin/history">
+              Restore previous version
+            </Link>
             <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void onLoadDraft()}>
               Load saved draft
             </button>
@@ -379,6 +381,30 @@ export function AdminContent() {
           </p>
         </form>
       </div>
+
+      {reviewing && (
+        <section className="admin-preview" aria-label="Review changes">
+          <p className="admin-preview__banner">Review only. Nothing is published from this list.</p>
+          {changes.length === 0 ? (
+            <p>No differences from the published content bundled with this site.</p>
+          ) : (
+            <ul className="admin-section-list">
+              {changes.map((change) => (
+                <li key={`${change.label}:${change.before}:${change.after}`} className="admin-section-list__item">
+                  <div>
+                    <h3>{change.label}</h3>
+                    <p>
+                      Published: {change.before}
+                      <br />
+                      Editor: {change.after}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
 
       {previewing && section && (
         <section className="admin-preview" aria-label={DRAFT_PREVIEW_LABEL}>
@@ -422,23 +448,6 @@ export function AdminContent() {
         </ol>
       </details>
 
-      <details className="admin-advanced">
-        <summary>Advanced: raw content file</summary>
-        <p className="admin-help">Ordinary editing uses the fields above. Apply JSON only if you need the whole file.</p>
-        <textarea
-          className="admin-code"
-          rows={12}
-          value={rawText}
-          spellCheck={false}
-          onChange={(event) => {
-            setRawText(event.target.value)
-            setRawDirty(true)
-          }}
-        />
-        <button className="admin-btn admin-btn--ghost" type="button" onClick={onApplyRaw}>
-          Apply JSON to the form
-        </button>
-      </details>
     </div>
   )
 }
