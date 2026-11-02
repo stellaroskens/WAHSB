@@ -120,7 +120,7 @@ describe("admin dashboard foundation", () => {
       "Family Account Management",
       "Guardian Consent",
       "Media Library",
-      "Site Navigation and Branding",
+      "Website Links and Navigation",
       "SEO and Site Settings",
       "Publishing History",
       "System Status and Setup",

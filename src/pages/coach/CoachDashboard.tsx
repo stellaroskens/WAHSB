@@ -1,46 +1,23 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
+import { StaffHelp } from "../../components/staff/StaffHelp"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { hasPermission } from "../../lib/auth/permissions"
 import { isSuperAdmin } from "../../lib/auth/roles"
 import { rolesFromUser } from "../../lib/auth/session"
 
 export function CoachDashboard() {
-  const { user, username, logout } = useAuth()
+  const { user } = useAuth()
   const roles = rolesFromUser(user)
 
   return (
-    <div className="admin-shell">
-      <header className="admin-topbar">
-        <div className="admin-topbar__brand">
-          <p className="admin-topbar__eyebrow">WAHSB</p>
-          <strong>Coach</strong>
-        </div>
-        <nav className="admin-topbar__nav" aria-label="Coach">
-          <NavLink to="/coach" end>
-            Dashboard
-          </NavLink>
-        </nav>
-        <div className="admin-topbar__account">
-          <span className="admin-topbar__email">
-            {username ? `@${username}` : user?.email} (display only)
-          </span>
-          <button
-            type="button"
-            className="admin-btn admin-btn--ghost"
-            onClick={async () => {
-              await logout()
-              window.location.assign("/staff/login")
-            }}
-          >
-            Sign out
-          </button>
-        </div>
-      </header>
       <div className="admin-page">
         <PageMeta title="Coach Dashboard | Albany High School Bowling" description="Coach tools for Albany High School Bowling." />
         <div className="admin-page__intro">
-          <h2>Coach dashboard</h2>
+          <h2>
+            Coach dashboard
+            <StaffHelp label="Coach dashboard" text="Shows coaching tools for this login. Payment settings and staff roles are not available here. Edits to bowler information stay drafts until a super administrator publishes them." />
+          </h2>
           <p>Permitted coaching actions only. Payment management and staff role management are not available here.</p>
           {isSuperAdmin(roles) ? (
             <p>
@@ -84,6 +61,5 @@ export function CoachDashboard() {
           </li>
         </ul>
       </div>
-    </div>
   )
 }

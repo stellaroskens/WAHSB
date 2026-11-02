@@ -6,6 +6,7 @@ import { RequireSuperAdmin } from "./lib/auth/RequireSuperAdmin"
 import { AdminAnnouncements } from "./pages/admin/AdminAnnouncements"
 import { AdminConsent } from "./pages/admin/AdminConsent"
 import { AdminHistory } from "./pages/admin/AdminHistory"
+import { AdminLinks } from "./pages/admin/AdminLinks"
 import { AdminMedia } from "./pages/admin/AdminMedia"
 import { AdminConnections } from "./pages/admin/AdminConnections"
 import { AdminContent } from "./pages/admin/AdminContent"
@@ -26,6 +27,7 @@ import { Fundraisers } from "./pages/Fundraisers"
 import { HomeReview } from "./pages/HomeReview"
 import { BowlerProfilePage } from "./pages/BowlerProfilePage"
 import { MeetTheBowlers } from "./pages/MeetTheBowlers"
+import { StaffShell } from "./components/staff/StaffShell"
 import { StaffBowlerEditor } from "./pages/staff/StaffBowlerEditor"
 import { NotFound } from "./pages/NotFound"
 import { OurClub } from "./pages/OurClub"
@@ -67,6 +69,7 @@ export default function App() {
           <Route path="settings" element={<AdminSettings />} />
           <Route path="media" element={<AdminMedia />} />
           <Route path="history" element={<AdminHistory />} />
+          <Route path="links" element={<AdminLinks />} />
           <Route path="staff" element={<AdminStaff />} />
           <Route path="family" element={<AdminFamily />} />
           <Route path="consent" element={<AdminConsent />} />
@@ -77,35 +80,25 @@ export default function App() {
           path="coach"
           element={
             <RequireStaff allow={["coach", "super_admin"]}>
-              <CoachDashboard />
+              <StaffShell area="coach" />
             </RequireStaff>
           }
-        />
-        <Route
-          path="coach/bowlers"
-          element={
-            <RequireStaff allow={["coach", "super_admin"]}>
-              <StaffBowlerEditor />
-            </RequireStaff>
-          }
-        />
+        >
+          <Route index element={<CoachDashboard />} />
+          <Route path="bowlers" element={<StaffBowlerEditor />} />
+        </Route>
 
         <Route
           path="team-administrator"
           element={
             <RequireStaff allow={["team_administrator", "super_admin"]}>
-              <TeamAdminDashboard />
+              <StaffShell area="club" />
             </RequireStaff>
           }
-        />
-        <Route
-          path="team-administrator/bowlers"
-          element={
-            <RequireStaff allow={["team_administrator", "super_admin"]}>
-              <StaffBowlerEditor />
-            </RequireStaff>
-          }
-        />
+        >
+          <Route index element={<TeamAdminDashboard />} />
+          <Route path="bowlers" element={<StaffBowlerEditor />} />
+        </Route>
 
         <Route element={<Layout />}>
           <Route index element={<HomeReview />} />

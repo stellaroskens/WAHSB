@@ -21,6 +21,8 @@ import {
   type EditorField,
 } from "../../lib/content/pageEditor"
 import { parseSiteContent, validateSiteContent, type SiteContent, type SiteContentIssue } from "../../lib/content/siteContent"
+import { StaffAction } from "../../components/staff/StaffAction"
+import { StaffHelp } from "../../components/staff/StaffHelp"
 import { BowlerProfileEditor } from "./BowlerProfileEditor"
 
 const publishedContent = parseSiteContent(published)
@@ -306,7 +308,13 @@ export function AdminContent() {
               ) : (
                 section.fields.map((item) => (
                   <label key={item.path}>
-                    {item.label}
+                    <span className="admin-label">
+                      {item.label}
+                      <StaffHelp
+                        label={item.label}
+                        text={`${item.help || `Edits ${item.label}.`} Visitors see it on ${page.label} only after an approved publish and a finished Netlify deploy. Saving a draft does not change the live site.`}
+                      />
+                    </span>
                     {item.kind === "textarea" || item.kind === "lines" ? (
                       <textarea
                         value={fieldText(content, item)}
@@ -341,37 +349,20 @@ export function AdminContent() {
               ? `This browser is editing a loaded draft (${draftStatus}).`
               : "This browser is editing the published copy. The live site does not change until you publish."}
           </p>
+          <p className="admin-help">
+            Unsaved changes stay in this browser. A saved draft is a GitHub commit for the draft only. The public site changes after Publish returns a commit and Netlify finishes deploying that commit.
+          </p>
           <div className="admin-form__actions">
-            <button className="admin-btn" type="submit" disabled={busy}>
-              {busy ? "Working…" : "Save draft"}
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void save(true)}>
-              Submit for approval
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => setPreviewing(true)}>
-              Preview
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => setReviewing(true)}>
-              Review changes
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={approveAndPublish}>
-              Approve and publish
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void onPublish()}>
-              Publish
-            </button>
-            <Link className="admin-btn admin-btn--ghost" to="/admin/history">
-              View history
-            </Link>
-            <Link className="admin-btn admin-btn--ghost" to="/admin/history">
-              Restore previous version
-            </Link>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void onLoadDraft()}>
-              Load saved draft
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={onUsePublished}>
-              Show published copy
-            </button>
+            <StaffAction label="Save draft" help="Save your current changes as a draft. Your public website will not change." type="submit" busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so nothing can be saved." : undefined} />
+            <StaffAction label="Submit for approval" help="Send this saved draft to an authorized reviewer. This does not publish it." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so the draft cannot be submitted." : undefined} onClick={() => void save(true)} />
+            <StaffAction label="Preview" help="See the selected section before publishing. Previewing does not change the public site." onClick={() => setPreviewing(true)} />
+            <StaffAction label="Review changes" help="Compare this editor with the published copy. Reviewing does not save or publish." onClick={() => setReviewing(true)} />
+            <StaffAction label="Approve and publish" help="Publish a draft that was submitted for approval. The live site updates only after Netlify deploys the GitHub commit." busy={busy} disabled={githubMissing || draftStatus !== "pending_approval"} disabledReason={githubMissing ? "GitHub publishing is not configured." : "Submit this draft for approval before approving it."} onClick={approveAndPublish} />
+            <StaffAction label="Publish" help="Make the approved changes available on the public AHSB website after GitHub confirms the commit and Netlify deploys it." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so nothing can be published." : undefined} onClick={() => void onPublish()} />
+            <StaffAction label="View history" help="Open published content commits. Loading one does not make it live." href="/admin/history" />
+            <StaffAction label="Restore previous version" help="Load an older published version into the editor. It is not live again until you publish it and Netlify deploys that commit." href="/admin/history" />
+            <StaffAction label="Load saved draft" help="Load the latest saved draft from the content system. Unsaved changes may be replaced." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so no draft can be loaded." : undefined} onClick={() => void onLoadDraft()} />
+            <StaffAction label="Show published copy" help="Display the version currently published with this site. Unsaved edits in this browser are cleared." onClick={onUsePublished} />
           </div>
           <p className="admin-help">
             <Link className="admin-editor__live" to={page.route}>

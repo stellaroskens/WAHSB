@@ -24,7 +24,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "website-pages",
-    group: "Website",
+    group: "Content",
     title: "Website Pages and Content",
     description: "Edit public page copy, save a draft, review changes, and publish through GitHub.",
     status: "available",
@@ -33,7 +33,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "meet-the-bowlers",
-    group: "Players",
+    group: "Content",
     title: "Meet the Bowlers",
     description:
       "Edit placeholder cards, school logos, biographies, order, and publication status. Real students stay unpublished.",
@@ -43,7 +43,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "staff-accounts",
-    group: "People",
+    group: "Content",
     title: "Coaches and Staff",
     description: "Open the coach dashboard and coach settings with this login. Staff invitations stay on the staff page.",
     status: "available",
@@ -52,7 +52,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "club-administrator",
-    group: "People",
+    group: "Administration",
     title: "Club Administrator Management",
     description: "Open the Club Administrator dashboard and permitted settings without signing in as that person.",
     status: "available",
@@ -61,7 +61,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "tournament-management",
-    group: "Season",
+    group: "Team operations",
     title: "Tournament Management",
     description: "Check venues and edit published tournament dates.",
     status: "available",
@@ -70,7 +70,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "practice-schedules",
-    group: "Season",
+    group: "Team operations",
     title: "Practice Schedules",
     description: "Edit the shared practice location and practice page search text.",
     status: "available",
@@ -79,7 +79,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "player-statistics",
-    group: "Players",
+    group: "Team operations",
     title: "Player Statistics",
     description: "Enter scores only when the club has verified them. Missing numbers stay blank.",
     status: "available",
@@ -88,7 +88,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "volunteers",
-    group: "Season",
+    group: "Team operations",
     title: "Volunteers",
     description: "Edit public volunteer information. Screening records are not stored.",
     status: "available",
@@ -97,7 +97,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "fundraisers",
-    group: "Season",
+    group: "Club management",
     title: "Fundraisers",
     description: "Edit published fundraiser names, dates, times, and flyer files.",
     status: "available",
@@ -106,7 +106,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "sponsors",
-    group: "Season",
+    group: "Club management",
     title: "Sponsors",
     description: "Edit sponsor page search text. No sponsor is approved for the public list.",
     status: "available",
@@ -115,7 +115,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "payment-settings",
-    group: "Money",
+    group: "Club management",
     title: "Payment Connections",
     description: "Prepare Stripe, PayPal, Venmo, and Cash App. Live payments stay off until verified.",
     status: "available",
@@ -124,7 +124,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "email-announcements",
-    group: "Messages",
+    group: "Club management",
     title: "Email Announcements",
     description: "Prepare announcements. Sending stays off until email is verified.",
     status: "available",
@@ -133,7 +133,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "family-accounts",
-    group: "People",
+    group: "Administration",
     title: "Family Account Management",
     description: "Review the closed family workflow. Invitations are not sent from this page.",
     status: "available",
@@ -142,7 +142,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "guardian-consent",
-    group: "People",
+    group: "Administration",
     title: "Guardian Consent",
     description: "See what private consent storage still needs. Consent is not saved in GitHub.",
     status: "available",
@@ -151,7 +151,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "media-library",
-    group: "Site",
+    group: "Content",
     title: "Media Library",
     description: "Review approved public files. New uploads are not configured.",
     status: "available",
@@ -160,16 +160,16 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "navigation-branding",
-    group: "Website",
-    title: "Site Navigation and Branding",
-    description: "Edit the public navigation labels and the registration notice.",
+    group: "Content",
+    title: "Website Links and Navigation",
+    description: "Edit public menu labels, button labels, and link destinations. Staff paths stay blocked.",
     status: "available",
     statusLabel: "Open",
-    href: "/admin/content?page=home&section=navigation",
+    href: "/admin/links",
   },
   {
     id: "site-settings",
-    group: "Website",
+    group: "Administration",
     title: "SEO and Site Settings",
     description: "Review this account and open each page's search title and description.",
     status: "available",
@@ -178,7 +178,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "publishing-history",
-    group: "Site",
+    group: "Administration",
     title: "Publishing History",
     description: "Review published content commits and load an older version into the editor.",
     status: "available",
@@ -187,7 +187,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     id: "system-status",
-    group: "Site",
+    group: "Administration",
     title: "System Status and Setup",
     description: "See which services are configured. Secrets are not shown.",
     status: "available",
@@ -196,6 +196,9 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
 ]
 
+const GROUP_ORDER = ["Overview", "Content", "Team operations", "Club management", "Administration"]
+
 export function adminSectionGroups(sections: readonly AdminSection[] = ADMIN_SECTIONS): string[] {
-  return [...new Set(sections.map((section) => section.group))]
+  const present = new Set(sections.map((section) => section.group))
+  return GROUP_ORDER.filter((group) => present.has(group))
 }

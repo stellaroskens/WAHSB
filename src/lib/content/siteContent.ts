@@ -244,10 +244,17 @@ function checkText(
   if (MARKUP.test(value)) issues.push({ path, message: "HTML and scripts are not allowed." })
 }
 
+const BLOCKED_INTERNAL = /^\/(admin|coach|team-administrator|staff|api)(\/|$)/
+
 function checkInternal(value: unknown, path: string, issues: SiteContentIssue[]) {
   checkText(value, path, issues, CONTENT_LIMITS.link)
-  if (typeof value === "string" && value && !INTERNAL_PATH.test(value)) {
+  if (typeof value !== "string" || !value) return
+  if (!INTERNAL_PATH.test(value) || /^(javascript|data|vbscript):/i.test(value)) {
     issues.push({ path, message: "Use a site path such as /our-club." })
+    return
+  }
+  if (BLOCKED_INTERNAL.test(value)) {
+    issues.push({ path, message: "Staff, payment, and system paths cannot be used as public links." })
   }
 }
 
