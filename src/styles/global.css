@@ -2380,7 +2380,7 @@ textarea[aria-invalid="true"] {
 }
 
 .home-review .review-menu {
-  display: none;
+  display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
   padding: 0.35rem 0.9rem;

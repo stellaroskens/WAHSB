@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react"
-import { Link, NavLink } from "react-router-dom"
+import { useCallback, useRef, useState } from "react"
+import { Link } from "react-router-dom"
 import { AccountButton } from "../components/header/AccountButton"
+import { PublicMenu } from "../components/PublicMenu"
 import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
@@ -10,31 +11,16 @@ import {
   homeFundraiserTitle,
   matchesActiveFundraiser,
 } from "../lib/events/fundraiserTiming"
-import { clothingLogo, homeHeroBanner, websiteLogo } from "../content/media"
+import { clothingLogo, homeHeroBanner, websiteLogo, websiteLogoTransparent } from "../content/media"
 import { library, nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
-
-const links = nav
 
 export function HomeReview() {
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const menuRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    if (!open) return
-    const firstLink = menuRef.current?.querySelector("a")
-    if (firstLink instanceof HTMLElement) firstLink.focus()
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setOpen(false)
-        buttonRef.current?.focus()
-      }
-    }
-
-    document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [open])
+  const closeMenu = useCallback(() => {
+    setOpen(false)
+    buttonRef.current?.focus()
+  }, [])
 
   return (
     <div className="home-review">
@@ -42,42 +28,28 @@ export function HomeReview() {
       <div className="review-stage">
       <header className="review-header">
         <div className="review-bar">
-          <nav
-            ref={menuRef}
-            id="review-menu"
-            className={open ? "review-nav is-open" : "review-nav"}
-            aria-label="Primary"
+          <button
+            ref={buttonRef}
+            type="button"
+            className="review-menu"
+            aria-expanded={open}
+            aria-controls="review-menu"
+            onClick={() => (open ? closeMenu() : setOpen(true))}
           >
-            {links.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={item.to === "/" ? "is-current" : undefined}
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
+            {open ? "Close" : "Menu"}
+          </button>
+          <Link className="review-brand" to="/" onClick={closeMenu}>
+            <img src={websiteLogoTransparent.src} width={148} height={42} alt="Albany High School Bowling" />
+          </Link>
           <div className="review-tools">
             <SiteSearch tone="light" />
-            <Link className="review-header-donate" to={pageBodies.home.hero.buttonTo} onClick={() => setOpen(false)}>
+            <Link className="review-header-donate" to={pageBodies.home.hero.buttonTo} onClick={closeMenu}>
               {pageBodies.home.hero.buttonLabel}
             </Link>
             <AccountButton />
-            <button
-              ref={buttonRef}
-              type="button"
-              className="review-menu"
-              aria-expanded={open}
-              aria-controls="review-menu"
-              onClick={() => setOpen((value) => !value)}
-            >
-              {open ? "Close" : "Menu"}
-            </button>
           </div>
         </div>
+        <PublicMenu id="review-menu" open={open} items={nav.filter((item) => !item.hidden)} onClose={closeMenu} />
       </header>
 
       <section className="review-hero" aria-labelledby="review-hero-heading">

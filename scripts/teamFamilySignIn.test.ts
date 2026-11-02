@@ -109,7 +109,8 @@ describe("family access before roster approval", () => {
 
   it("has no working family sign-in form", () => {
     assert.doesNotMatch(familyPanel, /<form|<input|login\(|useAuth/)
-    assert.doesNotMatch(familyDashboard, /<form|<input|login\(|useAuth/)
+    assert.doesNotMatch(familyDashboard, /login\(|useAuth|type="password"|fetch\(|\/api\//)
+    assert.match(familyDashboard, /A last name does not open a student record/)
   })
 
   it("contains no email addresses or student records", () => {

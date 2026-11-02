@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
@@ -12,6 +13,8 @@ import {
  * information until guardian verification, a protected database, and per-record authorization exist.
  */
 export function FamilyDashboard() {
+  const [notice, setNotice] = useState<string | null>(null)
+
   return (
     <div className="sw-page">
       <PageMeta
@@ -39,6 +42,20 @@ export function FamilyDashboard() {
               No team photo of a student is published without specific permission from a verified parent or guardian, and
               that permission can be withdrawn at any time.
             </p>
+            <form
+              className="family-lookup"
+              onSubmit={(event) => {
+                event.preventDefault()
+                setNotice("A last name does not open a student record. Nothing was searched or saved.")
+              }}
+            >
+              <h3>Bowler last name</h3>
+              <p>A last name does not open a student record. Family linking stays closed until staff verify a guardian relationship.</p>
+              <label htmlFor="bowler-last-name">Last name</label>
+              <input id="bowler-last-name" name="lastName" autoComplete="off" />
+              <button type="submit">Review request</button>
+              {notice ? <p role="status">{notice}</p> : null}
+            </form>
             <p className="signin-help">
               Public team information is available now: <Link to="/practices">practices</Link>,{" "}
               <Link to="/tournaments">tournaments</Link>, <Link to="/resources">resources</Link>, and the{" "}
