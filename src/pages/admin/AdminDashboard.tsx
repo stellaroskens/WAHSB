@@ -1,8 +1,23 @@
 import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
+import { ManagementCard } from "../../components/staff/ManagementCard"
+import { useAuth } from "../../lib/auth/AuthProvider"
 import { ADMIN_SECTIONS, adminSectionGroups } from "../../lib/auth/adminSections"
+import { primaryStaffRole } from "../../lib/auth/roles"
+import { rolesFromUser, usernameFromUser } from "../../lib/auth/session"
+import { seasonRegistrationClosed } from "../../content/site"
+
+const ROLE_LABEL = {
+  super_admin: "Super Administrator",
+  coach: "Coach",
+  team_administrator: "Club Administrator",
+} as const
 
 export function AdminDashboard() {
+  const { user } = useAuth()
+  const role = primaryStaffRole(rolesFromUser(user))
+  const name = usernameFromUser(user) || user?.email || "Signed-in staff"
+  const season = seasonRegistrationClosed.heading.match(/\d{4}–\d{4}/)?.[0] ?? "Current season"
   const groups = adminSectionGroups()
 
   return (
@@ -11,11 +26,17 @@ export function AdminDashboard() {
         title="Admin | Albany High School Bowling"
         description="Super administrator control center for Albany High School Bowling."
       />
-      <div className="admin-page__intro">
+      <header className="dash-welcome">
+        <p className="dash-welcome__kicker">{season}</p>
         <h2>Dashboard Overview</h2>
         <p>
-          Manage the public site, coach tools, and Club Administrator tools from this account. You do not need to sign
-          in as a coach or the Club Administrator, and those people keep their own logins.
+          {name}
+          {role ? ` · ${ROLE_LABEL[role]}` : ""}. Manage the public site, coach tools, and Club Administrator tools from
+          this account. You do not need to sign in as a coach or the Club Administrator.
+        </p>
+        <p>
+          Counts for bowlers, teams, and coaches are not shown here. A private roster database is not connected, so this
+          page does not invent those numbers.
         </p>
         <p>
           <Link to="/coach">View Coach Dashboard</Link>
@@ -28,23 +49,21 @@ export function AdminDashboard() {
           {" · "}
           <Link to="/admin">Return to Main Admin Dashboard</Link>
         </p>
-      </div>
+      </header>
       {groups.map((group) => (
         <section key={group} aria-labelledby={`admin-group-${group}`}>
           <h3 id={`admin-group-${group}`}>{group}</h3>
-          <ul className="admin-section-list">
-            {ADMIN_SECTIONS.filter((section) => section.group === group).map((section) => (
-              <li key={section.id} className="admin-section-list__item">
-                <div>
-                  <h3>
-                    <Link to={section.href}>{section.title}</Link>
-                  </h3>
-                  <p>{section.description}</p>
-                </div>
-                <span className="admin-badge">{section.statusLabel}</span>
-              </li>
+          <div className="dash-grid">
+            {ADMIN_SECTIONS.filter((section) => section.group === group && section.id !== "overview").map((section) => (
+              <ManagementCard
+                key={section.id}
+                href={section.href}
+                title={section.title}
+                description={section.description}
+                status={section.statusLabel}
+              />
             ))}
-          </ul>
+          </div>
         </section>
       ))}
     </div>

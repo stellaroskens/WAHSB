@@ -1,4 +1,4 @@
--- Proposed only. Do not apply this file to a hosted database by hand.
+-- Superseded by netlify/database/migrations. Do not apply this file.
 -- Missing numbers stay NULL. A column must not default a score to 0.
 
 CREATE TABLE schools (
