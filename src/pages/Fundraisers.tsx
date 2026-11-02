@@ -177,6 +177,12 @@ export function Fundraisers() {
                 View the full flyer
               </a>
             </p>
+            <div className="sw-fundraiser__donate">
+              <p>{"Can't make it? No problem — you can still donate!"}</p>
+              <Link className="sw-btn" to="/donate">
+                DONATE NOW
+              </Link>
+            </div>
             <div className="sw-fundraiser__volunteers">
               <h3>Volunteers</h3>
               <p>{library.fundraisers.burgerville.volunteerIntro}</p>

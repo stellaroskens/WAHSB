@@ -878,8 +878,10 @@ function validateFundraisers(records: unknown[], issues: SiteContentIssue[]) {
     for (const key of ["image", "flyer"] as const) {
       const path = `fundraisers.${index}.${key}`
       checkText(record[key], path, issues, CONTENT_LIMITS.link)
-      if (typeof record[key] === "string" && (!PUBLIC_FILE.test(record[key]) || !record[key].startsWith("/flyers/"))) {
-        issues.push({ path, message: "Use an approved file under /flyers/." })
+      const file = record[key]
+      const approved = typeof file === "string" && PUBLIC_FILE.test(file) && (file.startsWith("/flyers/") || file.startsWith("/images/"))
+      if (typeof file === "string" && !approved) {
+        issues.push({ path, message: "Use an approved file under /flyers/ or /images/." })
       }
     }
   })
