@@ -10,6 +10,11 @@ export type ManagedLink = {
   destination: string
   kind: "internal" | "external"
   appearsOn: string
+  openInNewTab: boolean
+  hidden: boolean
+  order: number
+  reorderable: boolean
+  navIndex?: number
 }
 
 const BLOCKED_INTERNAL = /^\/(admin|coach|team-administrator|staff|api)(\/|$)/
@@ -35,24 +40,12 @@ export const PUBLIC_ROUTES = [
 
 export const CODE_ONLY_SETTINGS = [
   {
-    name: "FAQ questions and answers",
-    reason: "The questions live in the site code because each answer can include structured guidance. The contact form on that page does not send email.",
+    name: "Contact form and Bowl-a-thon pledge delivery",
+    reason: "The forms can be labeled here, but no email provider or payment provider is connected. Submitting one does not send a message or collect a pledge.",
   },
   {
-    name: "Bowling resource business listings",
-    reason: "Approved business names, hours, and phones are verified records in code. A blank listing stays empty until the club approves one.",
-  },
-  {
-    name: "Practice introduction, tournament etiquette, fundraiser instructions, and Bowl-a-thon directions",
-    reason: "Those articles are still written in the page layout. Dates, venues, and campaign records are editable. The Bowl-a-thon form does not collect a pledge.",
-  },
-  {
-    name: "Sponsorship QR page",
-    reason: "The page stays in code until the club approves one public sponsorship destination.",
-  },
-  {
-    name: "Contact form and announcement delivery",
-    reason: "No email provider is connected. The form and announcement drafts do not send messages.",
+    name: "Sponsorship QR destination",
+    reason: "The page wording is editable. The URL itself stays on Payment Connections and is not shown until it is verified. Editing wording does not turn payments on.",
   },
   {
     name: "Payments, consent storage, family accounts, and student photos",
@@ -84,6 +77,11 @@ export function managedLinks(content: SiteContent): ManagedLink[] {
       destination: item?.to ?? "",
       kind: "internal",
       appearsOn: "Every public page",
+      openInNewTab: Boolean(item?.openInNewTab),
+      hidden: Boolean(item?.hidden),
+      order: index + 1,
+      reorderable: true,
+      navIndex: index,
     })
   }
 
@@ -101,6 +99,10 @@ export function managedLinks(content: SiteContent): ManagedLink[] {
       destination: readText(content, field.path),
       kind: field.kind === "internal" ? "internal" : "external",
       appearsOn: page?.route ?? section.label,
+      openInNewTab: field.kind !== "internal",
+      hidden: false,
+      order: links.length + 1,
+      reorderable: false,
     })
   }
 
@@ -132,6 +134,23 @@ export function validateLinkDestination(
     return { ok: false, message: "External links must start with https://." }
   }
   return { ok: true, destination: value }
+}
+
+export function moveNavItem(content: SiteContent, index: number, direction: -1 | 1): SiteContent {
+  const next = structuredClone(content)
+  const target = index + direction
+  if (target < 0 || target >= next.nav.length) return content
+  const [item] = next.nav.splice(index, 1)
+  next.nav.splice(target, 0, item)
+  return next
+}
+
+export function setNavFlag(content: SiteContent, index: number, key: "openInNewTab" | "hidden", value: boolean): SiteContent {
+  const next = structuredClone(content)
+  const item = next.nav[index]
+  if (!item) return content
+  item[key] = value
+  return next
 }
 
 export function filterLinks(links: ManagedLink[], query: string): ManagedLink[] {

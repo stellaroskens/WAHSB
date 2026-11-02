@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
 import { PageMeta } from "../../components/PageMeta"
+import { PublishStatus } from "../../components/staff/PublishStatus"
 import { StaffAction } from "../../components/staff/StaffAction"
 import { StaffHelp } from "../../components/staff/StaffHelp"
 import published from "../../content/published/siteContent.json"
@@ -8,6 +9,8 @@ import {
   PUBLIC_ROUTES,
   filterLinks,
   managedLinks,
+  moveNavItem,
+  setNavFlag,
   validateLinkDestination,
 } from "../../lib/content/linkInventory"
 import {
@@ -31,7 +34,12 @@ export function AdminLinks() {
   const [busy, setBusy] = useState(false)
   const [githubMissing, setGithubMissing] = useState(false)
   const [preview, setPreview] = useState(false)
+  const [draftStatus, setDraftStatus] = useState<string | null>(null)
+  const [commitSha, setCommitSha] = useState<string | null>(null)
+  const [snapshot, setSnapshot] = useState(() => JSON.stringify(publishedContent))
   const links = useMemo(() => filterLinks(managedLinks(content), query), [content, query])
+  const publishedById = useMemo(() => new Map(managedLinks(publishedContent).map((link) => [link.id, link])), [])
+  const dirty = JSON.stringify(content) !== snapshot
   const missingReason = githubMissing ? "GitHub publishing is not configured, so this cannot be saved." : undefined
 
   const update = (path: string, value: string, kind: "internal" | "external") => {
@@ -72,6 +80,9 @@ export function AdminLinks() {
       const saved = successMessage(submitForApproval ? "approval" : "draft", body)
       if (!saved) throw new Error("GitHub did not return a commit, so this draft was not saved. The live site is unchanged.")
       setContent(prepared)
+      setSnapshot(JSON.stringify(prepared))
+      setDraftStatus(submitForApproval ? "pending_approval" : "draft")
+      setCommitSha(body.commitSha ?? null)
       setGithubMissing(false)
       setMessage(saved)
     } catch (err) {
@@ -110,6 +121,9 @@ export function AdminLinks() {
       if (!response.ok) throw new Error(failureMessage(response.status, body))
       const saved = successMessage("publish", body)
       if (!saved) throw new Error("GitHub did not return a commit, so nothing was published.")
+      setCommitSha(body.commitSha ?? null)
+      setSnapshot(JSON.stringify(prepared))
+      setDraftStatus("published_commit")
       setMessage(saved)
     } catch (err) {
       const text = err instanceof Error ? err.message : "Publish failed."
@@ -135,45 +149,96 @@ export function AdminLinks() {
         Search links
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by label, page, or destination" />
       </label>
+      <PublishStatus dirty={dirty} draftStatus={draftStatus} commitSha={commitSha} />
       <div className="admin-table-wrap">
-        <table className="admin-table">
+        <table className="admin-table link-table">
           <thead>
             <tr>
               <th>Location</th>
               <th>Link label</th>
               <th>Destination</th>
+              <th>Opens</th>
+              <th>Visible</th>
+              <th>Order</th>
               <th>Status</th>
+              <th>Last modified</th>
             </tr>
           </thead>
           <tbody>
-            {links.map((link) => (
-              <tr key={link.id}>
-                <td>{link.location}</td>
-                <td>
-                  {link.labelPath.endsWith(".label") || link.labelPath.endsWith("Label") ? (
-                    <input aria-label={`${link.location} label`} value={link.label} onChange={(event) => setContent((current) => editField(current, link.labelPath, event.target.value))} />
-                  ) : (
-                    link.label
-                  )}
-                </td>
-                <td>
-                  {link.kind === "internal" ? (
-                    <>
-                      <select aria-label={`${link.label} destination`} value={PUBLIC_ROUTES.includes(link.destination as (typeof PUBLIC_ROUTES)[number]) ? link.destination : ""} onChange={(event) => update(link.destinationPath, event.target.value, "internal")}>
-                        <option value="">Choose a page</option>
-                        {PUBLIC_ROUTES.map((route) => (
-                          <option key={route} value={route}>{route}</option>
-                        ))}
-                      </select>
-                      <input aria-label={`${link.label} custom path`} value={link.destination} onChange={(event) => update(link.destinationPath, event.target.value, "internal")} />
-                    </>
-                  ) : (
-                    <input aria-label={`${link.label} destination`} value={link.destination} onChange={(event) => update(link.destinationPath, event.target.value, "external")} placeholder="https://" />
-                  )}
-                </td>
-                <td>{link.destination ? "In this editor" : "Empty"}</td>
-              </tr>
-            ))}
+            {links.map((link) => {
+              const publishedLink = publishedById.get(link.id)
+              const changed = !publishedLink || publishedLink.label !== link.label || publishedLink.destination !== link.destination || publishedLink.hidden !== link.hidden || publishedLink.openInNewTab !== link.openInNewTab
+              return (
+                <tr key={link.id}>
+                  <td>
+                    {link.location}
+                    <StaffHelp label={link.label || link.location} text={`Changes the ${link.label || "link"} shown on ${link.appearsOn}. Visitors see it after an approved publish and a finished Netlify deploy. A draft does not change the live menu. Staff, payment, and script destinations stay blocked.`} />
+                  </td>
+                  <td>
+                    {link.labelPath.endsWith(".label") || link.labelPath.endsWith("Label") ? (
+                      <input aria-label={`${link.location} label`} value={link.label} onChange={(event) => setContent((current) => editField(current, link.labelPath, event.target.value))} />
+                    ) : (
+                      link.label
+                    )}
+                  </td>
+                  <td>
+                    {link.kind === "internal" ? (
+                      <>
+                        <select aria-label={`${link.label} destination`} value={PUBLIC_ROUTES.includes(link.destination as (typeof PUBLIC_ROUTES)[number]) ? link.destination : ""} onChange={(event) => update(link.destinationPath, event.target.value, "internal")}>
+                          <option value="">Choose a page</option>
+                          {PUBLIC_ROUTES.map((route) => (
+                            <option key={route} value={route}>{route}</option>
+                          ))}
+                        </select>
+                        <input aria-label={`${link.label} custom path`} value={link.destination} onChange={(event) => update(link.destinationPath, event.target.value, "internal")} />
+                      </>
+                    ) : (
+                      <input aria-label={`${link.label} destination`} value={link.destination} onChange={(event) => update(link.destinationPath, event.target.value, "external")} placeholder="https://" />
+                    )}
+                  </td>
+                  <td>
+                    {link.reorderable && link.navIndex != null ? (
+                      <label>
+                        <input type="checkbox" checked={link.openInNewTab} onChange={(event) => setContent((current) => setNavFlag(current, link.navIndex as number, "openInNewTab", event.target.checked))} /> New tab
+                      </label>
+                    ) : (
+                      link.openInNewTab ? "New tab on the public page" : "Same tab"
+                    )}
+                  </td>
+                  <td>
+                    {link.reorderable && link.navIndex != null ? (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={!link.hidden}
+                          onChange={(event) => {
+                            const hide = !event.target.checked
+                            if (hide && !window.confirm("Hide this menu item from the public header, mobile menu, and footer? It stays hidden only after you publish.")) {
+                              return
+                            }
+                            setContent((current) => setNavFlag(current, link.navIndex as number, "hidden", hide))
+                          }}
+                        /> Shown
+                      </label>
+                    ) : (
+                      "Shown with its page"
+                    )}
+                  </td>
+                  <td>
+                    {link.reorderable && link.navIndex != null ? (
+                      <>
+                        <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setContent((current) => moveNavItem(current, link.navIndex as number, -1))}>Up</button>
+                        <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setContent((current) => moveNavItem(current, link.navIndex as number, 1))}>Down</button>
+                      </>
+                    ) : (
+                      "Fixed by the page layout"
+                    )}
+                  </td>
+                  <td>{changed ? "Unsaved in this editor" : "Matches published file"}</td>
+                  <td>Not recorded for each link</td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

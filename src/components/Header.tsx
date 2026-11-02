@@ -51,11 +51,18 @@ export function Header() {
           </button>
           <nav id="site-menu" className="topbar__nav" aria-label="Primary" hidden={!open}>
             <ul>
-              {nav.map((item) => (
+              {nav.filter((item) => !item.hidden).map((item) => (
                 <li key={item.to}>
-                  <NavLink to={item.to} end={item.end} onClick={() => setOpen(false)}>
-                    {item.label}
-                  </NavLink>
+                  {item.openInNewTab ? (
+                    <a href={item.to} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
+                      {item.label}
+                      <span className="visually-hidden"> (opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <NavLink to={item.to} end={item.end} onClick={() => setOpen(false)}>
+                      {item.label}
+                    </NavLink>
+                  )}
                 </li>
               ))}
             </ul>

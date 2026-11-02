@@ -37,6 +37,16 @@ describe("staff interface contrast", () => {
   })
 })
 
+describe("editable public library", () => {
+  it("keeps the public FAQ, resources, and page instructions in the content file", () => {
+    assert.equal(published.library.faq.categories.some((category) => category.items.some((item) => item.question === "What is the Bowl-A-Thon?")), true)
+    assert.ok(published.library.resources.proShops.length >= 1)
+    assert.match(published.library.practices.hero, /Practices are where bowlers/)
+    assert.match(published.library.sponsorQr.emptyBody, /verified/)
+    assert.equal(published.library.contact.formNotice.includes("not connected"), true)
+  })
+})
+
 describe("website link manager", () => {
   it("lists public navigation and rejects staff or script destinations", () => {
     const links = managedLinks(published)
@@ -50,6 +60,10 @@ describe("website link manager", () => {
     const help = readFileSync(new URL("../src/components/staff/StaffHelp.tsx", import.meta.url), "utf8")
     assert.match(help, /aria-expanded/)
     assert.match(help, /aria-controls/)
+    assert.match(help, /createPortal/)
+    assert.equal(links.some((link) => link.reorderable && link.location.includes("Header")), true)
+    const header = readFileSync(new URL("../src/components/Header.tsx", import.meta.url), "utf8")
+    assert.match(header, /item\.hidden/)
     const shell = readFileSync(new URL("../src/components/staff/StaffShell.tsx", import.meta.url), "utf8")
     assert.match(shell, /area === "coach"/)
     assert.doesNotMatch(shell, /\/admin\/connections/)

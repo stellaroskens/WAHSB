@@ -23,11 +23,18 @@ export function Footer() {
 
         <nav aria-label="Footer">
           <ul className="footer-links">
-            {nav.map((item) => (
+            {nav.filter((item) => !item.hidden).map((item) => (
               <li key={item.to}>
-                <NavLink to={item.to} end={item.end}>
-                  {item.label}
-                </NavLink>
+                {item.openInNewTab ? (
+                  <a href={item.to} target="_blank" rel="noopener noreferrer">
+                    {item.label}
+                    <span className="visually-hidden"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  <NavLink to={item.to} end={item.end}>
+                    {item.label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>

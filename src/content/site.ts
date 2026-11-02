@@ -48,6 +48,7 @@ export const coaches = siteContent.coaches.map((coach) => ({
 export const venues = siteContent.venues
 export type Venue = (typeof venues)[number]
 export const practiceTournaments = siteContent.practiceTournaments
+export const library = siteContent.library
 
 /** Confirmed Bowl-a-thon date only. Leave null until the club publishes one. */
 export const bowlathonEvent: { date: string | null } = {
@@ -55,46 +56,10 @@ export const bowlathonEvent: { date: string | null } = {
 }
 
 export const practiceLocation = siteContent.practiceLocation
-
-export const tournamentEvents = [
-  {
-    id: "district-finals",
-    name: "District finals",
-    detail:
-      "Date not confirmed. The previous club site placed district finals at the end of January.",
-    confirmed: false,
-  },
-  {
-    id: "state-finals",
-    name: "State finals",
-    detail:
-      "Teams must qualify. Date not confirmed. The previous club site placed the state tournament at the end of February.",
-    confirmed: false,
-  },
-  {
-    id: "all-stars",
-    name: "All-Stars",
-    detail: "Teams must qualify. Date not confirmed.",
-    confirmed: false,
-  },
-] as const
-
+export const tournamentEvents = library.tournaments.events
 export const bakerFrames = pageBodies.club.bakerFrames
-
-export const arrival = [
-  { label: "Arrive", value: "8:00 a.m." },
-  { label: "Check-in", value: "8:30 a.m." },
-  { label: "Bowling starts", value: "9:00 a.m." },
-] as const
-
-export const attire = [
-  "Athletes wear the approved uniform. The top is the provided jersey.",
-  "The bottom is black dress pants, or black dress shorts with an inner seam of at least six inches.",
-  "Black skirts are allowed if they are not a tennis style and the length is appropriate.",
-  "No jeans. No leggings, except under skirts. No undergarments showing.",
-  "No holes, patches, or frayed hems.",
-  "No hats.",
-] as const
+export const arrival = library.tournaments.arrival
+export const attire = library.tournaments.attire
 
 export type ResourceCategory = "local" | "equipment" | "learning"
 
@@ -115,14 +80,7 @@ export type ResourceLink = {
  */
 export const resources: ResourceLink[] = []
 
-export const localServiceCategories = [
-  "Ball fitting",
-  "Drilling",
-  "Redrilling",
-  "Repairs",
-  "Equipment orders",
-  "Shoes",
-] as const
+export const localServiceCategories = library.resources.serviceTags
 
 export type BusinessSponsor = {
   id: string

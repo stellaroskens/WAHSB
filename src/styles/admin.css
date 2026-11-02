@@ -641,11 +641,64 @@
   outline-offset: 2px;
 }
 
+.publish-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.publish-status li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border: 2px solid #8b97ad;
+  border-radius: 999px;
+  background: #fff;
+  color: #3d4c66;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.publish-status li.is-on {
+  border-color: #102c8d;
+  background: #e7edfb;
+  color: #102c8d;
+}
+
+.library-editor {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.library-editor__list {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.library-editor__list button {
+  text-align: left;
+  background: #fff;
+  color: #102c8d;
+  border: 2px solid #102c8d;
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+}
+
+.library-editor__list button.is-selected {
+  background: #8f1c1a;
+  color: #fff;
+  border-color: #8f1c1a;
+}
+
 .staff-help__popover {
-  position: static;
-  z-index: 1;
-  flex-basis: 100%;
-  width: min(28rem, 100%);
+  position: fixed;
+  z-index: 30;
+  width: min(22rem, calc(100vw - 1rem));
   padding: 0.75rem 0.85rem;
   border: 1px solid #102c8d;
   border-radius: 8px;
@@ -681,6 +734,40 @@
 .admin-table th {
   background: #e7edfb;
   color: #10203f;
+}
+
+.link-table label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  color: #172033;
+  white-space: nowrap;
+}
+
+.link-table input[type="checkbox"] {
+  width: 1.15rem;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+}
+
+@media (max-width: 900px) {
+  .link-table thead {
+    display: none;
+  }
+
+  .link-table,
+  .link-table tbody,
+  .link-table tr,
+  .link-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .link-table tr {
+    padding: 0.6rem 0;
+  }
 }
 
 .admin-table input,
@@ -734,18 +821,39 @@
   }
 
   .admin-sidenav.is-open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .admin-sidenav.is-open a {
     display: block;
+    flex: none;
+    width: 100%;
+    white-space: normal;
+    border-radius: 8px;
   }
 
   .admin-sidenav__group {
     display: block;
+    margin: 0.7rem 0 0.15rem;
     color: #ffd2d0;
   }
 
   .admin-form__actions,
-  .admin-table input,
+  .admin-table input:not([type="checkbox"]),
   .admin-table select {
     width: 100%;
+  }
+
+  .link-table input[type="checkbox"] {
+    width: 1.15rem;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
   }
 }
 

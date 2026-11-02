@@ -640,5 +640,1524 @@
     }
   ],
   "bowlerResults": [],
-  "bowlerHonors": []
+  "bowlerHonors": [],
+  "library": {
+    "faq": {
+      "hero": "Everything you need to know about bowling with us, getting started, tournaments, equipment, and supporting our bowlers.",
+      "categories": [
+        {
+          "id": "faq-bowl-a-thon",
+          "title": "Bowl-A-Thon & Fundraising",
+          "intro": "The Bowl-A-Thon pledge page is a preview. It does not send, save, or collect a pledge, and it cannot take a payment.",
+          "items": [
+            {
+              "question": "What is the Bowl-A-Thon?",
+              "paragraphs": [
+                "The Bowl-A-Thon is a fundraiser for Albany High School Bowling. A supporter can give a flat donation or pledge an amount for each pin.",
+                "The event date is not confirmed yet."
+              ]
+            },
+            {
+              "question": "How does the Bowl-A-Thon help our bowlers?",
+              "paragraphs": [
+                "Fundraising supports the club’s bowling-related expenses, equipment, and competition opportunities.",
+                "The club confirms any recognition before a sponsor is listed."
+              ]
+            },
+            {
+              "question": "What is a per-pin pledge?",
+              "paragraphs": [
+                "A per-pin pledge is an amount you choose to give for each pin. After the event, that amount is multiplied by the bowler’s verified eligible pin total. Sponsors do not enter the pin total.",
+                "For example, $0.10 per pin × 500 verified pins = $50. The example shows the math. It is not a predicted score."
+              ]
+            },
+            {
+              "question": "Can I make a flat donation instead?",
+              "paragraphs": [
+                "Yes. A flat donation is a set amount, and it does not change with the pin total. Families and businesses can choose a flat donation or a per-pin pledge."
+              ]
+            },
+            {
+              "question": "How is my pledge calculated?",
+              "paragraphs": [
+                "A per-pin pledge is calculated after the event: your amount per pin multiplied by the bowler’s verified eligible pin total. Sponsors do not enter that total.",
+                "For example, $0.10 per pin × 500 verified pins = $50.",
+                "The pledge page can show how the form is laid out. It does not calculate a payment, and online payments are not active."
+              ]
+            },
+            {
+              "question": "Can I set a maximum amount for my pledge?",
+              "paragraphs": [
+                "Yes. A per-pin pledge can include an optional maximum. If you pledge $0.10 per pin and set a $30 maximum, the donation will not exceed $30, even when the calculated total is higher."
+              ]
+            },
+            {
+              "question": "When will I know how much I owe?",
+              "paragraphs": [
+                "Per-pin pledges are calculated after the event. The club will confirm the bowler’s pin total and send the amount due with payment instructions. You do not need to guess the score."
+              ]
+            },
+            {
+              "question": "When and how do I make my donation?",
+              "paragraphs": [
+                "Online payments are not active. The current pledge system is a preview and cannot take a payment.",
+                "The club has said flat donations can be paid once payments are connected, and that per-pin sponsors receive payment instructions after the verified pin total is known. A donation deadline and a payment method have not been published. Ask the coaches before you send money."
+              ]
+            },
+            {
+              "question": "Can businesses sponsor a bowler?",
+              "paragraphs": [
+                "Yes. Families and businesses can choose a flat donation or a per-pin pledge. The club confirms any recognition before a sponsor is listed.",
+                "Sponsorship packages and business benefits are not published on this site. Ask the coaches."
+              ]
+            },
+            {
+              "question": "What does the fundraising money pay for?",
+              "paragraphs": [
+                "Fundraising supports the club’s bowling-related expenses, equipment, and competition opportunities. A more detailed budget has not been published here."
+              ]
+            },
+            {
+              "question": "Is my donation tax deductible?",
+              "paragraphs": [
+                "This site does not state that a donation is tax deductible. The club has not published its tax status. Do not treat a gift as tax deductible until the club confirms that in writing."
+              ]
+            },
+            {
+              "question": "What happens if a bowler cannot participate?",
+              "paragraphs": [
+                "The club has not published a cancellation policy or a rule for a bowler who cannot take part. Contact the coaches before the event so they can tell you how a pledge should be handled."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "faq-practices",
+          "title": "Practices & Participation",
+          "items": [
+            {
+              "question": "Is registration open for the 2026–2027 season?",
+              "paragraphs": [
+                "No. The Albany High School Bowling Club has reached capacity, and student registration is closed for the 2026–2027 season. We are not accepting additional student bowlers this season.",
+                "Adults who want to support existing athletes can learn about volunteer opportunities instead."
+              ],
+              "links": [
+                {
+                  "href": "/volunteer",
+                  "label": "VOLUNTEER OPPORTUNITIES"
+                },
+                {
+                  "href": "/contact",
+                  "label": "Contact the coaches"
+                }
+              ]
+            },
+            {
+              "question": "What should my child bring to bowling practice or lessons?",
+              "paragraphs": [
+                "These are practical suggestions for athletes already participating with the club. Confirm current expectations with the coaches."
+              ],
+              "points": [
+                "Comfortable clothing that allows movement",
+                "Socks suitable for bowling shoes",
+                "A water bottle",
+                "Any personal bowling equipment they already own, if applicable",
+                "A willingness to learn"
+              ],
+              "links": [
+                {
+                  "href": "/practices",
+                  "label": "Practice information"
+                }
+              ]
+            },
+            {
+              "question": "What should students wear?",
+              "paragraphs": [
+                "Wear comfortable clothing that allows a full bowling approach. The club has not published a uniform, a jersey requirement, or a clothing rule.",
+                "Fees and equipment expectations are not confirmed on this site. Ask a coach before you buy shoes or a ball."
+              ]
+            },
+            {
+              "question": "Where are practices held?",
+              "paragraphs": [
+                "Practices are held at Lakeshore Lanes, 5432 Pacific Blvd SW, Albany, OR 97321. Days and times are not confirmed yet."
+              ],
+              "links": [
+                {
+                  "href": "/practices",
+                  "label": "See practice details"
+                }
+              ]
+            },
+            {
+              "question": "When are practices scheduled?",
+              "paragraphs": [
+                "Days and times are not confirmed yet. The current club site says practice information is coming soon. No dates or start times are posted here."
+              ],
+              "links": [
+                {
+                  "href": "/practices",
+                  "label": "Check the practices page"
+                }
+              ]
+            },
+            {
+              "question": "Can parents watch practices?",
+              "paragraphs": [
+                "The club has not published a spectator policy for practices. Ask the coaches before you plan to stay and watch."
+              ]
+            },
+            {
+              "question": "How do students learn the correct bowling technique?",
+              "paragraphs": [
+                "Coaches teach the approach, release, and scoring at practice for athletes on the roster. This site does not publish a lesson plan or a required teaching method."
+              ],
+              "links": [
+                {
+                  "href": "/our-club#coaches",
+                  "label": "Meet the coaches"
+                }
+              ]
+            },
+            {
+              "question": "Can students practice outside regular club sessions?",
+              "paragraphs": [
+                "The club has not published a requirement to bowl outside club sessions, and it has not published permission to use a center on your own. Ask the coaches before you arrange extra practice."
+              ]
+            },
+            {
+              "question": "What happens if a student misses practice?",
+              "paragraphs": [
+                "The club has not published an attendance policy. If a student will miss practice, contact the coaches and ask what they would like the family to do."
+              ]
+            },
+            {
+              "question": "Can adults volunteer with the club?",
+              "paragraphs": [
+                "Yes. Student registration for the 2026–2027 season is closed, but adult volunteer opportunities are still available. The club welcomes adults interested in supporting existing athletes through event help, fundraising, setup, general assistance, and transportation when additional approval is granted."
+              ],
+              "links": [
+                {
+                  "href": "/volunteer",
+                  "label": "VOLUNTEER OPPORTUNITIES"
+                }
+              ]
+            },
+            {
+              "question": "How does volunteer background screening work?",
+              "paragraphs": [
+                "Albany High School Bowling uses Sterling Volunteers as its preferred third-party background-screening provider for adult volunteers.",
+                "Contact club leadership before ordering a screening. Completing a background check does not mean you are automatically authorized to volunteer. This website does not collect screening applications or sensitive personal information."
+              ],
+              "links": [
+                {
+                  "href": "/volunteer#volunteer-background-checks",
+                  "label": "Background check information"
+                },
+                {
+                  "href": "/contact",
+                  "label": "Contact club leadership"
+                }
+              ]
+            },
+            {
+              "question": "Do volunteer drivers need extra authorization?",
+              "paragraphs": [
+                "Yes. Helping with student transportation is separate from general volunteer screening. Drivers may need additional authorization such as a license, insurance proof, an MVR review when required, and written approval from club leadership or applicable school procedures.",
+                "This site does not claim that a standard Sterling Volunteers package includes an MVR review."
+              ],
+              "links": [
+                {
+                  "href": "/volunteer#volunteer-transport-heading",
+                  "label": "Transportation volunteer details"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "faq-equipment",
+          "title": "Bowling Balls, Shoes & Equipment",
+          "intro": "House balls and rental shoes are commonly offered at bowling centers. Availability, sizes, costs, and permission to use them during a club practice or a tournament vary. Confirm the plan with the coaches before each event.",
+          "items": [
+            {
+              "question": "Does my child need to own a bowling ball?",
+              "paragraphs": [
+                "This site does not require students to own a bowling ball. Many bowlers start with equipment available at the center, but that availability is not guaranteed for club practices.",
+                "Ask a coach before you buy a ball."
+              ]
+            },
+            {
+              "question": "Are bowling balls available at practices?",
+              "paragraphs": [
+                "Do not assume a house ball will be available at Lakeshore Lanes for a club practice. Families should confirm equipment arrangements with the coaches before practice."
+              ]
+            },
+            {
+              "question": "Are bowling balls available at tournaments?",
+              "paragraphs": [
+                "Bowling centers often have house balls, and some tournaments limit which balls may be used. This site does not guarantee that a student can borrow a ball at a tournament venue.",
+                "Confirm equipment arrangements with the coaches before each event."
+              ],
+              "links": [
+                {
+                  "href": "/tournaments",
+                  "label": "Tournament venues"
+                }
+              ]
+            },
+            {
+              "question": "Do students need to bring their own bowling shoes?",
+              "paragraphs": [
+                "Appropriate bowling footwear is required on the bowling approach. That does not mean a student must own bowling shoes.",
+                "Ask a coach before you buy shoes, and confirm whether rental shoes are part of the plan for that practice or event."
+              ]
+            },
+            {
+              "question": "Are rental bowling shoes available?",
+              "paragraphs": [
+                "Many bowling centers rent shoes. Sizes, cost, and whether rentals may be used for a club practice or tournament are not guaranteed here.",
+                "Confirm equipment arrangements with the coaches before each event."
+              ]
+            },
+            {
+              "question": "Are bowling shoes provided?",
+              "paragraphs": [
+                "This site does not say that bowling shoes are provided. Athletes on the roster do not have to own bowling shoes to bowl, and many centers rent shoes.",
+                "Sizes, cost, and whether a rental is part of a club practice or tournament are not guaranteed here. Confirm the plan with the coaches before you buy shoes and before each event."
+              ],
+              "links": [
+                {
+                  "href": "/contact",
+                  "label": "Contact the coaches"
+                }
+              ]
+            },
+            {
+              "question": "Can students wear regular sneakers while bowling?",
+              "paragraphs": [
+                "Regular sneakers are not bowling shoes. The approach is meant for bowling footwear, which has a sliding sole, and street shoes can mark the approach.",
+                "Ask the coaches and the bowling center what footwear is allowed. Do not assume sneakers are acceptable."
+              ]
+            },
+            {
+              "question": "What bowling-ball weight should a beginner use?",
+              "paragraphs": [
+                "There is no single beginner weight on this site. For athletes already bowling with the club, a useful ball is one the student can swing smoothly without dropping it or forcing the shot. Coaches can help a student try weights.",
+                "Under USBC equipment specifications, a bowling ball may not weigh more than 16 pounds. That maximum is not a recommendation to start at 16 pounds."
+              ]
+            },
+            {
+              "question": "What is the difference between a house ball and a custom-fitted ball?",
+              "paragraphs": [
+                "A house ball is center equipment with finger holes sized for many people to share. A custom-fitted ball is drilled for one bowler’s hand and style.",
+                "Athletes on the roster do not need a custom-fitted ball. Ask a coach before you order one."
+              ]
+            },
+            {
+              "question": "When should a student consider buying personal equipment?",
+              "paragraphs": [
+                "Personal equipment is optional. A family can consider shoes or a fitted ball when the student is bowling regularly with the club and a coach suggests a fitting.",
+                "Fees and equipment expectations are not confirmed on this site."
+              ]
+            },
+            {
+              "question": "Where can we purchase or have bowling equipment fitted?",
+              "paragraphs": [
+                "The Bowling Resources page lists pro shops the club has been given, including fitting and drilling services. Contact each shop to confirm current services, hours, and availability. Listing a shop is not an endorsement of a price or a package."
+              ],
+              "links": [
+                {
+                  "href": "/resources",
+                  "label": "Bowling Resources"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "faq-basics",
+          "title": "Bowling Basics & Leagues",
+          "intro": "These answers describe standard tenpin bowling. They are general explanations, not Albany High School Bowling rules. Where a league or tournament uses its own procedure, follow the coaches and the event rules.",
+          "items": [
+            {
+              "question": "How does bowling scoring work?",
+              "paragraphs": [
+                "A game has 10 frames. In each of the first nine frames, a bowler rolls up to two balls unless the first ball is a strike. The score adds the pins knocked down, plus a bonus when the bowler marks.",
+                "A strike scores 10 plus the next two deliveries. A spare scores 10 plus the next delivery. An open frame scores only the pins knocked down with those two deliveries.",
+                "In the 10th frame, a strike earns two extra deliveries and a spare earns one extra delivery. USBC explains this in its “How to Score a Game” guide."
+              ]
+            },
+            {
+              "question": "What is a strike?",
+              "paragraphs": [
+                "A strike means all 10 pins are knocked down with the first ball of a frame. USBC scores it as 10 plus the pins knocked down on the next two deliveries."
+              ]
+            },
+            {
+              "question": "What is a spare?",
+              "paragraphs": [
+                "A spare means all 10 pins are knocked down with two deliveries in the frame. USBC scores it as 10 plus the pins knocked down on the next delivery."
+              ]
+            },
+            {
+              "question": "How many frames are in a game?",
+              "paragraphs": [
+                "A standard game of American tenpins has 10 frames. The 10th frame can include a third delivery after a strike or a spare."
+              ]
+            },
+            {
+              "question": "What is a bowling average?",
+              "paragraphs": [
+                "A bowling average is total pinfall divided by the number of games bowled. Tournaments may have their own rules for which average a bowler enters.",
+                "Albany High School Bowling has not published an average requirement for athletes on the roster."
+              ]
+            },
+            {
+              "question": "What is a Baker game?",
+              "paragraphs": [
+                "A Baker game is a team game. USBC describes the Baker system as two or more bowlers following one another in order. Each bowler completes one frame, and the 10 frames together are one team score.",
+                "On a five-bowler team, a common rotation is bowler 1 in frames 1 and 6, bowler 2 in frames 2 and 7, and so on through bowler 5 in frames 5 and 10.",
+                "Albany High School Bowling uses Baker format, where five bowlers complete one game together. A lineup order for this season is not confirmed. An earlier club website described teams of eight, with five bowling at a time, and 20 Baker games at each tournament. That schedule is not confirmed for the current season."
+              ]
+            },
+            {
+              "question": "How does team bowling work?",
+              "paragraphs": [
+                "In ordinary team bowling, each bowler has a personal score and those scores are added. In Baker format, teammates share the frames of one game and the team has one score.",
+                "This club uses Baker format. Five bowlers complete one game together, so one student does not have to carry every frame. Who bowls, and in which order, is not published for the current season. Ask the coaches."
+              ]
+            },
+            {
+              "question": "What is lane courtesy?",
+              "paragraphs": [
+                "Lane courtesy means waiting so you do not distract a bowler who is already on the approach. Many centers use one-lane courtesy: if two bowlers on neighboring lanes are both ready, the bowler on the right goes first.",
+                "The center or the coaches will say which courtesy applies that day. This page does not set a club rule."
+              ]
+            },
+            {
+              "question": "What is a bowling league?",
+              "paragraphs": [
+                "A bowling league is an organized schedule of games, usually at the same center, with teams bowling over a season. High school club bowling is not the same thing as a commercial youth league.",
+                "Albany High School Bowling has not published league membership requirements on this site."
+              ]
+            },
+            {
+              "question": "Do students need a certain average to compete?",
+              "paragraphs": [
+                "No average requirement is published here for athletes already on the roster. Event eligibility is confirmed by the coaches, not by this website. Student registration for the 2026–2027 season is closed."
+              ]
+            },
+            {
+              "question": "What happens during a bowling tournament?",
+              "paragraphs": [
+                "Bowlers usually check in, bowl assigned games, and follow the center’s rules and the coaches’ instructions. This club’s tournaments use Baker format, with five bowlers completing one game together.",
+                "This site lists practice-tournament dates and venues that the club has supplied. Years, start times, and check-in rules are not all confirmed. It does not publish a full tournament procedure."
+              ],
+              "links": [
+                {
+                  "href": "/tournaments",
+                  "label": "Practice tournaments"
+                }
+              ]
+            },
+            {
+              "question": "How can a beginner improve their bowling?",
+              "paragraphs": [
+                "Athletes who are newer to the sport improve by repeating a calm approach, learning spares, and asking the coaches to watch one thing at a time. Keeping lane courtesy and staying ready for a turn also helps a team.",
+                "This site does not publish a practice plan or a target score. Student registration for the 2026–2027 season is closed."
+              ],
+              "links": [
+                {
+                  "href": "/practices",
+                  "label": "Practice information"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "faq-etiquette",
+          "title": "Tournament Conduct & Bowling Etiquette",
+          "intro": "These notes are for students and families. They describe the atmosphere the club is asking for. They are not a discipline code, and they do not replace a conversation with the coaches.",
+          "items": [
+            {
+              "question": "What behavior is expected at tournaments?",
+              "paragraphs": [
+                "Be ready for your turn, follow the coaches, respect lane courtesy, and treat teammates, opponents, officials, and center staff with courtesy. Encourage people. Leave food and drinks off the approach, and keep phones put away while you are bowling."
+              ]
+            },
+            {
+              "question": "Can parents coach their children during competition?",
+              "paragraphs": [
+                "Please allow the coaches to provide instruction during practices and tournaments. Parents and spectators are asked not to call out instructions, criticize a shot, or interrupt a coach.",
+                "Positive encouragement between shots is welcome."
+              ]
+            },
+            {
+              "question": "When is it appropriate to cheer?",
+              "paragraphs": [
+                "Cheer between shots, after a bowler has finished the delivery. A loud cheer while someone is standing on the approach makes it harder to concentrate."
+              ]
+            },
+            {
+              "question": "Why is keeping noise down important?",
+              "paragraphs": [
+                "Bowling asks for concentration, focus, and a repeatable approach. Conversations and sideline coaching during a delivery are distracting for every student on the pair of lanes, not only for one bowler."
+              ]
+            },
+            {
+              "question": "Are cell phones allowed on the lanes?",
+              "paragraphs": [
+                "Bowlers are asked to keep phones put away while bowling so the approach stays clear and everyone can focus. The club has not published a separate phone penalty. If you need a phone for an emergency, step away and ask a coach."
+              ]
+            },
+            {
+              "question": "What is proper lane courtesy?",
+              "paragraphs": [
+                "Stay off the approach until it is your turn, and wait if a bowler beside you is already preparing to roll. Many centers let the bowler on the right go first when two bowlers are ready at the same time.",
+                "Follow the courtesy the coaches and the center announce that day."
+              ]
+            },
+            {
+              "question": "How should bowlers treat teammates and opponents?",
+              "paragraphs": [
+                "Encourage teammates, accept a low game without blaming someone, and show the same respect to opponents. Good sportsmanship is part of representing South Albany, West Albany, and Lebanon as one club."
+              ]
+            },
+            {
+              "question": "Can parents photograph or record students?",
+              "paragraphs": [
+                "Ask permission before sharing photographs of other students. The club has not published a full photo or recording policy. If you are unsure, ask a coach before you post."
+              ]
+            },
+            {
+              "question": "What should students do if they have a question during competition?",
+              "paragraphs": [
+                "Ask a coach. Stay off the approach while you are waiting for the answer, and let the coach talk with officials or center staff if a scoring or equipment question needs them."
+              ]
+            },
+            {
+              "question": "What should spectators do if they disagree with a decision?",
+              "paragraphs": [
+                "Stay in the spectator area and speak calmly with a coach away from the bowlers who are on the approach. Please do not argue a call from the seats or coach over the official.",
+                "The club has not published a protest process. The coaches can tell you what the event allows."
+              ]
+            },
+            {
+              "question": "What time should families arrive?",
+              "paragraphs": [
+                "The Tournaments page lists times that were published on the previous club website: arrive at 8:00 a.m., check in at 8:30 a.m., and bowling starts at 9:00 a.m.",
+                "Those times are not confirmed for the current season. Confirm them with a coach before you travel."
+              ],
+              "links": [
+                {
+                  "href": "/tournaments",
+                  "label": "Tournament details"
+                },
+                {
+                  "href": "/contact",
+                  "label": "Contact the coaches"
+                }
+              ]
+            },
+            {
+              "question": "What should students bring to a tournament?",
+              "paragraphs": [
+                "The previous club website described a tournament uniform: the provided jersey on top, and black dress pants or black dress shorts with an inner seam of at least six inches. It also limited jeans, hats, and similar items. Confirm that guidance with a coach before a tournament.",
+                "This site does not guarantee a house ball or rental shoes at a tournament venue, and athletes on the roster do not have to own a ball or shoes to compete. Ask a coach what to bring for that event."
+              ],
+              "links": [
+                {
+                  "href": "/tournaments",
+                  "label": "Tournament details"
+                },
+                {
+                  "href": "/contact",
+                  "label": "Contact the coaches"
+                }
+              ]
+            },
+            {
+              "question": "Where should spectators sit or stand?",
+              "paragraphs": [
+                "Stay off the bowling approach and in the spectator area. The club has not published assigned seats or a map of where families should stand.",
+                "If you are unsure where to watch, ask a coach at the event."
+              ]
+            },
+            {
+              "question": "What should families do if they have concerns during a tournament?",
+              "paragraphs": [
+                "Speak calmly with a coach away from bowlers who are on the approach. Please do not call instructions or argue a concern from the seats.",
+                "The club has not published a separate process for family concerns during an event. Contact the coaches if you need to talk before or after the tournament."
+              ],
+              "links": [
+                {
+                  "href": "/contact",
+                  "label": "Contact the coaches"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "learningIntro": "These USBC guides explain general scoring and Baker format. They are not club policy.",
+      "learningResources": [
+        {
+          "href": "https://images.bowl.com/bowl/media/legacy/internap/bowl/rules/pdfs/ScoreHowto.pdf",
+          "label": "USBC: How to Score a Game"
+        },
+        {
+          "href": "https://images.bowl.com/bowl/media/assets/usbc/rules/general%20pdfs/usbc-tournament-managers-manual-(2026-update).pdf",
+          "label": "USBC Tournament Managers Manual, including the Baker system"
+        }
+      ],
+      "etiquetteHeading": "Parents & spectators — please allow our coaches to coach",
+      "etiquetteParagraphs": [
+        "During practices and tournaments, please allow our coaches to provide instruction and guidance to the bowlers. Parents and spectators are asked to remain as quiet as possible while students are preparing for and delivering their shots. Bowling requires concentration, focus, and consistency, and conversations or sideline coaching can be distracting.",
+        "We welcome positive encouragement and appropriate cheering between shots. Please avoid calling instructions to bowlers, criticizing shots, or interrupting coaches. Our goal is to give every student a supportive environment where they can learn, focus, and enjoy the sport."
+      ],
+      "bowlerHeading": "For bowlers",
+      "bowlerGuidelines": [
+        "Keep phones put away while bowling.",
+        "Be ready when it is your turn.",
+        "Follow coach instructions.",
+        "Respect lane courtesy.",
+        "Encourage teammates.",
+        "Show good sportsmanship.",
+        "Keep food and drinks away from the approach."
+      ],
+      "spectatorHeading": "For parents and spectators",
+      "spectatorGuidelines": [
+        "Allow coaches to coach.",
+        "Keep voices low during bowling.",
+        "Avoid sideline instruction.",
+        "Cheer positively at appropriate times.",
+        "Respect officials and bowling-center staff.",
+        "Stay in spectator areas.",
+        "Ask permission before sharing photographs of other students.",
+        "Support all three participating school communities as one bowling club."
+      ],
+      "askHeading": "Still Have Questions?",
+      "askIntro": "Can't find the answer you're looking for? Send your question to our coaching team. We're happy to help families and students learn more about bowling with us.",
+      "askNotice": "Prepare email to the coaches opens your email application with this question filled in. You must send it yourself. This website does not deliver messages.",
+      "askLabels": {
+        "name": "Name",
+        "email": "Email address",
+        "topic": "Question topic",
+        "question": "Your question",
+        "submit": "Prepare email to the coaches",
+        "chooseTopic": "Choose a topic"
+      },
+      "topics": [
+        "Volunteering",
+        "Student Participation",
+        "Practices & Lessons",
+        "Bowling Equipment",
+        "Tournaments",
+        "Bowl-A-Thon & Fundraising",
+        "Other"
+      ]
+    },
+    "resources": {
+      "hero": "A shorter list than a page of every link. Each entry stays off this page until the club is ready to share it.",
+      "disclaimer": "Hours and services may change. Please confirm directly with each business before visiting.",
+      "serviceTags": [
+        "Ball fitting",
+        "Drilling",
+        "Redrilling",
+        "Repairs",
+        "Equipment orders",
+        "Shoes"
+      ],
+      "sections": [
+        {
+          "category": "local",
+          "title": "Local bowling services",
+          "intro": "Fitting, drilling, redrilling, repairs, equipment orders, and shoes from businesses the club has agreed to list.",
+          "emptyTitle": "No local services are listed yet",
+          "empty": "Ball fitting, drilling, redrilling, repairs, equipment orders, and shoes will appear here after the club approves each business."
+        },
+        {
+          "category": "equipment",
+          "title": "Suggested equipment",
+          "intro": "Balls, bags, shoes, and other gear the club is comfortable recommending.",
+          "emptyTitle": "No products are listed yet",
+          "empty": "Suggested equipment will appear here after the club approves it."
+        },
+        {
+          "category": "learning",
+          "title": "Learning resources",
+          "intro": "Rules, high school bowling, and college bowling pages the club wants athletes to use.",
+          "emptyTitle": "No learning links are listed yet",
+          "empty": "Guides will appear here after the club approves them."
+        }
+      ],
+      "proShopsTitle": "Bowling Pro Shops",
+      "proShopsIntro": "Looking for a properly fitted bowling ball, drilling services, resurfacing, or new equipment? Explore these pro shops throughout Oregon. Contact each business directly to confirm current services, hours, and availability.",
+      "centersTitle": "Bowling Alleys & Centers",
+      "centersIntro": "Explore bowling centers throughout Oregon for recreation, practice, leagues, and family bowling. Locations are listed approximately from closest to farthest from Albany.",
+      "proShops": [
+        {
+          "id": "albany-bowling-center-pro-shop",
+          "name": "Albany Bowling Center Pro Shop",
+          "city": "Albany, OR",
+          "status": "An operating pro shop under this name in Albany, Oregon could not be confirmed.",
+          "hoursNote": "Hours: Not confirmed — please contact the business.",
+          "points": [
+            "Ball plugging and redrilling",
+            "Resurfacing",
+            "Engraving",
+            "Finger and thumb inserts"
+          ]
+        },
+        {
+          "id": "players-edge-pro-shop",
+          "name": "Players Edge Pro Shop",
+          "city": "Lebanon, OR",
+          "address": "2250 S. Main Road, Lebanon, OR 97355",
+          "phone": "(541) 451-3900",
+          "phoneNote": "Published phone for Linn Lanes. A separate pro shop number is not listed.",
+          "website": "https://linnlanes.com/ProShop/proshop.htm",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "By appointment only"
+            }
+          ],
+          "hoursNote": "By appointment — contact business to confirm availability. Tuesday through Sunday are not listed on the shop page.",
+          "points": [
+            "Inside Linn Lanes",
+            "Aaron Heintzman",
+            "By appointment",
+            "Bowling balls, bags, and shoes",
+            "Custom drilling",
+            "Oval thumb-hole fitting"
+          ]
+        },
+        {
+          "id": "emerald-lanes-pro-shop",
+          "name": "Emerald Lanes Pro Shop",
+          "city": "Eugene, OR",
+          "address": "140 Oakway Rd, Eugene, OR 97401",
+          "phone": "(541) 342-2611",
+          "website": "https://emeraldlaneseugene.com/bowling-pro-shop-eugene/",
+          "hoursNote": "Hours: Not confirmed — please contact the business. The center website does not list a separate pro shop schedule.",
+          "points": [
+            "Full-service bowling pro shop",
+            "Bowling balls and equipment",
+            "Reactive bowling balls",
+            "Starter equipment packages"
+          ]
+        },
+        {
+          "id": "bowtech-factory-pro-shop",
+          "name": "Bowtech Factory Pro Shop",
+          "city": "Eugene, OR",
+          "status": "An active public bowling pro shop under this name could not be confirmed.",
+          "hoursNote": "Hours: Not confirmed — please contact the business.",
+          "points": [
+            "Factory-direct bowling equipment",
+            "Pro shop services"
+          ]
+        },
+        {
+          "id": "larrys-pro-shop",
+          "name": "Larry's Pro Shop",
+          "city": "Portland — Lents",
+          "address": "3550 SE 92nd Ave, Portland, OR 97266-1955",
+          "phone": "(503) 772-2142",
+          "website": "https://larrysproshop.net/",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "12:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Tuesday",
+              "text": "12:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "12:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "12:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "12:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Saturday",
+              "text": "12:00 PM – 6:00 PM"
+            },
+            {
+              "day": "Sunday",
+              "text": "12:00 PM – 6:00 PM"
+            }
+          ],
+          "points": [
+            "Custom ball drilling",
+            "Resurfacing",
+            "Ball de-oiling"
+          ]
+        },
+        {
+          "id": "the-pro-shoppe",
+          "name": "The Pro Shoppe",
+          "city": "Gresham, OR",
+          "address": "2311 E Powell Blvd, Gresham, OR 97080",
+          "website": "https://mthoodlanes.com/bowling/pro-shoppe",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "Closed"
+            },
+            {
+              "day": "Tuesday",
+              "text": "2:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "2:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "2:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "2:00 PM – 7:00 PM"
+            },
+            {
+              "day": "Saturday",
+              "text": "10:00 AM – 5:00 PM"
+            },
+            {
+              "day": "Sunday",
+              "text": "Closed"
+            }
+          ],
+          "hoursNote": "Inside Mt. Hood Lanes. These are the shop hours published on the center’s pro shop page.",
+          "points": [
+            "Independent bowling equipment shop",
+            "Bowling balls and accessories"
+          ]
+        },
+        {
+          "id": "tendown-pro-shop",
+          "name": "TenDown Pro Shop",
+          "city": "Roseburg, OR",
+          "address": "2400 NE Diamond Lake Blvd, Roseburg, OR 97470",
+          "phone": "(541) 672-3601",
+          "website": "https://tendownbowling.com/pro-shop/",
+          "hoursNote": "Hours: Not confirmed — please contact the business. The shop page does not list a schedule separate from the bowling center.",
+          "points": [
+            "Bowling balls",
+            "Bags and shoes",
+            "Custom fitting",
+            "On-site drilling"
+          ]
+        }
+      ],
+      "bowlingCenters": [
+        {
+          "id": "highland-bowl",
+          "name": "Highland Bowl",
+          "city": "Corvallis, OR",
+          "address": "2123 NW 9th St, Corvallis, OR 97330",
+          "phone": "(541) 753-6161",
+          "website": "http://www.highlandbowl.com/",
+          "hours": [
+            {
+              "day": "Every day",
+              "text": "10:00 AM – Midnight"
+            }
+          ],
+          "points": [
+            "Food",
+            "Leagues",
+            "Family bowling"
+          ]
+        },
+        {
+          "id": "linn-lanes",
+          "name": "Linn Lanes",
+          "city": "Lebanon, OR",
+          "address": "2250 S. Main Road, Lebanon, OR 97355",
+          "phone": "(541) 451-3900",
+          "website": "https://linnlanes.com/",
+          "hours": [
+            {
+              "day": "Sunday",
+              "text": "11:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Monday",
+              "text": "11:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Tuesday",
+              "text": "9:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "9:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "11:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "11:00 AM – 12:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "10:00 AM – 12:00 AM"
+            }
+          ],
+          "hoursNote": "Bowling center hours. The lounge schedule on the same page is not shown here.",
+          "points": [
+            "Bowling center and Head Pin Restaurant"
+          ]
+        },
+        {
+          "id": "northgate-bowl",
+          "name": "Northgate Bowl",
+          "city": "Salem, OR",
+          "venueId": "northgate-bowl",
+          "address": "2380 Northgate Avenue NE, Salem, OR 97301",
+          "phone": "(503) 581-1634",
+          "website": "https://www.northgatebowl.com/",
+          "hours": [
+            {
+              "day": "Every day",
+              "text": "9:00 AM – 10:00 PM"
+            }
+          ],
+          "hoursNote": "Lanes are not rented after 9:15 PM.",
+          "points": [
+            "24 lanes",
+            "Leagues",
+            "Bumper bowling"
+          ]
+        },
+        {
+          "id": "amf-firebird-lanes",
+          "name": "AMF Firebird Lanes",
+          "city": "Salem, OR",
+          "address": "4303 Center St NE, Salem, OR 97301",
+          "phone": "(503) 581-1697",
+          "website": "https://www.amf.com/location/amf-firebird-lanes",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "4:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Tuesday",
+              "text": "2:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "12:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "2:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "2:00 PM – 12:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "11:00 AM – 12:00 AM"
+            },
+            {
+              "day": "Sunday",
+              "text": "11:00 AM – 11:00 PM"
+            }
+          ],
+          "hoursNote": "Published as this week’s hours on the official location page.",
+          "points": [
+            "32 lanes",
+            "Arcade"
+          ]
+        },
+        {
+          "id": "silver-creek-lanes",
+          "name": "Silver Creek Lanes",
+          "city": "Silverton, OR",
+          "venueId": "silver-creek-lanes",
+          "address": "500 West C Street, Silverton, OR 97381",
+          "phone": "(503) 873-5316",
+          "website": "https://www.silvercreeklanes.com/",
+          "hoursNote": "Hours: Not confirmed — please contact the business. The website publishes summer hours for May through August: Monday 4 pm–9 pm, Tuesday through Saturday 11 am–9 pm, Sunday 12 pm–7 pm.",
+          "points": [
+            "Practice tournament venue for Albany High School Bowling"
+          ]
+        },
+        {
+          "id": "emerald-lanes",
+          "name": "Emerald Lanes",
+          "city": "Eugene, OR",
+          "address": "140 Oakway Rd, Eugene, OR 97401",
+          "phone": "(541) 342-2611",
+          "website": "https://emeraldlaneseugene.com/",
+          "hours": [
+            {
+              "day": "Monday–Thursday",
+              "text": "9:30 AM – 10:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "10:00 AM – 12:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "9:30 AM – 12:00 AM"
+            },
+            {
+              "day": "Sunday",
+              "text": "10:00 AM – 10:00 PM"
+            }
+          ],
+          "points": [
+            "24 synthetic lanes",
+            "Bowling technology",
+            "Pro shop"
+          ]
+        },
+        {
+          "id": "milwaukie-bowl",
+          "name": "Milwaukie Bowl",
+          "city": "Milwaukie, OR",
+          "address": "3056 SE Harrison St, Milwaukie, OR 97222",
+          "phone": "(503) 654-7719",
+          "website": "https://www.milwaukiebowl.com/",
+          "hours": [
+            {
+              "day": "Monday–Thursday",
+              "text": "9:00 AM – 11:00 PM"
+            },
+            {
+              "day": "Friday–Saturday",
+              "text": "9:00 AM – Midnight"
+            },
+            {
+              "day": "Sunday",
+              "text": "9:00 AM – 10:00 PM"
+            }
+          ],
+          "hoursNote": "Bowling hours from the center’s “To Bowl” list.",
+          "points": [
+            "Wood lanes",
+            "Bumpers",
+            "Leagues"
+          ]
+        },
+        {
+          "id": "kingpins-beaverton",
+          "name": "KingPins — Beaverton",
+          "city": "Beaverton, OR",
+          "address": "2725 SW Cedar Hills Blvd, Beaverton, OR 97005",
+          "phone": "(503) 646-1116",
+          "website": "https://mykingpins.com/beaverton/",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "11:30 AM – 11:30 PM"
+            },
+            {
+              "day": "Tuesday",
+              "text": "10:00 AM – 11:30 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "11:30 AM – 11:30 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "10:00 AM – Midnight"
+            },
+            {
+              "day": "Friday",
+              "text": "11:30 AM – 1:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "9:00 AM – 1:00 AM"
+            },
+            {
+              "day": "Sunday",
+              "text": "10:00 AM – 11:30 PM"
+            }
+          ],
+          "points": [
+            "Laser tag",
+            "Arcade",
+            "Family entertainment"
+          ]
+        },
+        {
+          "id": "grand-central-bowl",
+          "name": "Grand Central Bowl",
+          "city": "Portland — Buckman",
+          "address": "808 SE Morrison St, Portland, OR 97214",
+          "phone": "(503) 236-2695",
+          "website": "https://www.grandcentralbowl.com/",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "4:00 PM – 10:00 PM"
+            },
+            {
+              "day": "Tuesday–Thursday",
+              "text": "4:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "4:00 PM – 12:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "11:00 AM – 12:00 AM"
+            },
+            {
+              "day": "Sunday",
+              "text": "11:00 AM – 10:00 PM"
+            }
+          ],
+          "points": [
+            "12 lanes",
+            "HD screens",
+            "Sports bar"
+          ]
+        },
+        {
+          "id": "kingpins-portland",
+          "name": "KingPins — Portland",
+          "city": "Portland — Lents",
+          "address": "3550 SE 92nd Ave, Portland, OR 97266",
+          "phone": "(503) 788-7889",
+          "website": "https://mykingpins.com/portland/",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "11:00 AM – Midnight"
+            },
+            {
+              "day": "Tuesday",
+              "text": "11:00 AM – 11:30 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "11:00 AM – 11:30 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "12:00 PM – 11:30 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "10:00 AM – Midnight"
+            },
+            {
+              "day": "Saturday",
+              "text": "9:00 AM – Midnight"
+            },
+            {
+              "day": "Sunday",
+              "text": "9:00 AM – 11:30 PM"
+            }
+          ],
+          "points": [
+            "40 lanes",
+            "Arcade",
+            "Virtual reality entertainment"
+          ]
+        },
+        {
+          "id": "mt-hood-lanes",
+          "name": "Mt. Hood Lanes",
+          "city": "Gresham, OR",
+          "address": "2311 E Powell Blvd, Gresham, OR 97080",
+          "phone": "(503) 492-9820",
+          "website": "https://mthoodlanes.com/",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "2:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Tuesday",
+              "text": "2:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Wednesday",
+              "text": "2:00 PM – 12:00 AM"
+            },
+            {
+              "day": "Thursday",
+              "text": "2:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "2:00 PM – 12:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "12:00 PM – 12:00 AM"
+            },
+            {
+              "day": "Sunday",
+              "text": "11:00 AM – 11:00 PM"
+            }
+          ],
+          "hoursNote": "The center says hours may change based on season, leagues, and special events.",
+          "points": [
+            "Arcade",
+            "Lava Lounge",
+            "Parties",
+            "Leagues"
+          ]
+        },
+        {
+          "id": "ten-down-bowling",
+          "name": "Ten Down Bowling",
+          "city": "Roseburg, OR",
+          "address": "2400 NE Diamond Lake Blvd, Roseburg, OR 97470",
+          "phone": "(541) 672-3601",
+          "website": "https://tendownbowling.com/",
+          "hours": [
+            {
+              "day": "Monday",
+              "text": "9:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Tuesday",
+              "text": "Closed"
+            },
+            {
+              "day": "Wednesday",
+              "text": "12:00 PM – 10:00 PM"
+            },
+            {
+              "day": "Thursday",
+              "text": "9:00 AM – 10:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "12:00 PM – 10:00 PM"
+            },
+            {
+              "day": "Saturday",
+              "text": "12:00 PM – 10:00 PM"
+            },
+            {
+              "day": "Sunday",
+              "text": "12:00 PM – 10:00 PM"
+            }
+          ],
+          "hoursNote": "Last lanes issued at 9:00 PM.",
+          "points": [
+            "Bowling center along the I-5 corridor"
+          ]
+        },
+        {
+          "id": "caveman-bowl",
+          "name": "Caveman Bowl",
+          "city": "Grants Pass, OR",
+          "address": "1230 Rogue River Hwy, Grants Pass, OR 97527",
+          "phone": "(541) 479-2311",
+          "website": "https://www.cavemanbowl.com/",
+          "hours": [
+            {
+              "day": "Monday–Thursday",
+              "text": "9:00 AM – 9:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "9:00 AM – 11:00 PM"
+            },
+            {
+              "day": "Saturday",
+              "text": "12:00 PM – 11:00 PM"
+            },
+            {
+              "day": "Sunday",
+              "text": "12:00 PM – 8:00 PM"
+            }
+          ],
+          "hoursNote": "Published as winter hours.",
+          "points": [
+            "Bowling center near I-5"
+          ]
+        },
+        {
+          "id": "lava-lanes",
+          "name": "Lava Lanes",
+          "city": "Medford, OR",
+          "address": "2980 Crater Lake Hwy, Medford, OR 97504",
+          "phone": "(541) 245-2755",
+          "website": "https://lavalanes.com/",
+          "hours": [
+            {
+              "day": "Monday–Thursday",
+              "text": "11:00 AM – 11:00 PM"
+            },
+            {
+              "day": "Friday",
+              "text": "11:00 AM – 1:00 AM"
+            },
+            {
+              "day": "Saturday",
+              "text": "10:00 AM – 1:00 AM"
+            },
+            {
+              "day": "Sunday",
+              "text": "10:00 AM – 11:00 PM"
+            }
+          ],
+          "hoursNote": "Published as bowling hours. The site says the center is open 365 days a year.",
+          "points": [
+            "40 lanes",
+            "Cosmic bowling",
+            "Sports bar"
+          ]
+        }
+      ]
+    },
+    "practices": {
+      "hero": "Practices are where bowlers learn the game, get comfortable with the approach, and get ready to compete as a team.",
+      "scheduleTitle": "Days and times are not posted yet",
+      "scheduleBody": "The current club site says practice information is coming soon. No dates or start times are confirmed here.",
+      "bringItems": [
+        "Clothes you can move in.",
+        "Questions. Coaches would rather explain the game than have you guess."
+      ],
+      "bringNote": "Fees, jerseys, and equipment expectations are not confirmed on this site. Ask a coach before you buy shoes or a ball.",
+      "rosterNote": "Coaches teach the game at practice for athletes already on the roster, including approach, scoring, and how a team bowls together.",
+      "faqHeading": "PRACTICE FAQs",
+      "faqIntro": "Find answers to common questions about practices, equipment, participation, and volunteering."
+    },
+    "tournaments": {
+      "hero": "These dates include the confirmed year. The start time is not confirmed yet.",
+      "seasonNote": "The previous club website described district tournaments from November through January, district finals at the end of January, and a state tournament at the end of February for teams that qualify. It also described teams of eight, with five bowling at a time, and 20 Baker games at each tournament. That schedule is not confirmed for the current season.",
+      "arrivalNote": "These times were published on the previous website. Confirm them with a coach before you travel.",
+      "arrivalFormat": "The previous site described 12 games, a lunch break, the remaining 8 games, and then a stepladder final.",
+      "arrival": [
+        {
+          "label": "Arrive",
+          "value": "8:00 a.m."
+        },
+        {
+          "label": "Check-in",
+          "value": "8:30 a.m."
+        },
+        {
+          "label": "Bowling starts",
+          "value": "9:00 a.m."
+        }
+      ],
+      "attireNote": "This is the uniform guidance from the previous club website. Confirm it before a tournament.",
+      "attire": [
+        "Athletes wear the approved uniform. The top is the provided jersey.",
+        "The bottom is black dress pants, or black dress shorts with an inner seam of at least six inches.",
+        "Black skirts are allowed if they are not a tennis style and the length is appropriate.",
+        "No jeans. No leggings, except under skirts. No undergarments showing.",
+        "No holes, patches, or frayed hems.",
+        "No hats."
+      ],
+      "spectatorIntro": [
+        "Bowling tournaments require concentration, patience, and teamwork. We love having families come support our bowlers, and your encouragement makes a difference!",
+        "During practices and competitions, please allow our coaches to coach. Parents and spectators are asked to remain as quiet as possible while bowlers prepare for and deliver their shots.",
+        "Please avoid calling out instructions, coaching from the sidelines, or discussing missed shots while a student is bowling.",
+        "Positive encouragement is always welcome at appropriate times between shots. Our goal is to create a respectful, supportive environment where every bowler can focus, learn, and enjoy the game."
+      ],
+      "spectatorCards": [
+        {
+          "title": "Let coaches coach",
+          "text": "Coaches provide instruction and guidance. Please avoid sideline coaching."
+        },
+        {
+          "title": "Quiet during shots",
+          "text": "Keep conversations and distractions to a minimum when bowlers are preparing and bowling."
+        },
+        {
+          "title": "Cheer positively",
+          "text": "Celebrate effort, improvement, and good sportsmanship between shots."
+        },
+        {
+          "title": "Respect everyone",
+          "text": "Show respect to athletes, coaches, tournament officials, bowling center staff, and other families."
+        }
+      ],
+      "guideHeading": "Cheer them on. Let them focus.",
+      "guideItems": [
+        {
+          "title": "Let coaches coach",
+          "text": "Please leave coaching and technical instructions to the team's coaches during competition."
+        },
+        {
+          "title": "Quiet during approaches",
+          "text": "Please stay quiet while bowlers prepare for and deliver their shots."
+        },
+        {
+          "title": "Cheer between shots",
+          "text": "Positive encouragement and cheering between shots are welcome."
+        },
+        {
+          "title": "Keep phones off the lanes",
+          "text": "Do not use phones on the bowling lanes or approach areas."
+        }
+      ],
+      "faqHeading": "TOURNAMENT ETIQUETTE & FAQs",
+      "faqIntro": "Helpful guidance for bowlers, families, and spectators on tournament day.",
+      "events": [
+        {
+          "id": "district-finals",
+          "name": "District finals",
+          "detail": "Date not confirmed. The previous club site placed district finals at the end of January.",
+          "confirmed": false
+        },
+        {
+          "id": "state-finals",
+          "name": "State finals",
+          "detail": "Teams must qualify. Date not confirmed. The previous club site placed the state tournament at the end of February.",
+          "confirmed": false
+        },
+        {
+          "id": "all-stars",
+          "name": "All-Stars",
+          "detail": "Teams must qualify. Date not confirmed.",
+          "confirmed": false
+        }
+      ]
+    },
+    "fundraisers": {
+      "hero": "Two restaurant fundraisers are coming up for Albany High School Bowling. Share the official flyer for each event with friends and relatives, and invite them to participate.",
+      "panda": {
+        "intro": "The fundraiser runs throughout the day at Panda Express in Albany.",
+        "placeName": "Panda Express",
+        "street": "1310 Geary Street",
+        "locality": "Albany, OR 97322",
+        "phone": "(541) 791-1087",
+        "phoneHref": "tel:+15417911087",
+        "stepsIntro": "The flyer says 20% of event sales will be donated.",
+        "steps": [
+          "Order ahead or on Friday, October 30, 2026.",
+          "Online: order at PandaExpress.com or in the app and enter 3868031 in the fundraiser code box.",
+          "In person: bring the paper flyer or show it on your smartphone.",
+          "Present the flyer or the code with the order. The flyer says flyers may not be handed out inside the restaurant or in its parking lot."
+        ],
+        "terms": "The flyer also states that Panda Express donates 20% of pre-tax purchases when the event reaches $100 in pre-tax sales. The full participation terms are printed on the flyer.",
+        "flyerAlt": "Panda Express fundraiser flyer for Albany High School Bowling on Friday, October 30, 2026, from 9:30 AM to 10:00 PM.",
+        "caption": "Official Panda Express flyer.",
+        "code": "3868031"
+      },
+      "burgerville": {
+        "yearNote": "The flyer prints “Sunday, November 8th” and does not print a year. Sunday, November 8 is in 2026.",
+        "placeName": "Burgerville",
+        "street": "2310 Santiam Highway SE, Albany",
+        "steps": "Present this flyer or use code BVGIVES when ordering in the app. The flyer says 20% of the purchase will be donated.",
+        "flyerAlt": "Burgerville community fundraiser flyer for Albany High School Bowling on Sunday, November 8, from 4:00 PM to 8:00 PM.",
+        "caption": "Official Burgerville flyer.",
+        "volunteerIntro": "The club needs student bowlers and several parents to help promote the fundraiser. Volunteers can:",
+        "volunteerItems": [
+          "Help clean tables",
+          "Speak with customers outside about the fundraiser",
+          "Hold Albany High School Bowling posters",
+          "Wave to passing cars to promote the event"
+        ],
+        "volunteerPosters": "The team also needs volunteers to make posters identifying Albany High School Bowling.",
+        "volunteerAsk": "Families who can help should tell the fundraiser contact what time they can attend and for how long, so coverage can be coordinated throughout the event.",
+        "code": "BVGIVES"
+      },
+      "shareHeading": "Share the announcements",
+      "shareBody": "Families are encouraged to share each official flyer and invite friends and relatives to participate. Use the flyer links above to open or download the artwork, then send that file.",
+      "shareQuestions": "Questions about either fundraiser, or a Burgerville volunteer time, can go to the fundraiser contact."
+    },
+    "bowlathon": {
+      "hero": "This pledge form is a preview of the paper sheet. It does not send, save, or collect a pledge, and it cannot take a payment.",
+      "how": [
+        "Flat donations can be paid immediately once payments are connected.",
+        "Per-pin totals are calculated after the event from the bowler’s verified pin total, then the sponsor receives payment instructions.",
+        "Sponsors do not enter the pin total."
+      ],
+      "example": "Example: $0.10 per pin × 500 pins = $50.",
+      "dateNote": "Printed QR cards are planned to open this page. Each card will use a private link for one bowler, without placing a student name in the address. Cards will be made after the club has a permanent website address.",
+      "formHeading": "Pledge preview",
+      "formNotice": "This form is a preview. It is not connected, and nothing is saved.",
+      "labels": {
+        "bowler": "Bowler name",
+        "sponsor": "Sponsor name or business",
+        "email": "Email",
+        "phone": "Phone (optional)",
+        "flat": "Flat Donation",
+        "perPin": "Per-Pin Pledge",
+        "flatAmount": "Donation amount (USD)",
+        "perPinAmount": "Amount per pin (USD)",
+        "maximum": "Optional maximum total (USD)",
+        "submit": "Submit preview"
+      },
+      "paymentHeading": "Choose how to support our bowlers",
+      "paymentNote": "Payment options will become available after the club completes setup and approval.",
+      "faqHeading": "How pledging works",
+      "faqs": [
+        {
+          "question": "What is a per-pin pledge?",
+          "answer": "You choose an amount to donate for each pin your bowler knocks down during the Bowl-a-thon. After the event, we multiply your pledge by their confirmed pin total. For example, pledging 10 cents per pin with a total of 500 pins means a $50 donation. The example is illustrative, not a predicted score."
+        },
+        {
+          "question": "When do I pay, and how will I know the total?",
+          "answer": "Per-pin pledges are calculated after the event. The club will confirm your bowler’s pin total and send you the amount due with payment instructions. You do not need to guess their score or calculate it yourself."
+        },
+        {
+          "question": "Can I set a limit on my donation?",
+          "answer": "Yes. Enter an optional maximum donation with your per-pin pledge. If you pledge 10 cents per pin and set a $30 maximum, your donation will not exceed $30, even if the calculated total is higher."
+        },
+        {
+          "question": "Can I give a fixed amount instead?",
+          "answer": "Absolutely. Choose “Flat Donation” to give a set amount regardless of how many pins your bowler knocks down. Both families and businesses can choose either pledge type."
+        }
+      ]
+    },
+    "contact": {
+      "hero": "Questions about volunteering, practices, or supporting a bowler are welcome. Email the club, or use the form to see the layout. The form does not send or save a message.",
+      "formHeading": "Write to the club",
+      "formNotice": "This form is a preview. It is not connected to email.",
+      "labels": {
+        "name": "Your name",
+        "email": "Email",
+        "topic": "What is this about?",
+        "message": "Message",
+        "submit": "Submit preview"
+      },
+      "topics": [
+        "Volunteering",
+        "Practices",
+        "Supporting the club",
+        "Student participation",
+        "Something else"
+      ],
+      "coachesNote": "Reach both coaches through the club email.",
+      "biographiesLabel": "Read their biographies"
+    },
+    "sponsorQr": {
+      "title": "Sponsorship QR | Albany High School Bowling",
+      "description": "Printable sponsorship QR code for Albany High School Bowling. Available only after an approved public sponsorship URL is configured.",
+      "hero": "Scan or print only when an approved public sponsorship link is ready.",
+      "readyHeading": "Approved sponsorship link",
+      "readyBody": "This QR encodes the club-approved public URL. It does not confirm a payment or create a sponsorship account.",
+      "emptyHeading": "Not ready yet",
+      "emptyBody": "No approved public sponsorship URL is configured. Staff prepare that destination under Payment Connections. This page will not show a QR code or accept payments until that URL is verified and live.",
+      "backLabel": "Back to Sponsors"
+    }
+  }
 }

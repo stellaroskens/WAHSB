@@ -6,7 +6,7 @@ import { PinMark } from "../components/Marks"
 import { PageMeta } from "../components/PageMeta"
 import { SeasonClosedNotice } from "../components/SeasonClosedNotice"
 import { faqCategories } from "../content/faq"
-import { club, pages, practiceLocation } from "../content/site"
+import { club, library, pages, practiceLocation } from "../content/site"
 
 const practiceFaqIds = ["faq-practices", "faq-equipment", "faq-basics"] as const
 
@@ -35,10 +35,7 @@ export function Practices() {
           </>
         }
       >
-        <p>
-          Practices are where bowlers learn the game, get comfortable with the
-          approach, and get ready to compete as a team.
-        </p>
+        <p>{library.practices.hero}</p>
       </AthleticHero>
 
       <section className="section">
@@ -97,30 +94,22 @@ export function Practices() {
 
           <article className="card sw-practices__schedule">
             <h2>Schedule</h2>
-            <EmptyState title="Days and times are not posted yet">
-              The current club site says practice information is coming soon. No
-              dates or start times are confirmed here.
-            </EmptyState>
+            <EmptyState title={library.practices.scheduleTitle}>{library.practices.scheduleBody}</EmptyState>
           </article>
 
           <article className="card">
             <h2>What to bring</h2>
             <ul className="plain-list">
-              <li>Clothes you can move in.</li>
-              <li>Questions. Coaches would rather explain the game than have you guess.</li>
+              {library.practices.bringItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
-            <p>
-              Fees, jerseys, and equipment expectations are not confirmed on this
-              site. Ask a coach before you buy shoes or a ball.
-            </p>
+            <p>{library.practices.bringNote}</p>
           </article>
 
           <article className="card" aria-labelledby="season-registration-closed-heading">
             <SeasonClosedNotice />
-            <p>
-              Coaches teach the game at practice for athletes already on the roster, including
-              approach, scoring, and how a team bowls together.
-            </p>
+            <p>{library.practices.rosterNote}</p>
           </article>
         </div>
       </section>
@@ -128,18 +117,15 @@ export function Practices() {
       <section className="section practice-faq" aria-labelledby="practice-faq-heading">
         <div className="wrap">
           <div className="sw-panel sw-faq-panel">
-            <h2 id="practice-faq-heading">PRACTICE FAQs</h2>
-            <p className="practice-faq__intro">
-              Find answers to common questions about practices, equipment, participation, and
-              volunteering.
-            </p>
+            <h2 id="practice-faq-heading">{library.practices.faqHeading}</h2>
+            <p className="practice-faq__intro">{library.practices.faqIntro}</p>
 
             {practiceFaqCategories.map((category) => (
               <div className="practice-faq__category" key={category.id}>
                 <h3>{category.title}</h3>
                 {category.intro ? <p className="practice-faq__category-intro">{category.intro}</p> : null}
                 <div className="practice-faq__items">
-                  {category.items.map((item) => (
+                  {category.items.filter((item) => !item.hidden).map((item) => (
                     <details className="practice-faq__item" key={item.question}>
                       <summary className="practice-faq__question">
                         <span className="practice-faq__question-text">{item.question}</span>

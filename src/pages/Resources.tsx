@@ -8,34 +8,10 @@ import {
   proShops,
   type DirectoryListing,
 } from "../content/resourceListings"
-import { localServiceCategories, pages, resources, type ResourceCategory } from "../content/site"
+import { library, localServiceCategories, pages, resources } from "../content/site"
 import { telHref } from "../lib/calendar"
 
-const sections: { category: ResourceCategory; title: string; intro: string; emptyTitle: string; empty: string }[] = [
-  {
-    category: "local",
-    title: "Local bowling services",
-    intro:
-      "Fitting, drilling, redrilling, repairs, equipment orders, and shoes from businesses the club has agreed to list.",
-    emptyTitle: "No local services are listed yet",
-    empty:
-      "Ball fitting, drilling, redrilling, repairs, equipment orders, and shoes will appear here after the club approves each business.",
-  },
-  {
-    category: "equipment",
-    title: "Suggested equipment",
-    intro: "Balls, bags, shoes, and other gear the club is comfortable recommending.",
-    emptyTitle: "No products are listed yet",
-    empty: "Suggested equipment will appear here after the club approves it.",
-  },
-  {
-    category: "learning",
-    title: "Learning resources",
-    intro: "Rules, high school bowling, and college bowling pages the club wants athletes to use.",
-    emptyTitle: "No learning links are listed yet",
-    empty: "Guides will appear here after the club approves them.",
-  },
-]
+const sections = library.resources.sections
 
 function DirectoryCard({ listing }: { listing: DirectoryListing }) {
   const details = listingDetails(listing)
@@ -130,11 +106,11 @@ function DirectorySection({
             <p>{intro}</p>
           </SectionHeading>
           <p className="resource-disclaimer">
-            Hours and services may change. Please confirm directly with each business before visiting.
+            {library.resources.disclaimer}
           </p>
         </div>
         <div className="card-grid card-grid-2 card-grid-3">
-          {listings.map((listing) => (
+          {listings.filter((listing) => !listing.hidden).map((listing) => (
             <DirectoryCard key={listing.id} listing={listing} />
           ))}
         </div>
@@ -165,10 +141,7 @@ export function Resources() {
           </nav>
         }
       >
-        <p>
-          A shorter list than a page of every link. Each entry stays off this page
-          until the club is ready to share it.
-        </p>
+        <p>{library.resources.hero}</p>
       </AthleticHero>
 
       <div className="section">
@@ -224,14 +197,14 @@ export function Resources() {
 
       <DirectorySection
         id="pro-shops"
-        title="Bowling Pro Shops"
-        intro="Looking for a properly fitted bowling ball, drilling services, resurfacing, or new equipment? Explore these pro shops throughout Oregon. Contact each business directly to confirm current services, hours, and availability."
+        title={library.resources.proShopsTitle}
+        intro={library.resources.proShopsIntro}
         listings={proShops}
       />
       <DirectorySection
         id="bowling-centers"
-        title="Bowling Alleys & Centers"
-        intro="Explore bowling centers throughout Oregon for recreation, practice, leagues, and family bowling. Locations are listed approximately from closest to farthest from Albany."
+        title={library.resources.centersTitle}
+        intro={library.resources.centersIntro}
         listings={bowlingCenters}
       />
     </div>

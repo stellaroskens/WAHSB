@@ -21,9 +21,11 @@ import {
   type EditorField,
 } from "../../lib/content/pageEditor"
 import { parseSiteContent, validateSiteContent, type SiteContent, type SiteContentIssue } from "../../lib/content/siteContent"
+import { PublishStatus } from "../../components/staff/PublishStatus"
 import { StaffAction } from "../../components/staff/StaffAction"
 import { StaffHelp } from "../../components/staff/StaffHelp"
 import { BowlerProfileEditor } from "./BowlerProfileEditor"
+import { LibraryEditor } from "./LibraryEditor"
 
 const publishedContent = parseSiteContent(published)
 
@@ -63,6 +65,9 @@ export function AdminContent() {
   const [busy, setBusy] = useState(false)
   const [previewing, setPreviewing] = useState(false)
   const [reviewing, setReviewing] = useState(false)
+  const [commitSha, setCommitSha] = useState<string | null>(null)
+  const [snapshot, setSnapshot] = useState(() => JSON.stringify(publishedContent))
+  const dirty = useMemo(() => JSON.stringify(content) !== snapshot, [content, snapshot])
 
   const page = pageById(pageId) ?? EDITOR_PAGES[0]
   const sections = useMemo(() => sectionsForPage(page.id), [page.id])
@@ -150,6 +155,8 @@ export function AdminContent() {
       const saved = successMessage(submitForApproval ? "approval" : "draft", body)
       if (!saved) throw new Error("GitHub did not return a commit, so this draft was not saved. The live site is unchanged.")
       setDraftStatus(submitForApproval ? "pending_approval" : "draft")
+      setCommitSha(body.commitSha ?? null)
+      setSnapshot(JSON.stringify(prepared))
       setGithubMissing(false)
       setMessage(saved)
     } catch (err) {
@@ -192,6 +199,9 @@ export function AdminContent() {
       if (!response.ok) throw new Error(failureMessage(response.status, body))
       const saved = successMessage("publish", body)
       if (!saved) throw new Error("GitHub did not return a commit, so nothing was published.")
+      setCommitSha(body.commitSha ?? null)
+      setSnapshot(JSON.stringify(prepared))
+      setDraftStatus("published_commit")
       setMessage(saved)
     } catch (err) {
       const text = err instanceof Error ? err.message : "Publish failed."
@@ -213,6 +223,7 @@ export function AdminContent() {
       const loaded = contentFromDraftPayload(body)
       if (!loaded.ok) throw new Error(loaded.message)
       setContent(loaded.content)
+      setSnapshot(JSON.stringify(loaded.content))
       setDraftStatus(loaded.status)
       setReviewing(false)
       setMessage(`Loaded draft “${draftId}” (${loaded.status}). The live site is unchanged.`)
@@ -224,7 +235,10 @@ export function AdminContent() {
   }
 
   const onUsePublished = () => {
-    setContent(structuredClone(publishedContent))
+    const fresh = structuredClone(publishedContent)
+    setContent(fresh)
+    setSnapshot(JSON.stringify(fresh))
+    setCommitSha(null)
     setDraftStatus(null)
     setIssues([])
     setPreviewing(false)
@@ -332,6 +346,9 @@ export function AdminContent() {
                   </label>
                 ))
               )}
+              {section.custom === "faq" || section.custom === "resources" ? (
+                <LibraryEditor mode={section.custom} content={content} onChange={setContent} />
+              ) : null}
               {sectionIssues.map((issue) => (
                 <p key={`${issue.path}:${issue.message}`} className="admin-alert admin-alert--error" role="alert">
                   {issue.message}
@@ -349,6 +366,7 @@ export function AdminContent() {
               ? `This browser is editing a loaded draft (${draftStatus}).`
               : "This browser is editing the published copy. The live site does not change until you publish."}
           </p>
+          <PublishStatus dirty={dirty} draftStatus={draftStatus} commitSha={commitSha} />
           <p className="admin-help">
             Unsaved changes stay in this browser. A saved draft is a GitHub commit for the draft only. The public site changes after Publish returns a commit and Netlify finishes deploying that commit.
           </p>
