@@ -60,6 +60,21 @@ test("public indexing files leave staff and family routes out", () => {
   assert.match(sitemap, /\/fundraisers</)
 })
 
+test("the Burgerville section uses the bowling flyer and the donate banner", () => {
+  const page = readFileSync(new URL("../src/pages/Fundraisers.tsx", import.meta.url), "utf8")
+  const content = readFileSync(new URL("../src/content/published/siteContent.json", import.meta.url), "utf8")
+  const flyer = "/images/burgerville-fundraiser.png"
+  assert.match(content, new RegExp(`"image": "${flyer}"`))
+  assert.match(content, new RegExp(`"flyer": "${flyer}"`))
+  assert.equal(content.includes("/flyers/burgerville.pdf"), false)
+  assert.equal(content.includes("/flyers/burgerville-960.webp"), false)
+  assert.match(page, /Can't make it\? No problem — you can still donate!/)
+  assert.match(page, /to="\/donate"/)
+  assert.match(page, /DONATE NOW/)
+  assert.match(page, /href=\{burgerville\.flyer\}/)
+  assert.match(page, /sw-fundraiser__volunteers/)
+})
+
 test("the public homepage does not list every stored fundraiser", () => {
   const source = readFileSync(new URL("../src/pages/HomeReview.tsx", import.meta.url), "utf8")
   assert.match(source, /matchesActiveFundraiser/)

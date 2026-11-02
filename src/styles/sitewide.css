@@ -1636,6 +1636,29 @@
   margin: 1rem 0 0;
 }
 
+.sw-fundraiser__donate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: #e7eefb;
+}
+
+.sw-fundraiser__donate p {
+  margin: 0;
+  color: #102c8d;
+  font-weight: 700;
+}
+
+.sw-fundraiser__donate .sw-btn {
+  flex: none;
+  min-height: 48px;
+}
+
 .sw-fundraiser__volunteers {
   margin-top: 1.25rem;
   padding: 1.1rem 1.2rem;
@@ -1666,6 +1689,8 @@
 
 .sw-fundraisers .sw-fundraiser__poster img {
   width: min(100%, 30rem);
+  height: auto;
+  object-fit: contain;
   border: 6px solid #fff;
   border-radius: 6px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
@@ -1694,6 +1719,10 @@
   }
 }
 
+.sw-fundraiser--flip .sw-fundraiser__poster {
+  order: -1;
+}
+
 @media (min-width: 900px) {
   .sw-fundraisers .fundraiser-layout {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
@@ -1701,10 +1730,6 @@
 
   .sw-fundraiser--flip .fundraiser-layout {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  }
-
-  .sw-fundraiser--flip .sw-fundraiser__poster {
-    order: -1;
   }
 }
 

@@ -288,10 +288,10 @@
       "place": "Albany",
       "when": "Sunday, November 8, 2026",
       "time": "4:00 PM – 8:00 PM",
-      "image": "/flyers/burgerville-960.webp",
-      "imageWidth": 1390,
-      "imageHeight": 1800,
-      "flyer": "/flyers/burgerville.pdf"
+      "image": "/images/burgerville-fundraiser.png",
+      "imageWidth": 1122,
+      "imageHeight": 1402,
+      "flyer": "/images/burgerville-fundraiser.png"
     }
   ],
   "fundraiserContact": {
@@ -2071,7 +2071,7 @@
         "placeName": "Burgerville",
         "street": "2310 Santiam Highway SE, Albany",
         "steps": "Present this flyer or use code BVGIVES when ordering in the app. The flyer says 20% of the purchase will be donated.",
-        "flyerAlt": "Burgerville community fundraiser flyer for Albany High School Bowling on Sunday, November 8, from 4:00 PM to 8:00 PM.",
+        "flyerAlt": "Burgerville fundraiser flyer for Albany High School Bowling on Sunday, November 8, from 4:00 PM to 8:00 PM, with bowling pins and a bowling ball.",
         "caption": "Official Burgerville flyer.",
         "volunteerIntro": "The club needs student bowlers and several parents to help promote the fundraiser. Volunteers can:",
         "volunteerItems": [
