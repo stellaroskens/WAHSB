@@ -16,11 +16,15 @@ const ROLE_TITLE = {
 
 const SEASON = seasonRegistrationClosed.heading.match(/\d{4}–\d{4}/)?.[0] ?? "Current"
 
+const FEATURED_IDS = ["website-pages", "tournament-management", "staff-accounts", "volunteers", "media-library", "club-administrator"] as const
+
 export function AdminDashboard() {
   const { user } = useAuth()
   const role = primaryStaffRole(rolesFromUser(user))
   const name = usernameFromUser(user) || user?.email || "Signed-in staff"
   const groups = adminSectionGroups()
+  const featured = FEATURED_IDS.map((id) => ADMIN_SECTIONS.find((section) => section.id === id)).filter((section) => section !== undefined)
+  const featuredIds = new Set(featured.map((section) => section.id))
 
   return (
     <div className="admin-page portal-dashboard">
@@ -90,18 +94,31 @@ export function AdminDashboard() {
             <h2>Management panels</h2>
             <p>Open any existing management screen. Counts are not shown because a private roster is not connected.</p>
           </header>
-          {groups.map((group) => (
-            <div key={group} className="portal-panels">
-              <h3 className="visually-hidden">{group}</h3>
-              {ADMIN_SECTIONS.filter((section) => section.group === group && section.id !== "overview").map((section) => (
-                <Link key={section.id} className="portal-panel" to={section.href}>
-                  <strong>{section.title}</strong>
-                  <span>{section.description}</span>
-                  <em>Open {section.title}</em>
-                </Link>
-              ))}
-            </div>
-          ))}
+          <div className="portal-panels">
+            {featured.map((section) => (
+              <Link key={section.id} className="portal-panel" to={section.href}>
+                <strong>{section.title}</strong>
+                <span>{section.description}</span>
+                <em>Open {section.title}</em>
+              </Link>
+            ))}
+          </div>
+          {groups.map((group) => {
+            const rest = ADMIN_SECTIONS.filter((section) => section.group === group && section.id !== "overview" && !featuredIds.has(section.id))
+            if (rest.length === 0) return null
+            return (
+              <div key={group} className="portal-panels">
+                <h3 className="visually-hidden">{group}</h3>
+                {rest.map((section) => (
+                  <Link key={section.id} className="portal-panel" to={section.href}>
+                    <strong>{section.title}</strong>
+                    <span>{section.description}</span>
+                    <em>Open {section.title}</em>
+                  </Link>
+                ))}
+              </div>
+            )
+          })}
           <p className="portal-note">
             <Link to="/coach">View Coach Dashboard</Link>
             {" · "}
