@@ -1,5 +1,5 @@
 import assert from "node:assert/strict"
-import { readFileSync } from "node:fs"
+import { readdirSync, readFileSync } from "node:fs"
 import test from "node:test"
 import { HOUSEHOLD_PLAYERS_SQL, ROSTER_SQL, householdQuery, mayManagePrivateRoster, planGuardianLink, planPrivatePlayer } from "../netlify/functions/_shared/privateRoster.ts"
 
@@ -93,5 +93,9 @@ test("private names stay out of the browser bundle and the roster query is staff
   assert.match(roster, /requireSuperAdmin/)
   assert.match(database, /@netlify\/database/)
   assert.match(ROSTER_SQL, /legal_name/)
-  assert.doesNotMatch(readFileSync(new URL("../package.json", import.meta.url), "utf8"), /@netlify\/database/)
+  const clientSource = readdirSync(new URL("../src", import.meta.url), { recursive: true })
+    .filter((name) => typeof name === "string" && /\.(ts|tsx)$/.test(name))
+    .map((name) => readFileSync(new URL(`../src/${name}`, import.meta.url), "utf8"))
+    .join("\n")
+  assert.doesNotMatch(clientSource, /@netlify\/database|NETLIFY_DB_URL|HOUSEHOLD_PLAYERS_SQL/)
 })

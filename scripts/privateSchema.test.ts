@@ -69,10 +69,11 @@ test("the migration names every private record and uses stable ids", () => {
   assert.doesNotMatch(schema, /GRANT .* TO PUBLIC/i)
 })
 
-test("the database package stays uninstalled until the owner links Netlify", () => {
-  assert.match(readme, /hosted Netlify Database is not enabled/)
-  assert.match(readme, /@netlify\/database` is not installed/)
-  assert.doesNotMatch(packageJson, /@netlify\/database/)
+test("the database package is installed only for the approved preview branch", () => {
+  assert.match(readme, /Production stays on `main`/)
+  assert.match(readme, /@netlify\/database` is installed on this review branch/)
+  assert.match(readme, /Do not merge this branch to `main`/)
+  assert.match(packageJson, /"@netlify\/database"/)
   assert.match(packageJson, /drizzle-orm/)
   assert.match(read("db/schema.ts"), /identity_user_id/)
 })

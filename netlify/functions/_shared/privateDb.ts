@@ -68,7 +68,7 @@ export function databaseUnavailable(): Response {
     {
       error: "unavailable",
       code: "database_not_activated",
-      message: "The private database package is not installed for this deploy.",
+      message: "The private database is not available for this deploy.",
     },
     { status: 503, headers: { "Cache-Control": "no-store" } },
   )
