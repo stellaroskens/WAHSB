@@ -1,8 +1,13 @@
 .admin-shell {
+  --dash-navy: #0d1c46;
+  --dash-royal: #15358d;
+  --dash-red: #c9252a;
+  --dash-bg: #f5f7fb;
+  --dash-text: #192640;
+  --dash-muted: #64748b;
+  --dash-line: #e2e8f0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(193, 41, 39, 0.16), transparent 34%),
-    linear-gradient(160deg, #0b1a4d 0%, #102c8d 42%, #1a2458 100%);
+  background: var(--dash-navy);
   color: #f5f7fb;
   font-family: var(--body);
 }
@@ -520,7 +525,7 @@
 
 .admin-sidenav a.active {
   color: #fff;
-  background: #102c8d;
+  background: var(--dash-red, #c9252a);
 }
 
 @media (min-width: 960px) {
@@ -558,8 +563,8 @@
 
 .admin-workspace {
   min-width: 0;
-  background: #f4f7fb;
-  color: #172033;
+  background: var(--dash-bg, #f5f7fb);
+  color: var(--dash-text, #192640);
   min-height: 100vh;
 }
 
@@ -875,4 +880,189 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+}
+
+.admin-sidenav__brand {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.admin-sidenav__brand img {
+  display: block;
+  width: min(100%, 10rem);
+  height: auto;
+}
+
+.admin-sidenav__signout,
+.admin-topbar__bell {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-topbar__bell,
+.admin-topbar__role,
+.admin-topbar__season {
+  color: var(--dash-text, #192640);
+}
+
+.admin-topbar__bell {
+  border-color: var(--dash-line, #e2e8f0);
+  text-decoration: none;
+}
+
+.admin-topbar__role,
+.admin-topbar__season {
+  margin: 0;
+  color: var(--dash-muted, #64748b);
+  font-weight: 700;
+}
+
+.dash-welcome h2,
+.dash-banner h2 {
+  margin: 0.15rem 0 0.4rem;
+  color: var(--dash-navy, #0d1c46);
+  font-family: var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dash-welcome__kicker {
+  margin: 0;
+  color: var(--dash-red, #c9252a);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dash-banner {
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--dash-line, #e2e8f0);
+  border-radius: 14px;
+  background:
+    linear-gradient(100deg, rgba(13, 28, 70, 0.92), rgba(21, 53, 141, 0.72)),
+    url("/images/home-card-tournaments.png") right center / 180px auto no-repeat,
+    #fff;
+  color: #fff;
+}
+
+.dash-banner h2,
+.dash-banner p,
+.dash-banner .dash-welcome__kicker {
+  color: #fff;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.dash-card,
+.dash-grid .admin-section-list__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 6.5rem;
+  padding: 1rem 1rem 1rem 0.9rem;
+  border: 1px solid var(--dash-line, #e2e8f0);
+  border-left: 4px solid var(--dash-red, #c9252a);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--dash-text, #192640);
+  box-shadow: 0 8px 20px rgba(13, 28, 70, 0.06);
+  text-decoration: none;
+}
+
+.dash-card:hover,
+.dash-card:focus-visible,
+.dash-grid .admin-section-list__item:hover {
+  border-color: var(--dash-royal, #15358d);
+  outline: 2px solid var(--dash-royal, #15358d);
+  outline-offset: 2px;
+}
+
+.dash-card__icon {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 10px;
+  background: #eef3fb;
+  color: var(--dash-navy, #0d1c46);
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.dash-card__body,
+.dash-grid .admin-section-list__item > div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.dash-card__title,
+.dash-grid .admin-section-list__item h3 {
+  color: var(--dash-navy, #0d1c46);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.dash-card__copy,
+.dash-grid .admin-section-list__item p {
+  margin: 0;
+  color: var(--dash-muted, #64748b);
+}
+
+.dash-card__status,
+.dash-grid .admin-badge {
+  justify-self: start;
+  color: var(--dash-royal, #15358d);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.dash-card__arrow {
+  color: var(--dash-red, #c9252a);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.dash-grid .admin-section-list__item {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.signin-planned.dash-grid li {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #c9252a;
+  border-radius: 12px;
+  background: #fff;
+  color: #192640;
+}
+
+@media (min-width: 768px) {
+  .dash-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .dash-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

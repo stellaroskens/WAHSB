@@ -1,26 +1,27 @@
 # Private database foundation
 
-This folder is a proposal. It is not connected to a database, and it does not create one.
+The four migrations are applied to the local development database. `@netlify/database` is installed on this review branch so a deploy preview can provision the hosted database. Production stays on `main`. Do not merge this branch to `main` until you want the production site to use that database.
 
-Do not add `@netlify/database` until the site owner approves provisioning. Installing that package makes Netlify create a database on the next deploy.
+The migration does not insert players, guardians, scores, or emails. Missing scores stay empty. There is no birth-date column.
 
-## What the owner runs, after approving a database
+A guardian row is attached with `identity_user_id`, the id of an existing Netlify Identity user. The same Super Administrator account can be linked as a guardian. A second Identity account is not created, and an email address is not the key. `identity_user_id` is unique, so the same account cannot be attached twice.
 
-1. In the repository directory, install the current Netlify CLI if `netlify database` is not recognized: `npm install -g netlify-cli@latest`.
-2. Run `netlify database init` and choose Drizzle. That installs `@netlify/database` and `drizzle-orm@beta`.
-3. Put the tables in `db/proposed/001_private_foundation.sql` into `db/schema.ts` and generate a migration with `npx drizzle-kit generate`.
-4. Apply that migration only to the local database with `netlify database migrations apply`.
-5. Commit the schema and the generated files under `netlify/database/migrations`. Push the branch. Netlify applies the migration on the preview deploy, then on production when that deploy is published.
-6. Do not paste `NETLIFY_DB_URL` into chat, GitHub, or a `VITE_` variable.
+## Preview-only activation
 
-Do not run `drizzle-kit push`, and do not apply SQL directly to the hosted database.
+This review branch is the approved preview test. It does not publish production.
 
-## What stays off until that database answers a connection test
+1. Confirm the production branch is still `main`.
+2. This branch depends on `@netlify/database`. Do not commit a connection string.
+3. Push only to this review branch. The preview deploy creates the hosted database and applies these migrations to the preview database branch.
+4. Run `netlify database status --branch <preview-branch>` and confirm the four migrations are applied. Do not paste the connection string into chat, GitHub, or a `VITE_` variable.
+5. Merge to `main` only when you want the production site to use that database.
 
-- Real player records
-- Excel and CSV statistics import
-- Guardian records and family invitations
+Do not run `drizzle-kit push`. Do not change the hosted schema by hand.
+
+## What stays off
+
+- Family invitations
+- Real player records and public player profiles
+- Excel or CSV import of real statistics
 - Photo upload and publication
-- Donation records
-
-The public site keeps using the GitHub content file for approved wording. This database is not that file.
+- Live payments

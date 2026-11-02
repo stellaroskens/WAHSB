@@ -7,11 +7,15 @@
     "dev": "vite",
     "build": "tsc --noEmit -p tsconfig.json && vite build",
     "preview": "vite preview",
-    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts scripts/staffAccounts.test.ts scripts/contentValidation.test.ts scripts/connections.test.ts scripts/venuesCalendar.test.ts scripts/sponsorQr.test.ts scripts/passwordRecovery.test.ts scripts/teamFamilySignIn.test.ts scripts/staffLoginRouting.test.ts scripts/accountActivation.test.ts scripts/pageEditor.test.ts scripts/googleSignIn.test.ts scripts/bowlerProfiles.test.ts scripts/controlCenter.test.ts scripts/staffInterface.test.ts scripts/donations.test.ts scripts/siteQuality.test.ts scripts/privateSchema.test.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "netlify database migrations apply",
+    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts scripts/staffAccounts.test.ts scripts/contentValidation.test.ts scripts/connections.test.ts scripts/venuesCalendar.test.ts scripts/sponsorQr.test.ts scripts/passwordRecovery.test.ts scripts/teamFamilySignIn.test.ts scripts/staffLoginRouting.test.ts scripts/accountActivation.test.ts scripts/pageEditor.test.ts scripts/googleSignIn.test.ts scripts/bowlerProfiles.test.ts scripts/controlCenter.test.ts scripts/staffInterface.test.ts scripts/donations.test.ts scripts/siteQuality.test.ts scripts/privateSchema.test.ts scripts/householdAccess.test.ts scripts/privateRoster.test.ts"
   },
   "dependencies": {
+    "@netlify/database": "^2.0.1",
     "@netlify/functions": "^6.0.3",
     "@netlify/identity": "^2.0.0",
+    "drizzle-orm": "^1.0.0-beta.22",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router-dom": "^7.18.4"
@@ -25,6 +29,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "drizzle-kit": "^1.0.0-beta.22",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
   }

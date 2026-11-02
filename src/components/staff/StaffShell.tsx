@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom"
+import { websiteLogoTransparent } from "../../content/media"
+import { seasonRegistrationClosed } from "../../content/site"
 import { useAuth } from "../../lib/auth/AuthProvider"
-import { ADMIN_SECTIONS, adminSectionGroups } from "../../lib/auth/adminSections"
 import { isSuperAdmin, primaryStaffRole } from "../../lib/auth/roles"
-import { rolesFromUser } from "../../lib/auth/session"
+import { rolesFromUser, usernameFromUser } from "../../lib/auth/session"
 
 function sectionIsCurrent(href: string, pathname: string, search: string, hash: string): boolean {
   const [path, query] = href.split("#")[0].split("?")
@@ -21,60 +22,72 @@ const ROLE_LABEL = {
   team_administrator: "Club Administrator",
 } as const
 
+const ADMIN_NAV = [
+  { href: "/admin", title: "Dashboard" },
+  { href: "/admin/announcements", title: "Announcements" },
+  { href: "/admin/club", title: "Team Management" },
+  { href: "/admin/bowlers", title: "Bowlers" },
+  { href: "/admin/content?page=practices", title: "Practices" },
+  { href: "/admin/tournaments", title: "Tournaments" },
+  { href: "/admin/media", title: "Media" },
+  { href: "/admin/settings", title: "Settings" },
+]
+
+const SEASON_LABEL = `${seasonRegistrationClosed.heading.match(/\d{4}–\d{4}/)?.[0] ?? "Current"} Season`
+
 export function StaffShell({ area }: { area: "admin" | "coach" | "club" }) {
   const { user, logout } = useAuth()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const roles = rolesFromUser(user)
   const role = primaryStaffRole(roles)
-  const groups = adminSectionGroups()
+  const displayName = usernameFromUser(user) || user?.email || "Signed-in staff"
   const coachLinks = [
-    { href: "/coach", title: "Coach dashboard" },
-    { href: "/coach/bowlers", title: "Meet the Bowlers" },
+    { href: "/coach", title: "Dashboard" },
+    { href: "/coach/bowlers", title: "Bowlers" },
   ]
   const clubLinks = [
-    { href: "/team-administrator", title: "Club Administrator dashboard" },
-    { href: "/team-administrator/bowlers", title: "Meet the Bowlers" },
+    { href: "/team-administrator", title: "Dashboard" },
+    { href: "/team-administrator/bowlers", title: "Bowlers" },
   ]
-  const links = area === "admin" ? null : area === "coach" ? coachLinks : clubLinks
+  const links = area === "admin" ? ADMIN_NAV : area === "coach" ? coachLinks : clubLinks
 
   return (
     <div className="admin-shell">
       <div className="admin-frame">
         <aside className={menuOpen ? "admin-sidenav is-open" : "admin-sidenav"}>
-          <p className="admin-sidenav__brand">AHSB</p>
+          <Link className="admin-sidenav__brand" to={area === "coach" ? "/coach" : area === "club" ? "/team-administrator" : "/admin"}>
+            <img src={websiteLogoTransparent.src} width={160} height={48} alt="Albany High School Bowling" />
+          </Link>
           <p className="admin-sidenav__role">{role ? ROLE_LABEL[role] : "Staff"}</p>
           <nav id="staff-navigation" aria-label="Staff">
-            {area === "admin"
-              ? groups.map((group) => (
-                  <div key={group}>
-                    <p className="admin-sidenav__group">{group}</p>
-                    {ADMIN_SECTIONS.filter((section) => section.group === group).map((section) => (
-                      <NavLink
-                        key={section.id}
-                        to={section.href}
-                        end={section.href === "/admin"}
-                        onClick={() => setMenuOpen(false)}
-                        className={() =>
-                          sectionIsCurrent(section.href, location.pathname, location.search, location.hash) ? "active" : ""
-                        }
-                      >
-                        {section.title}
-                      </NavLink>
-                    ))}
-                  </div>
-                ))
-              : links?.map((item) => (
-                  <NavLink key={item.href} to={item.href} end onClick={() => setMenuOpen(false)}>
-                    {item.title}
-                  </NavLink>
-                ))}
+            {links.map((item) => (
+              <NavLink
+                key={item.href}
+                to={item.href}
+                end={item.href === "/admin" || item.href === "/coach" || item.href === "/team-administrator"}
+                onClick={() => setMenuOpen(false)}
+                className={() => (sectionIsCurrent(item.href, location.pathname, location.search, location.hash) ? "active" : "")}
+              >
+                {item.title}
+              </NavLink>
+            ))}
             {area !== "admin" && isSuperAdmin(roles) ? (
               <NavLink to="/admin" onClick={() => setMenuOpen(false)}>
                 Return to Main Admin Dashboard
               </NavLink>
             ) : null}
           </nav>
+          <button
+            type="button"
+            className="admin-sidenav__signout"
+            onClick={async () => {
+              await logout()
+              window.location.assign("/staff/login")
+            }}
+          >
+            Sign out
+          </button>
         </aside>
         <div className="admin-workspace">
           <header className="admin-topbar">
@@ -92,8 +105,15 @@ export function StaffShell({ area }: { area: "admin" | "coach" | "club" }) {
               <span aria-hidden="true"> / </span>
               <span>{area === "admin" ? "Control Center" : area === "coach" ? "Coach" : "Club Administrator"}</span>
             </p>
+            <p className="admin-topbar__season">{SEASON_LABEL}</p>
             <div className="admin-topbar__account">
-              <span className="admin-topbar__email">{user?.email || "Signed-in staff"}</span>
+              {area === "admin" ? (
+                <Link className="admin-topbar__bell" to="/admin/announcements">
+                  Announcements
+                </Link>
+              ) : null}
+              <span className="admin-topbar__email">{displayName}</span>
+              <span className="admin-topbar__role">{role ? ROLE_LABEL[role] : "Staff"}</span>
               <button
                 type="button"
                 className="admin-btn admin-btn--ghost"

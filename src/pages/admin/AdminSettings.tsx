@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
+import { ManagementCard } from "../../components/staff/ManagementCard"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { SUPER_ADMIN_ROLE } from "../../lib/auth/roles"
 import { EDITOR_PAGES, sectionsForPage } from "../../lib/content/pageEditor"
@@ -17,7 +18,21 @@ export function AdminSettings() {
         title="Admin Settings | Albany High School Bowling"
         description="Administrator account settings for Albany High School Bowling."
       />
-      <div className="admin-page__intro">
+      <header className="dash-banner">
+        <p className="dash-welcome__kicker">Preferences</p>
+        <h2>Settings</h2>
+        <p>Manage your club, website, users, and preferences.</p>
+      </header>
+      <div className="dash-grid">
+        <ManagementCard href="#account" title="Account Settings" description="Review the signed-in profile. Password recovery stays on the staff sign-in page." />
+        <ManagementCard href="/admin/club" title="Team Settings" description="Open Club Administrator tools, practices, and roster drafts." />
+        <ManagementCard href="/admin/content" title="Website Settings" description="Edit public pages, branding links, and published content." />
+        <ManagementCard href="/admin/staff" title="User Management" description="Review staff accounts, roles, and invitations." />
+        <ManagementCard href="/admin/family" title="Parent / Bowler Settings" description="Review the closed family workflow. Invitations are not sent from this card." />
+        <ManagementCard href="/admin/staff" title="Security & Access" description="Review role access. This site does not add a second login for the same person." />
+        <ManagementCard href="/admin/donations" title="Financial Settings" description="Review donations and payment connections. Live checkout stays off." />
+      </div>
+      <div className="admin-page__intro" id="account">
         <h2>Site settings</h2>
         <p>Shared content is edited in Website Pages. This screen shows the signed-in account and each page's search title.</p>
         <p>
