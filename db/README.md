@@ -1,26 +1,28 @@
 # Private database foundation
 
-This folder is a proposal. It is not connected to a database, and it does not create one.
+The schema and migration files are ready. They are not connected to a database yet.
 
-Do not add `@netlify/database` until the site owner approves provisioning. Installing that package makes Netlify create a database on the next deploy.
+`@netlify/database` is not installed. Installing it makes Netlify create a database on the next deploy. Do not install it, and do not push a commit that adds it, until the steps below are finished on your own Netlify account.
 
-## What the owner runs, after approving a database
+The migration does not insert players, guardians, scores, or emails. Missing scores stay empty. There is no birth-date column.
 
-1. In the repository directory, install the current Netlify CLI if `netlify database` is not recognized: `npm install -g netlify-cli@latest`.
-2. Run `netlify database init` and choose Drizzle. That installs `@netlify/database` and `drizzle-orm@beta`.
-3. Put the tables in `db/proposed/001_private_foundation.sql` into `db/schema.ts` and generate a migration with `npx drizzle-kit generate`.
-4. Apply that migration only to the local database with `netlify database migrations apply`.
-5. Commit the schema and the generated files under `netlify/database/migrations`. Push the branch. Netlify applies the migration on the preview deploy, then on production when that deploy is published.
-6. Do not paste `NETLIFY_DB_URL` into chat, GitHub, or a `VITE_` variable.
+A guardian row is attached with `identity_user_id`, the id of an existing Netlify Identity user. The same Super Administrator account can be linked as a guardian. A second Identity account is not created, and an email address is not the key. `identity_user_id` is unique, so the same account cannot be attached twice.
 
-Do not run `drizzle-kit push`, and do not apply SQL directly to the hosted database.
+## What you do in Netlify before the family pages are built
 
-## What stays off until that database answers a connection test
+1. Open the Albany High School Bowling site in Netlify. Confirm the production branch is still `main`. Do not change it.
+2. In Terminal, from this repository, install or update the Netlify CLI if `netlify database` is not a command: `npm install -g netlify-cli@latest`. You need CLI 26 or newer.
+3. Run `netlify login` and finish the browser sign-in with the account that owns the site.
+4. Run `netlify link` and choose the existing Albany High School Bowling site. Do not create a second site.
+5. Run `netlify database status`. It should report that the database package is not installed yet. Do not paste the connection string into chat, GitHub, or a `VITE_` variable.
+6. Reply here that those four checks are done. The next code change can then install `@netlify/database`, apply `netlify/database/migrations` to the local database only, and build the family screens.
 
-- Real player records
-- Excel and CSV statistics import
-- Guardian records and family invitations
+Do not run `drizzle-kit push`. Do not run SQL against the hosted database. Do not merge this branch to `main`.
+
+## What stays off until a local connection test passes
+
+- Family invitations
+- Real player records and public player profiles
+- Excel or CSV import of real statistics
 - Photo upload and publication
-- Donation records
-
-The public site keeps using the GitHub content file for approved wording. This database is not that file.
+- Live payments
