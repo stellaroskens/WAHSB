@@ -41,4 +41,4 @@ The server checks the role. Hiding a button is not the check.
 
 Keep a payment record only as long as the club's recordkeeping requires, and do not store a card number at all. Delete a photograph file when consent is withdrawn, not only a database flag. Record who changed a private row and when.
 
-This plan is not built. Building it starts with the roster, after the owner approves the database.
+The tables are in `db/schema.ts` and `netlify/database/migrations`. The four migrations are applied to the local database. `@netlify/database` is installed on the review branch so a deploy preview can create the hosted database. Production stays on `main` until that branch is merged. Statistics import, family invitations, and public player profiles stay off.

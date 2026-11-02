@@ -36,7 +36,7 @@ export function TeamAdminDashboard() {
             <Link to="/team-administrator/bowlers">Meet the Bowlers</Link>
           </p>
         </div>
-        <ul className="admin-section-list">
+        <ul className="admin-section-list dash-grid">
           <li className="admin-section-list__item">
             <div>
               <h3>Scheduling / ops content</h3>

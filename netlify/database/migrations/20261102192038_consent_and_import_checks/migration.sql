@@ -1,0 +1,4 @@
+ALTER TABLE "consent_records" ADD CONSTRAINT "consent_records_granted_check" CHECK ("status" <> 'granted' OR ("granted_at" IS NOT NULL AND "withdrawn_at" IS NULL));--> statement-breakpoint
+ALTER TABLE "consent_records" ADD CONSTRAINT "consent_records_withdrawn_check" CHECK ("status" <> 'withdrawn' OR "withdrawn_at" IS NOT NULL);--> statement-breakpoint
+ALTER TABLE "stat_import_rows" ADD CONSTRAINT "stat_import_rows_exact_check" CHECK ("match_status" <> 'exact' OR "player_id" IS NOT NULL);--> statement-breakpoint
+ALTER TABLE "stat_import_rows" ADD CONSTRAINT "stat_import_rows_unmatched_check" CHECK ("match_status" <> 'unmatched' OR "player_id" IS NULL);

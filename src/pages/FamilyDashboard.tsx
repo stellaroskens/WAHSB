@@ -27,7 +27,7 @@ export function FamilyDashboard() {
         <div className="wrap signin__wrap">
           <div className="sw-panel signin__panel">
             <h2 className="signin__panel-title">What families will find here</h2>
-            <ul className="signin-planned">
+            <ul className="signin-planned dash-grid">
               {FAMILY_DASHBOARD_PLANNED.map((item) => (
                 <li key={item.title}>
                   <strong>{item.title}</strong>
