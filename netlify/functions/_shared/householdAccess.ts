@@ -19,20 +19,29 @@ export function claimGuardianIdentity(existingIdentityIds: readonly string[], id
   return { ok: true }
 }
 
+export type HouseholdLink = {
+  identityUserId: string | null
+  linkStatus: "pending" | "verified" | "revoked"
+}
+
 export type HouseholdReader = {
   actorUserId: string
   actorRoles: readonly string[]
-  householdGuardianUserIds: readonly string[]
+  links: readonly HouseholdLink[]
 }
 
 /**
- * A person reads a household only when their Identity user id is already on it.
- * super_admin may also read it for staff verification. Coach and Club Administrator
- * roles do not open another household. The same user id keeps super_admin and guardian access.
+ * A person reads a household only when their Identity user id has a verified link.
+ * A pending or revoked link does not qualify. super_admin may also read it for staff
+ * verification. Coach and Club Administrator roles do not open another household.
+ * The same user id keeps super_admin and guardian access.
  */
 export function mayReadHousehold(input: HouseholdReader): boolean {
   if (!isIdentityUserId(input.actorUserId)) return false
   const actor = input.actorUserId.toLowerCase()
-  if (input.householdGuardianUserIds.some((id) => id.toLowerCase() === actor)) return true
+  const verified = input.links.some(
+    (link) => link.linkStatus === "verified" && link.identityUserId?.toLowerCase() === actor,
+  )
+  if (verified) return true
   return input.actorRoles.includes("super_admin")
 }

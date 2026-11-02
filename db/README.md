@@ -1,6 +1,6 @@
 # Private database foundation
 
-The schema and migration files are ready. They are not connected to a database yet.
+The four migrations are applied to the local development database. The hosted Netlify Database is not enabled.
 
 `@netlify/database` is not installed. Installing it makes Netlify create a database on the next deploy. Do not install it, and do not push a commit that adds it, until the steps below are finished on your own Netlify account.
 
@@ -8,18 +8,19 @@ The migration does not insert players, guardians, scores, or emails. Missing sco
 
 A guardian row is attached with `identity_user_id`, the id of an existing Netlify Identity user. The same Super Administrator account can be linked as a guardian. A second Identity account is not created, and an email address is not the key. `identity_user_id` is unique, so the same account cannot be attached twice.
 
-## What you do in Netlify before the family pages are built
+## Activate the hosted database only after you approve it
 
-1. Open the Albany High School Bowling site in Netlify. Confirm the production branch is still `main`. Do not change it.
-2. In Terminal, from this repository, install or update the Netlify CLI if `netlify database` is not a command: `npm install -g netlify-cli@latest`. You need CLI 26 or newer.
-3. Run `netlify login` and finish the browser sign-in with the account that owns the site.
-4. Run `netlify link` and choose the existing Albany High School Bowling site. Do not create a second site.
-5. Run `netlify database status`. It should report that the database package is not installed yet. Do not paste the connection string into chat, GitHub, or a `VITE_` variable.
-6. Reply here that those four checks are done. The next code change can then install `@netlify/database`, apply `netlify/database/migrations` to the local database only, and build the family screens.
+Do not run these steps for this review. They turn on the hosted database at the next deploy.
 
-Do not run `drizzle-kit push`. Do not run SQL against the hosted database. Do not merge this branch to `main`.
+1. Confirm the production branch is still `main`.
+2. In a separate commit, from this repository, run `npm install @netlify/database`. Do not commit a connection string.
+3. Push that commit to a pull request. The preview deploy creates the hosted database and applies these migrations to the preview branch. Production stays on `main` until that pull request is merged.
+4. Run `netlify database status --branch <preview-branch>` and confirm the four migrations are applied. Do not paste the connection string into chat, GitHub, or a `VITE_` variable.
+5. Merge to `main` only when you want the production site to use that database.
 
-## What stays off until a local connection test passes
+Do not run `drizzle-kit push`. Do not run SQL against the hosted database by hand.
+
+## What stays off until you approve the hosted database
 
 - Family invitations
 - Real player records and public player profiles

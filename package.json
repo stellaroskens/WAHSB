@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "netlify database migrations apply",
-    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts scripts/staffAccounts.test.ts scripts/contentValidation.test.ts scripts/connections.test.ts scripts/venuesCalendar.test.ts scripts/sponsorQr.test.ts scripts/passwordRecovery.test.ts scripts/teamFamilySignIn.test.ts scripts/staffLoginRouting.test.ts scripts/accountActivation.test.ts scripts/pageEditor.test.ts scripts/googleSignIn.test.ts scripts/bowlerProfiles.test.ts scripts/controlCenter.test.ts scripts/staffInterface.test.ts scripts/donations.test.ts scripts/siteQuality.test.ts scripts/privateSchema.test.ts scripts/householdAccess.test.ts"
+    "test": "node --experimental-strip-types --test scripts/publicChecks.test.ts scripts/adminAuth.test.ts scripts/staffAccounts.test.ts scripts/contentValidation.test.ts scripts/connections.test.ts scripts/venuesCalendar.test.ts scripts/sponsorQr.test.ts scripts/passwordRecovery.test.ts scripts/teamFamilySignIn.test.ts scripts/staffLoginRouting.test.ts scripts/accountActivation.test.ts scripts/pageEditor.test.ts scripts/googleSignIn.test.ts scripts/bowlerProfiles.test.ts scripts/controlCenter.test.ts scripts/staffInterface.test.ts scripts/donations.test.ts scripts/siteQuality.test.ts scripts/privateSchema.test.ts scripts/householdAccess.test.ts scripts/privateRoster.test.ts"
   },
   "dependencies": {
     "@netlify/functions": "^6.0.3",

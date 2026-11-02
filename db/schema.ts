@@ -150,7 +150,9 @@ export const statImportRows = pgTable(
     check("stat_import_rows_source_row_check", sql`${table.sourceRow} > 0`),
     check("stat_import_rows_match_status_check", sql`${table.matchStatus} IN ('exact', 'ambiguous', 'unmatched', 'confirmed')`),
     check("stat_import_rows_confirmed_check", sql`${table.matchStatus} <> 'confirmed' OR ${table.playerId} IS NOT NULL`),
+    check("stat_import_rows_exact_check", sql`${table.matchStatus} <> 'exact' OR ${table.playerId} IS NOT NULL`),
     check("stat_import_rows_ambiguous_check", sql`${table.matchStatus} <> 'ambiguous' OR ${table.playerId} IS NULL`),
+    check("stat_import_rows_unmatched_check", sql`${table.matchStatus} <> 'unmatched' OR ${table.playerId} IS NULL`),
   ],
 )
 
@@ -209,6 +211,11 @@ export const consentRecords = pgTable(
     index("consent_records_player_id_idx").on(table.playerId),
     check("consent_records_purpose_check", sql`${table.purpose} IN ('profile_publication', 'photo_public', 'photo_family', 'photo_sharing')`),
     check("consent_records_status_check", sql`${table.status} IN ('granted', 'withdrawn', 'expired')`),
+    check(
+      "consent_records_granted_check",
+      sql`${table.status} <> 'granted' OR (${table.grantedAt} IS NOT NULL AND ${table.withdrawnAt} IS NULL)`,
+    ),
+    check("consent_records_withdrawn_check", sql`${table.status} <> 'withdrawn' OR ${table.withdrawnAt} IS NOT NULL`),
   ],
 )
 
