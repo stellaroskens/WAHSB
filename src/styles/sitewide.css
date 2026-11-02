@@ -2403,3 +2403,52 @@
   font: inherit;
 }
 
+.sw-status {
+  display: inline-block;
+  margin: 0 0 0.55rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #e7eefb;
+  color: #102c8d;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sw-status--past {
+  background: #f8eceb;
+  color: #8f1c1a;
+}
+
+.sw-faq-search {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 36rem;
+}
+
+.sw-faq-search h2 {
+  margin-bottom: 0.2rem;
+}
+
+.sw-faq-search input {
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #8b97ad;
+  border-radius: 8px;
+  color: #172033;
+  background: #fff;
+  font: inherit;
+}
+
+.route-loading {
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 1rem 1.25rem;
+  color: #172033;
+  font-size: 1.0625rem;
+}
+
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+

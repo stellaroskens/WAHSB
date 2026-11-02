@@ -3,6 +3,7 @@ import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { fundraiserContact, fundraisers } from "../content/fundraisers"
 import { club, library, pages } from "../content/site"
+import { fundraiserStatusLabel, fundraiserSupportNote, fundraiserTiming } from "../lib/events/fundraiserTiming"
 
 function RichStep({ text, code }: { text: string; code: string }) {
   if (!code || !text.includes(code)) return <li>{text}</li>
@@ -16,7 +17,7 @@ function RichStep({ text, code }: { text: string; code: string }) {
   )
 }
 
-const panda = fundraisers.find((item) => item.id === "panda") ?? fundraisers[0]
+const panda = fundraisers.find((item) => item.id === "panda-express" || item.id === "panda") ?? fundraisers[0]
 const burgerville = fundraisers.find((item) => item.id === "burgerville") ?? fundraisers[1]
 const showPanda = library.fundraisers.activeEvent === "panda"
 
@@ -32,6 +33,8 @@ function DateTab({ when }: { when: string }) {
 }
 
 export function Fundraisers() {
+  const activeFundraiser = showPanda ? panda : burgerville
+  const activeTiming = fundraiserTiming(activeFundraiser.when, activeFundraiser.time, new Date())
   return (
     <div className="sw-page sw-fundraisers">
       <PageMeta title={pages.fundraisers.title} description={pages.fundraisers.description} />
@@ -74,6 +77,7 @@ export function Fundraisers() {
               <DateTab when={panda.when} />
               <div>
                 <h2 id="panda-heading">{panda.business}</h2>
+                <p className={`sw-status${activeTiming === "past" ? " sw-status--past" : ""}`}>{fundraiserStatusLabel(activeTiming)}</p>
                 <p className="fundraiser-when">{panda.when}</p>
                 <p className="fundraiser-time">{panda.time}</p>
               </div>
@@ -138,6 +142,7 @@ export function Fundraisers() {
               <DateTab when={burgerville.when} />
               <div>
                 <h2 id="burgerville-heading">{burgerville.business}</h2>
+                <p className={`sw-status${activeTiming === "past" ? " sw-status--past" : ""}`}>{fundraiserStatusLabel(activeTiming)}</p>
                 <p className="fundraiser-when">{burgerville.when}</p>
                 <p className="fundraiser-time">{burgerville.time}</p>
               </div>
@@ -214,8 +219,8 @@ export function Fundraisers() {
       {showPanda ? null : (
         <section className="section">
           <div className="wrap sw-panel">
-            <h2>{library.donations.burgervillePrompt}</h2>
-            <p>If you cannot attend the Burgerville fundraiser, the donation page explains what is available. Checkout is not live.</p>
+            <h2>{activeTiming === "upcoming" ? library.donations.burgervillePrompt : fundraiserStatusLabel(activeTiming)}</h2>
+            <p>{fundraiserSupportNote(activeTiming)}</p>
             <p>
               <Link className="sw-btn" to="/donate">{library.donations.donateButton}</Link>
             </p>

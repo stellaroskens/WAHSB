@@ -17,6 +17,7 @@ export function FamilyDashboard() {
       <PageMeta
         title="Family Page | Albany High School Bowling"
         description="What the Albany High School Bowling family page will include once invitation-only family access opens."
+        index={false}
       />
       <AthleticHero scene="team" eyebrow={FAMILY_ACCESS_OPEN ? "Families" : "Coming soon"} title="Family Page">
         <p>{FAMILY_ACCESS_PENDING_MESSAGE}</p>

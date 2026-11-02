@@ -4,6 +4,12 @@ import { AccountButton } from "../components/header/AccountButton"
 import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
+import {
+  fundraiserStatusLabel,
+  fundraiserTiming,
+  homeFundraiserTitle,
+  matchesActiveFundraiser,
+} from "../lib/events/fundraiserTiming"
 import { clothingLogo, homeHeroBanner, websiteLogo } from "../content/media"
 import { library, nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
 
@@ -212,20 +218,26 @@ export function HomeReview() {
 
       <section className="review-fundraisers" aria-labelledby="review-fundraisers-title">
         <div className="review-fundraisers__inner">
-          <h2 id="review-fundraisers-title">{pageBodies.home.fundraisersHeading}</h2>
-          <div className="review-fundraisers__grid">
-            {fundraisers.map((event) => (
-              <article className="review-fundraisers__card" key={event.id}>
-                <p className="review-fundraisers__date">{event.when}</p>
-                <h3>{event.business}</h3>
-                <p>{event.place}</p>
-                <p className="review-fundraisers__time">{event.time}</p>
-                <Link to={`/fundraisers#${event.id}`}>
-                  {pageBodies.home.fundraiserLinkLabel} <span aria-hidden="true">→</span>
-                </Link>
-              </article>
-            ))}
-          </div>
+          {fundraisers.filter((event) => matchesActiveFundraiser(event.id, library.fundraisers.activeEvent)).map((event) => {
+            const timing = fundraiserTiming(event.when, event.time, new Date())
+            return (
+              <div key={event.id}>
+                <h2 id="review-fundraisers-title">{homeFundraiserTitle(pageBodies.home.fundraisersHeading, timing)}</h2>
+                <div className="review-fundraisers__grid">
+                  <article className="review-fundraisers__card">
+                    <p className={`sw-status${timing === "past" ? " sw-status--past" : ""}`}>{fundraiserStatusLabel(timing)}</p>
+                    <p className="review-fundraisers__date">{event.when}</p>
+                    <h3>{event.business}</h3>
+                    <p>{event.place}</p>
+                    <p className="review-fundraisers__time">{event.time}</p>
+                    <Link to={`/fundraisers#${event.id}`}>
+                      {pageBodies.home.fundraiserLinkLabel} <span aria-hidden="true">→</span>
+                    </Link>
+                  </article>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
 

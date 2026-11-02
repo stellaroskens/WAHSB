@@ -62,7 +62,7 @@ function PracticeCard({
             <AddToCalendar file={calendar} />
           </>
         ) : (
-          <p className="calendar-soon">Calendar details coming soon</p>
+          <p className="calendar-soon">Start and end times are not confirmed, so a calendar file is not available.</p>
         )}
         <a
           className="event-card__directions"

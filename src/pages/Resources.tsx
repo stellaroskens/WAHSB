@@ -179,7 +179,7 @@ export function Resources() {
                           ) : null}
                           {item.href ? (
                             <p>
-                              <a href={item.href} rel="noreferrer">
+                              <a href={item.href} rel="noopener noreferrer">
                                 Visit {item.title}
                               </a>
                             </p>
@@ -207,6 +207,23 @@ export function Resources() {
         intro={library.resources.centersIntro}
         listings={bowlingCenters}
       />
+
+      <section className="section" id="coach-recommendations" aria-labelledby="coach-recommendations-heading">
+        <div className="wrap">
+          <div className="sw-panel">
+            <SectionHeading id="coach-recommendations-heading" title="Coach recommended gear and resources">
+              <p>
+                Coaches can recommend bowling equipment, videos, and instructional sites after they write the
+                recommendation and a super administrator publishes it.
+              </p>
+            </SectionHeading>
+            <EmptyState title="No coach recommendations are published">
+              This page does not list bowling balls, shoes, prices, or brands until a coach enters them. Nothing here
+              is a product endorsement.
+            </EmptyState>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

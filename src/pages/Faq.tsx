@@ -1,7 +1,7 @@
 import { useId, useRef, useState, type FormEvent } from "react"
 import { Link } from "react-router-dom"
 import { AthleticHero, SectionHeading } from "../components/AthleticHero"
-import { FaqAnswerBody } from "../components/FaqEmbed"
+import { EmptyState } from "../components/EmptyState"
 import { PageMeta } from "../components/PageMeta"
 import {
   bowlerGuidelines,
@@ -11,6 +11,7 @@ import {
   spectatorGuidelines,
   type FaqItem,
 } from "../content/faq"
+import { FaqAnswerBody } from "../components/FaqEmbed"
 import { club, library, pages } from "../content/site"
 
 const askTopics = ["", ...questionTopics] as const
@@ -27,6 +28,12 @@ const emptyAsk: AskState = {
   email: "",
   topic: "",
   question: "",
+}
+
+function matchesQuestion(item: FaqItem, needle: string) {
+  if (!needle) return true
+  const text = [item.question, ...item.paragraphs, ...(item.points ?? [])].join(" ").toLowerCase()
+  return text.includes(needle)
 }
 
 function FaqAnswer({ item }: { item: FaqItem }) {
@@ -52,6 +59,9 @@ export function Faq() {
   const [form, setForm] = useState<AskState>(emptyAsk)
   const [missing, setMissing] = useState<string[]>([])
   const [notice, setNotice] = useState("")
+  const [query, setQuery] = useState("")
+  const searchId = `${formId}-search`
+  const needle = query.trim().toLowerCase()
 
   function update(field: keyof AskState, value: string) {
     setForm((current) => ({ ...current, [field]: value }))
@@ -119,7 +129,26 @@ export function Faq() {
         <p>{library.faq.hero}</p>
       </AthleticHero>
 
-      {faqCategories.filter((category) => !category.hidden).map((category, index) => (
+      <section className="section" aria-labelledby="faq-search-heading">
+        <div className="wrap">
+          <form className="sw-faq-search" role="search" onSubmit={(event) => event.preventDefault()}>
+            <h2 id="faq-search-heading">Search questions</h2>
+            <label htmlFor={searchId}>Find a question or answer</label>
+            <input
+              id={searchId}
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              autoComplete="off"
+            />
+          </form>
+        </div>
+      </section>
+
+      {faqCategories.filter((category) => !category.hidden).map((category, index) => {
+        const items = category.items.filter((item) => !item.hidden && matchesQuestion(item, needle))
+        if (items.length === 0) return null
+        return (
         <section className="section faq-section" id={category.id} key={category.id} aria-labelledby={`${category.id}-heading`}>
           <div className="wrap">
             <div className="sw-panel sw-faq__category">
@@ -133,7 +162,7 @@ export function Faq() {
               </div>
               <div className="sw-faq__main">
                 <div className="faq-list">
-                  {category.items.filter((item) => !item.hidden).map((item) => (
+                  {items.map((item) => (
                     <FaqAnswer key={item.question} item={item} />
                   ))}
                 </div>
@@ -192,7 +221,15 @@ export function Faq() {
             </div>
           </div>
         </section>
-      ))}
+        )
+      })}
+      {needle && faqCategories.every((category) => category.hidden || category.items.every((item) => item.hidden || !matchesQuestion(item, needle))) ? (
+        <section className="section">
+          <div className="wrap">
+            <EmptyState title="No matching questions">Try a different word, or use the question form below. Nothing is sent until you send the email yourself.</EmptyState>
+          </div>
+        </section>
+      ) : null}
 
       <section className="section faq-section" id="faq-ask" aria-labelledby="faq-ask-heading">
         <div className="wrap">

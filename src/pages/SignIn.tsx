@@ -28,6 +28,7 @@ export function SignIn() {
       <PageMeta
         title="Team & Family Login | Albany High School Bowling"
         description="Secure, invitation-only sign-in for approved Albany High School Bowling coaches, team administrators, and families."
+        index={false}
       />
       <AthleticHero
         scene="team"
