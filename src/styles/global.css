@@ -3739,9 +3739,25 @@ textarea[aria-invalid="true"] {
   font-size: 1.25rem;
 }
 
-#panda-express,
 #burgerville {
   scroll-margin-top: 6.5rem;
+}
+
+.sw-status {
+  display: inline-block;
+  margin: 0 0 0.55rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #e7eefb;
+  color: #102c8d;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.sw-status--past {
+  background: #f8eceb;
+  color: #8f1c1a;
 }
 
 .fundraiser-flyer {

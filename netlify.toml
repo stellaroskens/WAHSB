@@ -85,6 +85,17 @@
   to = "/staff/login"
   status = 302
 
+# The expired flyer files are gone. Do not let the site shell stand in for them.
+[[redirects]]
+  from = "/flyers/panda-express.pdf"
+  to = "/fundraisers"
+  status = 404
+
+[[redirects]]
+  from = "/flyers/panda-express-960.webp"
+  to = "/fundraisers"
+  status = 404
+
 # React Router handles every route in the browser, so unknown paths must serve index.html.
 [[redirects]]
   from = "/*"
