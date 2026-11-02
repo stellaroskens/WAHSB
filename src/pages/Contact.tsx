@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits } from "../content/media"
-import { club, coaches, pages, seasonRegistrationClosed } from "../content/site"
+import { club, coaches, library, pages, seasonRegistrationClosed } from "../content/site"
 
 type FormState = {
   name: string
@@ -15,7 +15,7 @@ type FormState = {
 const emptyForm: FormState = {
   name: "",
   email: "",
-  topic: "Volunteering",
+  topic: library.contact.topics[0] ?? "Volunteering",
   message: "",
 }
 
@@ -60,11 +60,7 @@ export function Contact() {
           </a>
         }
       >
-        <p>
-          Questions about volunteering, practices, or supporting a bowler are welcome.
-          Email the club, or use the form to see the layout. The form does not
-          send or save a message.
-        </p>
+        <p>{library.contact.hero}</p>
         <p>
           <strong>{seasonRegistrationClosed.heading}</strong> {seasonRegistrationClosed.description}
         </p>
@@ -80,13 +76,13 @@ export function Contact() {
       <section className="section contact-page">
         <div className="wrap contact-grid contact-page__layout">
           <form className="card form contact-page__form" onSubmit={onSubmit} noValidate>
-            <h2 className="contact-page__heading">Write to the club</h2>
+            <h2 className="contact-page__heading">{library.contact.formHeading}</h2>
             <p className="note contact-page__status" id={statusId} role="status">
-              {notice || "This form is a preview. It is not connected to email."}
+              {notice || library.contact.formNotice}
             </p>
 
             <div className="field">
-              <label htmlFor={`${formId}-name`}>Your name</label>
+              <label htmlFor={`${formId}-name`}>{library.contact.labels.name}</label>
               <input
                 id={`${formId}-name`}
                 name="name"
@@ -100,7 +96,7 @@ export function Contact() {
             </div>
 
             <div className="field">
-              <label htmlFor={`${formId}-email`}>Email</label>
+              <label htmlFor={`${formId}-email`}>{library.contact.labels.email}</label>
               <input
                 id={`${formId}-email`}
                 name="email"
@@ -114,23 +110,21 @@ export function Contact() {
             </div>
 
             <div className="field">
-              <label htmlFor={`${formId}-topic`}>What is this about?</label>
+              <label htmlFor={`${formId}-topic`}>{library.contact.labels.topic}</label>
               <select
                 id={`${formId}-topic`}
                 name="topic"
                 value={form.topic}
                 onChange={(event) => update("topic", event.target.value)}
               >
-                <option>Volunteering</option>
-                <option>Practices</option>
-                <option>Supporting the club</option>
-                <option>Student participation</option>
-                <option>Something else</option>
+                {library.contact.topics.map((topic) => (
+                  <option key={topic}>{topic}</option>
+                ))}
               </select>
             </div>
 
             <div className="field">
-              <label htmlFor={`${formId}-message`}>Message</label>
+              <label htmlFor={`${formId}-message`}>{library.contact.labels.message}</label>
               <textarea
                 id={`${formId}-message`}
                 name="message"
@@ -143,7 +137,7 @@ export function Contact() {
             </div>
 
             <button className="button button-primary contact-page__action" type="submit">
-              Submit preview
+              {library.contact.labels.submit}
             </button>
           </form>
 
@@ -189,8 +183,8 @@ export function Contact() {
                 ))}
               </ul>
               <p>
-                Reach both coaches through the club email.{" "}
-                <Link to="/our-club">Read their biographies</Link>.
+                {library.contact.coachesNote}{" "}
+                <Link to="/our-club">{library.contact.biographiesLabel}</Link>.
               </p>
             </article>
           </div>

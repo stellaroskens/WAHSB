@@ -15,12 +15,17 @@ import {
   pageById,
   prepareContentForSave,
   publishRequestBody,
+  reviewContentChanges,
   sectionsForPage,
   successMessage,
   type EditorField,
 } from "../../lib/content/pageEditor"
 import { parseSiteContent, validateSiteContent, type SiteContent, type SiteContentIssue } from "../../lib/content/siteContent"
+import { PublishStatus } from "../../components/staff/PublishStatus"
+import { StaffAction } from "../../components/staff/StaffAction"
+import { StaffHelp } from "../../components/staff/StaffHelp"
 import { BowlerProfileEditor } from "./BowlerProfileEditor"
+import { LibraryEditor } from "./LibraryEditor"
 
 const publishedContent = parseSiteContent(published)
 
@@ -59,20 +64,19 @@ export function AdminContent() {
   const [githubMissing, setGithubMissing] = useState(false)
   const [busy, setBusy] = useState(false)
   const [previewing, setPreviewing] = useState(false)
-  const [rawText, setRawText] = useState("")
-  const [rawDirty, setRawDirty] = useState(false)
+  const [reviewing, setReviewing] = useState(false)
+  const [commitSha, setCommitSha] = useState<string | null>(null)
+  const [snapshot, setSnapshot] = useState(() => JSON.stringify(publishedContent))
+  const dirty = useMemo(() => JSON.stringify(content) !== snapshot, [content, snapshot])
 
   const page = pageById(pageId) ?? EDITOR_PAGES[0]
   const sections = useMemo(() => sectionsForPage(page.id), [page.id])
   const section = sections.find((item) => item.id === sectionId) ?? sections[0]
 
   useEffect(() => {
-    if (!rawDirty) setRawText(JSON.stringify(content, null, 2))
-  }, [content, rawDirty])
-
-  useEffect(() => {
     const requested = params.get("page")
-    if (requested && pageById(requested)) choosePage(requested)
+    const requestedSection = params.get("section") ?? undefined
+    if (requested && pageById(requested)) choosePage(requested, requestedSection)
     const sha = params.get("version")
     if (!sha || !/^[a-f0-9]{7,40}$/i.test(sha)) return
     void (async () => {
@@ -107,11 +111,13 @@ export function AdminContent() {
     })()
   }, [])
 
-  const choosePage = (nextPageId: string) => {
+  const choosePage = (nextPageId: string, nextSectionId?: string) => {
     setPageId(nextPageId)
     const nextSections = sectionsForPage(nextPageId)
-    setSectionId(nextSections[0]?.id ?? "")
+    const match = nextSectionId && nextSections.some((item) => item.id === nextSectionId) ? nextSectionId : nextSections[0]?.id
+    setSectionId(match ?? "")
     setPreviewing(false)
+    setReviewing(false)
   }
 
   const onField = (item: EditorField, value: string) => {
@@ -149,6 +155,8 @@ export function AdminContent() {
       const saved = successMessage(submitForApproval ? "approval" : "draft", body)
       if (!saved) throw new Error("GitHub did not return a commit, so this draft was not saved. The live site is unchanged.")
       setDraftStatus(submitForApproval ? "pending_approval" : "draft")
+      setCommitSha(body.commitSha ?? null)
+      setSnapshot(JSON.stringify(prepared))
       setGithubMissing(false)
       setMessage(saved)
     } catch (err) {
@@ -191,6 +199,9 @@ export function AdminContent() {
       if (!response.ok) throw new Error(failureMessage(response.status, body))
       const saved = successMessage("publish", body)
       if (!saved) throw new Error("GitHub did not return a commit, so nothing was published.")
+      setCommitSha(body.commitSha ?? null)
+      setSnapshot(JSON.stringify(prepared))
+      setDraftStatus("published_commit")
       setMessage(saved)
     } catch (err) {
       const text = err instanceof Error ? err.message : "Publish failed."
@@ -212,8 +223,9 @@ export function AdminContent() {
       const loaded = contentFromDraftPayload(body)
       if (!loaded.ok) throw new Error(loaded.message)
       setContent(loaded.content)
+      setSnapshot(JSON.stringify(loaded.content))
       setDraftStatus(loaded.status)
-      setRawDirty(false)
+      setReviewing(false)
       setMessage(`Loaded draft “${draftId}” (${loaded.status}). The live site is unchanged.`)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load that draft.")
@@ -223,32 +235,26 @@ export function AdminContent() {
   }
 
   const onUsePublished = () => {
-    setContent(structuredClone(publishedContent))
+    const fresh = structuredClone(publishedContent)
+    setContent(fresh)
+    setSnapshot(JSON.stringify(fresh))
+    setCommitSha(null)
     setDraftStatus(null)
     setIssues([])
-    setRawDirty(false)
     setPreviewing(false)
+    setReviewing(false)
     setMessage("Showing the published content bundled with this site. Unsaved edits were cleared.")
   }
 
-  const onApplyRaw = () => {
-    try {
-      const parsed = JSON.parse(rawText) as unknown
-      const nextIssues = validateSiteContent(parsed)
-      setIssues(nextIssues)
-      if (nextIssues.length) {
-        setError("The raw content file has validation errors, so it was not applied.")
-        return
-      }
-      setContent(parseSiteContent(parsed))
-      setRawDirty(false)
-      setError(null)
-      setMessage("Raw content applied to the form. It is not saved until you save a draft or publish.")
-    } catch {
-      setError("That text is not valid JSON. The form was not changed.")
+  const approveAndPublish = () => {
+    if (draftStatus !== "pending_approval") {
+      setError("Submit this draft for approval before using Approve and publish. Nothing was published.")
+      return
     }
+    void onPublish()
   }
 
+  const changes = reviewing ? reviewContentChanges(content, publishedContent) : []
   const sectionIssues = section ? issuesForSection(content, section, issues) : []
 
   return (
@@ -316,7 +322,13 @@ export function AdminContent() {
               ) : (
                 section.fields.map((item) => (
                   <label key={item.path}>
-                    {item.label}
+                    <span className="admin-label">
+                      {item.label}
+                      <StaffHelp
+                        label={item.label}
+                        text={`${item.help || `Edits ${item.label}.`} Visitors see it on ${page.label} only after an approved publish and a finished Netlify deploy. Saving a draft does not change the live site.`}
+                      />
+                    </span>
                     {item.kind === "textarea" || item.kind === "lines" ? (
                       <textarea
                         value={fieldText(content, item)}
@@ -334,6 +346,9 @@ export function AdminContent() {
                   </label>
                 ))
               )}
+              {section.custom === "faq" || section.custom === "resources" ? (
+                <LibraryEditor mode={section.custom} content={content} onChange={setContent} />
+              ) : null}
               {sectionIssues.map((issue) => (
                 <p key={`${issue.path}:${issue.message}`} className="admin-alert admin-alert--error" role="alert">
                   {issue.message}
@@ -351,25 +366,21 @@ export function AdminContent() {
               ? `This browser is editing a loaded draft (${draftStatus}).`
               : "This browser is editing the published copy. The live site does not change until you publish."}
           </p>
+          <PublishStatus dirty={dirty} draftStatus={draftStatus} commitSha={commitSha} />
+          <p className="admin-help">
+            Unsaved changes stay in this browser. A saved draft is a GitHub commit for the draft only. The public site changes after Publish returns a commit and Netlify finishes deploying that commit.
+          </p>
           <div className="admin-form__actions">
-            <button className="admin-btn" type="submit" disabled={busy}>
-              {busy ? "Working…" : "Save draft"}
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void save(true)}>
-              Submit for approval
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => setPreviewing(true)}>
-              Preview
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void onPublish()}>
-              Publish
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={() => void onLoadDraft()}>
-              Load saved draft
-            </button>
-            <button className="admin-btn admin-btn--ghost" type="button" disabled={busy} onClick={onUsePublished}>
-              Show published copy
-            </button>
+            <StaffAction label="Save draft" help="Save your current changes as a draft. Your public website will not change." type="submit" busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so nothing can be saved." : undefined} />
+            <StaffAction label="Submit for approval" help="Send this saved draft to an authorized reviewer. This does not publish it." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so the draft cannot be submitted." : undefined} onClick={() => void save(true)} />
+            <StaffAction label="Preview" help="See the selected section before publishing. Previewing does not change the public site." onClick={() => setPreviewing(true)} />
+            <StaffAction label="Review changes" help="Compare this editor with the published copy. Reviewing does not save or publish." onClick={() => setReviewing(true)} />
+            <StaffAction label="Approve and publish" help="Publish a draft that was submitted for approval. The live site updates only after Netlify deploys the GitHub commit." busy={busy} disabled={githubMissing || draftStatus !== "pending_approval"} disabledReason={githubMissing ? "GitHub publishing is not configured." : "Submit this draft for approval before approving it."} onClick={approveAndPublish} />
+            <StaffAction label="Publish" help="Make the approved changes available on the public AHSB website after GitHub confirms the commit and Netlify deploys it." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so nothing can be published." : undefined} onClick={() => void onPublish()} />
+            <StaffAction label="View history" help="Open published content commits. Loading one does not make it live." href="/admin/history" />
+            <StaffAction label="Restore previous version" help="Load an older published version into the editor. It is not live again until you publish it and Netlify deploys that commit." href="/admin/history" />
+            <StaffAction label="Load saved draft" help="Load the latest saved draft from the content system. Unsaved changes may be replaced." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so no draft can be loaded." : undefined} onClick={() => void onLoadDraft()} />
+            <StaffAction label="Show published copy" help="Display the version currently published with this site. Unsaved edits in this browser are cleared." onClick={onUsePublished} />
           </div>
           <p className="admin-help">
             <Link className="admin-editor__live" to={page.route}>
@@ -379,6 +390,30 @@ export function AdminContent() {
           </p>
         </form>
       </div>
+
+      {reviewing && (
+        <section className="admin-preview" aria-label="Review changes">
+          <p className="admin-preview__banner">Review only. Nothing is published from this list.</p>
+          {changes.length === 0 ? (
+            <p>No differences from the published content bundled with this site.</p>
+          ) : (
+            <ul className="admin-section-list">
+              {changes.map((change) => (
+                <li key={`${change.label}:${change.before}:${change.after}`} className="admin-section-list__item">
+                  <div>
+                    <h3>{change.label}</h3>
+                    <p>
+                      Published: {change.before}
+                      <br />
+                      Editor: {change.after}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
 
       {previewing && section && (
         <section className="admin-preview" aria-label={DRAFT_PREVIEW_LABEL}>
@@ -422,23 +457,6 @@ export function AdminContent() {
         </ol>
       </details>
 
-      <details className="admin-advanced">
-        <summary>Advanced: raw content file</summary>
-        <p className="admin-help">Ordinary editing uses the fields above. Apply JSON only if you need the whole file.</p>
-        <textarea
-          className="admin-code"
-          rows={12}
-          value={rawText}
-          spellCheck={false}
-          onChange={(event) => {
-            setRawText(event.target.value)
-            setRawDirty(true)
-          }}
-        />
-        <button className="admin-btn admin-btn--ghost" type="button" onClick={onApplyRaw}>
-          Apply JSON to the form
-        </button>
-      </details>
     </div>
   )
 }

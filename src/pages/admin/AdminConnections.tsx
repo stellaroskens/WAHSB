@@ -22,6 +22,7 @@ export function AdminConnections() {
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [history, setHistory] = useState<{ sha: string; message: string; date: string | null; url: string | null }[]>([])
 
   useEffect(() => {
     let cancelled = false
@@ -33,11 +34,13 @@ export function AdminConnections() {
           githubConfigured?: boolean
           error?: string
           note?: string
+          history?: { sha: string; message: string; date: string | null; url: string | null }[]
         }
         if (!response.ok) throw new Error(body.error || "Unable to load connections.")
         if (!cancelled && body.connections) {
           setConfig(parseSiteConnections(body.connections))
           setGithubConfigured(Boolean(body.githubConfigured))
+          setHistory(body.history ?? [])
           if (body.note) setMessage(body.note)
         }
       } catch (err) {
@@ -103,9 +106,29 @@ export function AdminConnections() {
           super_admin marks it verified and enables it live.
         </p>
         <p>
-          GitHub save: {githubConfigured ? "configured" : "not configured yet (GITHUB_CONTENT_TOKEN)"}.
+          GitHub save: {githubConfigured ? "configured" : "not configured yet (GITHUB_CONTENT_TOKEN)"}. Connection edits
+          are recorded as commits to the connections file. This page does not store card numbers or bank credentials,
+          and it does not restore an older file.
         </p>
       </div>
+      <h3>Financial status and audit history</h3>
+      {history.length === 0 ? (
+        <p className="admin-help">No connection commits were returned. History appears after GitHub publishing is configured.</p>
+      ) : (
+        <ul className="admin-section-list">
+          {history.map((commit) => (
+            <li key={commit.sha} className="admin-section-list__item">
+              <div>
+                <h3>{commit.message}</h3>
+                <p>
+                  {commit.date ? new Date(commit.date).toLocaleString() : "Date unavailable"} · {commit.sha.slice(0, 7)}
+                </p>
+              </div>
+              <span className="admin-badge">Commit</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {error && (
         <p className="admin-alert admin-alert--error" role="alert">

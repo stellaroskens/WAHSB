@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { StaffHelp } from "../../components/staff/StaffHelp"
 import { DRAFT_PREVIEW_LABEL } from "../../lib/content/pageEditor"
 import { CONSENT_NOT_SAVED } from "../../lib/content/bowlerConsent"
 import {
@@ -85,6 +86,10 @@ export function BowlerProfileEditor({ content, onChange }: Props) {
         Add player
       </button>
       <p className="admin-help">Photo upload, crop, and replace are not available until private storage is connected.</p>
+      <h3 id="player-statistics">Player statistics</h3>
+      <p className="admin-help">
+        Tournament participation, scores, and honors are edited on each player card. A blank score stays blank. It is not treated as zero.
+      </p>
       {profiles.map((profile, index) => {
         const artwork = publicBowlerArtwork(profile)
         return (
@@ -148,11 +153,17 @@ export function BowlerProfileEditor({ content, onChange }: Props) {
               <span className="admin-help">Enter an age only when it is approved. Do not enter a birth date.</span>
             </label>
             <label>
-              Biography
+              <span className="admin-label">
+                Biography
+                <StaffHelp label="Coach or player biography" text="Updates the public biography on this profile. This does not change a coach's login, account permissions, or staff role. A real student biography stays unpublished until private consent exists. Saving here does not change the live site until a super administrator publishes." />
+              </span>
               <textarea rows={3} value={profile.introduction ?? ""} onChange={(event) => patch(profile.id, { introduction: event.target.value.trim() || null })} />
             </label>
             <label>
-              Photograph
+              <span className="admin-label">
+                Photograph
+                <StaffHelp label="Show player photograph" text="Controls whether an approved player photo could be shown. A real student's image cannot be displayed without recorded guardian permission. Choosing a setting here does not replace that consent, and student photo upload is not configured." />
+              </span>
               <select
                 value={profile.photoVisibility}
                 onChange={(event) => patch(profile.id, { photoVisibility: event.target.value as BowlerProfile["photoVisibility"] })}

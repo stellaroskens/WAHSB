@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { SUPER_ADMIN_ROLE } from "../../lib/auth/roles"
+import { EDITOR_PAGES, sectionsForPage } from "../../lib/content/pageEditor"
 import { FAMILY_ACCESS_OPEN, FAMILY_TEST_PROCEDURE, FAMILY_TEST_READY } from "../../lib/family/familyAccess"
 import { rolesFromUser, usernameFromUser } from "../../lib/auth/session"
 
@@ -18,7 +19,7 @@ export function AdminSettings() {
       />
       <div className="admin-page__intro">
         <h2>Site settings</h2>
-        <p>Shared content is edited in Website Pages. This screen shows the signed-in account and where those settings live.</p>
+        <p>Shared content is edited in Website Pages. This screen shows the signed-in account and each page's search title.</p>
         <p>
           <Link to="/admin/content?page=home">Navigation and registration notice</Link>
           {" · "}
@@ -31,6 +32,20 @@ export function AdminSettings() {
           <Link to="/admin/content?page=meet-the-bowlers">Meet the Bowlers</Link>
         </p>
       </div>
+      <h3>Search title and description</h3>
+      <ul className="admin-section-list">
+        {EDITOR_PAGES.filter((item) => sectionsForPage(item.id).some((section) => section.id.startsWith("seo-"))).map((item) => (
+          <li key={item.id} className="admin-section-list__item">
+            <div>
+              <h3>
+                <Link to={`/admin/content?page=${item.id}&section=seo-${item.id}`}>{item.label}</Link>
+              </h3>
+              <p>{item.route}</p>
+            </div>
+            <span className="admin-badge">{item.coverageLabel}</span>
+          </li>
+        ))}
+      </ul>
       <dl className="admin-settings">
         <div>
           <dt>Signed in as</dt>

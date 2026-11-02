@@ -1,7 +1,7 @@
 import { useId, useRef, useState, type FormEvent } from "react"
 import { Link } from "react-router-dom"
 import { AthleticHero, SectionHeading } from "../components/AthleticHero"
-import { FaqAnswerBody } from "../components/FaqEmbed"
+import { EmptyState } from "../components/EmptyState"
 import { PageMeta } from "../components/PageMeta"
 import {
   bowlerGuidelines,
@@ -11,7 +11,8 @@ import {
   spectatorGuidelines,
   type FaqItem,
 } from "../content/faq"
-import { club, pages } from "../content/site"
+import { FaqAnswerBody } from "../components/FaqEmbed"
+import { club, library, pages } from "../content/site"
 
 const askTopics = ["", ...questionTopics] as const
 
@@ -27,6 +28,12 @@ const emptyAsk: AskState = {
   email: "",
   topic: "",
   question: "",
+}
+
+function matchesQuestion(item: FaqItem, needle: string) {
+  if (!needle) return true
+  const text = [item.question, ...item.paragraphs, ...(item.points ?? [])].join(" ").toLowerCase()
+  return text.includes(needle)
 }
 
 function FaqAnswer({ item }: { item: FaqItem }) {
@@ -52,6 +59,9 @@ export function Faq() {
   const [form, setForm] = useState<AskState>(emptyAsk)
   const [missing, setMissing] = useState<string[]>([])
   const [notice, setNotice] = useState("")
+  const [query, setQuery] = useState("")
+  const searchId = `${formId}-search`
+  const needle = query.trim().toLowerCase()
 
   function update(field: keyof AskState, value: string) {
     setForm((current) => ({ ...current, [field]: value }))
@@ -107,7 +117,7 @@ export function Faq() {
         subtitle={club.name}
         art={
           <nav className="faq-nav sw-topic-board" aria-label="FAQ categories">
-            {faqCategories.map((category) => (
+            {faqCategories.filter((category) => !category.hidden).map((category) => (
               <Link key={category.id} to={`#${category.id}`}>
                 {category.title}
               </Link>
@@ -116,13 +126,29 @@ export function Faq() {
           </nav>
         }
       >
-        <p>
-          Everything you need to know about bowling with us, getting started, tournaments,
-          equipment, and supporting our bowlers.
-        </p>
+        <p>{library.faq.hero}</p>
       </AthleticHero>
 
-      {faqCategories.map((category, index) => (
+      <section className="section" aria-labelledby="faq-search-heading">
+        <div className="wrap">
+          <form className="sw-faq-search" role="search" onSubmit={(event) => event.preventDefault()}>
+            <h2 id="faq-search-heading">Search questions</h2>
+            <label htmlFor={searchId}>Find a question or answer</label>
+            <input
+              id={searchId}
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              autoComplete="off"
+            />
+          </form>
+        </div>
+      </section>
+
+      {faqCategories.filter((category) => !category.hidden).map((category, index) => {
+        const items = category.items.filter((item) => !item.hidden && matchesQuestion(item, needle))
+        if (items.length === 0) return null
+        return (
         <section className="section faq-section" id={category.id} key={category.id} aria-labelledby={`${category.id}-heading`}>
           <div className="wrap">
             <div className="sw-panel sw-faq__category">
@@ -136,7 +162,7 @@ export function Faq() {
               </div>
               <div className="sw-faq__main">
                 <div className="faq-list">
-                  {category.items.map((item) => (
+                  {items.map((item) => (
                     <FaqAnswer key={item.question} item={item} />
                   ))}
                 </div>
@@ -150,9 +176,7 @@ export function Faq() {
                 {category.id === "faq-basics" ? (
                   <aside className="faq-sources">
                     <h3>Learning resources</h3>
-                    <p>
-                      These USBC guides explain general scoring and Baker format. They are not club policy.
-                    </p>
+                    <p>{library.faq.learningIntro}</p>
                     <ul>
                       {learningResources.map((resource) => (
                         <li key={resource.href}>
@@ -168,24 +192,14 @@ export function Faq() {
                 {category.id === "faq-etiquette" ? (
                   <div className="faq-conduct">
                     <article className="faq-callout">
-                      <h3>Parents &amp; spectators — please allow our coaches to coach</h3>
-                      <p>
-                        During practices and tournaments, please allow our coaches to provide instruction
-                        and guidance to the bowlers. Parents and spectators are asked to remain as quiet
-                        as possible while students are preparing for and delivering their shots. Bowling
-                        requires concentration, focus, and consistency, and conversations or sideline
-                        coaching can be distracting.
-                      </p>
-                      <p>
-                        We welcome positive encouragement and appropriate cheering between shots. Please
-                        avoid calling instructions to bowlers, criticizing shots, or interrupting coaches.
-                        Our goal is to give every student a supportive environment where they can learn,
-                        focus, and enjoy the sport.
-                      </p>
+                      <h3>{library.faq.etiquetteHeading}</h3>
+                      {library.faq.etiquetteParagraphs.map((paragraph) => (
+                        <p key={paragraph}>{paragraph}</p>
+                      ))}
                     </article>
                     <div className="card-grid card-grid-2">
                       <article className="card">
-                        <h3>For bowlers</h3>
+                        <h3>{library.faq.bowlerHeading}</h3>
                         <ul className="plain-list">
                           {bowlerGuidelines.map((item) => (
                             <li key={item}>{item}</li>
@@ -193,7 +207,7 @@ export function Faq() {
                         </ul>
                       </article>
                       <article className="card">
-                        <h3>For parents and spectators</h3>
+                        <h3>{library.faq.spectatorHeading}</h3>
                         <ul className="plain-list">
                           {spectatorGuidelines.map((item) => (
                             <li key={item}>{item}</li>
@@ -207,25 +221,29 @@ export function Faq() {
             </div>
           </div>
         </section>
-      ))}
+        )
+      })}
+      {needle && faqCategories.every((category) => category.hidden || category.items.every((item) => item.hidden || !matchesQuestion(item, needle))) ? (
+        <section className="section">
+          <div className="wrap">
+            <EmptyState title="No matching questions">Try a different word, or use the question form below. Nothing is sent until you send the email yourself.</EmptyState>
+          </div>
+        </section>
+      ) : null}
 
       <section className="section faq-section" id="faq-ask" aria-labelledby="faq-ask-heading">
         <div className="wrap">
           <div className="sw-faq__ask">
             <div className="sw-faq__ask-intro">
-              <h2 id="faq-ask-heading">Still Have Questions?</h2>
-              <p>
-                Can&apos;t find the answer you&apos;re looking for? Send your question to our coaching
-                team. We&apos;re happy to help families and students learn more about bowling with us.
-              </p>
+              <h2 id="faq-ask-heading">{library.faq.askHeading}</h2>
+              <p>{library.faq.askIntro}</p>
             </div>
             <form className="card form" onSubmit={onSubmit} noValidate>
               <p className="note" id={statusId} role="status">
-                {notice ||
-                  "Prepare email to the coaches opens your email application with this question filled in. You must send it yourself. This website does not deliver messages."}
+                {notice || library.faq.askNotice}
               </p>
               <div className="field">
-                <label htmlFor={`${formId}-name`}>Name</label>
+                <label htmlFor={`${formId}-name`}>{library.faq.askLabels.name}</label>
                 <input
                   ref={nameRef}
                   id={`${formId}-name`}
@@ -239,7 +257,7 @@ export function Faq() {
                 />
               </div>
               <div className="field">
-                <label htmlFor={`${formId}-email`}>Email address</label>
+                <label htmlFor={`${formId}-email`}>{library.faq.askLabels.email}</label>
                 <input
                   ref={emailRef}
                   id={`${formId}-email`}
@@ -252,7 +270,7 @@ export function Faq() {
                 />
               </div>
               <div className="field">
-                <label htmlFor={`${formId}-topic`}>Question topic</label>
+                <label htmlFor={`${formId}-topic`}>{library.faq.askLabels.topic}</label>
                 <select
                   ref={topicRef}
                   id={`${formId}-topic`}
@@ -263,13 +281,13 @@ export function Faq() {
                 >
                   {askTopics.map((topic) => (
                     <option key={topic || "choose"} value={topic}>
-                      {topic || "Choose a topic"}
+                      {topic || library.faq.askLabels.chooseTopic}
                     </option>
                   ))}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor={`${formId}-question`}>Your question</label>
+                <label htmlFor={`${formId}-question`}>{library.faq.askLabels.question}</label>
                 <textarea
                   ref={questionRef}
                   id={`${formId}-question`}
@@ -281,7 +299,7 @@ export function Faq() {
                 />
               </div>
               <button className="button button-primary" type="submit">
-                Prepare email to the coaches
+                {library.faq.askLabels.submit}
               </button>
             </form>
           </div>

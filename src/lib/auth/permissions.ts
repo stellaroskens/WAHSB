@@ -85,6 +85,17 @@ export function mayPublishBowlerProfiles(roles: unknown): boolean {
   return hasPermission(roles, "approve_publishing")
 }
 
+/** Shared draft gate for coaches, the Club Administrator, and super_admin. */
+export function mayEditSiteDrafts(roles: unknown): boolean {
+  return (
+    hasPermission(roles, "edit_public_content") ||
+    hasPermission(roles, "propose_tournament_updates") ||
+    hasPermission(roles, "propose_announcements") ||
+    hasPermission(roles, "edit_coaching_info") ||
+    hasPermission(roles, "edit_scheduling_ops")
+  )
+}
+
 export function roleMayAccessPath(role: StaffRole | null, pathname: string): boolean {
   if (!role) return false
   if (role === SUPER_ADMIN_ROLE) return true

@@ -51,11 +51,18 @@ export function Header() {
           </button>
           <nav id="site-menu" className="topbar__nav" aria-label="Primary" hidden={!open}>
             <ul>
-              {nav.map((item) => (
+              {nav.filter((item) => !item.hidden).map((item) => (
                 <li key={item.to}>
-                  <NavLink to={item.to} end={item.end} onClick={() => setOpen(false)}>
-                    {item.label}
-                  </NavLink>
+                  {item.openInNewTab ? (
+                    <a href={item.to} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>
+                      {item.label}
+                      <span className="visually-hidden"> (opens in a new tab)</span>
+                    </a>
+                  ) : (
+                    <NavLink to={item.to} end={item.end} onClick={() => setOpen(false)}>
+                      {item.label}
+                    </NavLink>
+                  )}
                 </li>
               ))}
             </ul>
@@ -65,12 +72,12 @@ export function Header() {
         <SiteSearch />
 
         <div className="topbar__tools">
-          <NavLink className="topbar__donate" to="/bowl-a-thon">
+          <NavLink className="topbar__donate" to="/donate">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.6-7 9-7 9z" />
             </svg>
             <span>
-              Donate<span className="topbar__donate-extra"> or Pledge</span>
+              Donate
             </span>
           </NavLink>
           <AccountButton />

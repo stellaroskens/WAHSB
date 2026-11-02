@@ -104,18 +104,27 @@ describe("admin dashboard foundation", () => {
   it("lists the required admin sections with Staff Accounts available", () => {
     const titles = ADMIN_SECTIONS.map((section) => section.title)
     assert.deepEqual(titles, [
-      "Website Pages",
-      "Practices and Tournaments",
-      "Coaches",
+      "Dashboard Overview",
+      "Website Pages and Content",
+      "Meet the Bowlers",
+      "Coaches and Staff",
+      "Club Administrator Management",
+      "Tournament Management",
+      "Practice Schedules",
+      "Player Statistics",
       "Volunteers",
       "Fundraisers",
       "Sponsors",
-      "Payment Settings",
+      "Payment Connections",
+      "Donations and Sponsorships",
       "Email Announcements",
-      "Staff Accounts",
+      "Family Account Management",
+      "Guardian Consent",
       "Media Library",
+      "Website Links and Navigation",
+      "SEO and Site Settings",
       "Publishing History",
-      "Site Settings",
+      "System Status and Setup",
     ])
     const available = new Set(
       ADMIN_SECTIONS.filter((section) => section.status === "available").map((section) => section.id),

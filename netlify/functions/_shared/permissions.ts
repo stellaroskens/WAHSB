@@ -67,6 +67,17 @@ export function hasPermission(roles: unknown, permission: StaffPermission): bool
   return permissionsForRoles(roles).includes(permission)
 }
 
+/** Keep in sync with src/lib/auth/permissions.ts */
+export function mayEditSiteDrafts(roles: unknown): boolean {
+  return (
+    hasPermission(roles, "edit_public_content") ||
+    hasPermission(roles, "propose_tournament_updates") ||
+    hasPermission(roles, "propose_announcements") ||
+    hasPermission(roles, "edit_coaching_info") ||
+    hasPermission(roles, "edit_scheduling_ops")
+  )
+}
+
 export function requirePermission(
   roles: unknown,
   permission: StaffPermission,

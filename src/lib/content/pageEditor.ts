@@ -5,7 +5,7 @@ export const DRAFT_PREVIEW_LABEL = "DRAFT PREVIEW — NOT PUBLISHED"
 export const GITHUB_SETUP_STEPS = [
   "Create a fine-grained personal access token. Do not create a classic personal access token.",
   "In GitHub, open Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token.",
-  "Resource owner: the account that owns stellarkoskens/WAHSB. Repository access: Only select repositories → WAHSB.",
+  "Resource owner: the account that owns stellaroskens/WAHSB. Repository access: Only select repositories → WAHSB.",
   "Repository permission: Contents → Read and write. Leave every other permission at No access. Metadata stays Read-only because GitHub requires it.",
   "In Netlify, open Project configuration → Environment variables → Add a variable. Key: GITHUB_CONTENT_TOKEN. Mark it secret. Scope it to Functions for production and deploy previews.",
   "Do not paste the token into this page, into chat, or into frontend code. Redeploy the site so the function can read the variable.",
@@ -37,7 +37,7 @@ export type EditorSection = {
   help: string
   fields: EditorField[]
   lockedReason?: string
-  custom?: "bowler-profiles"
+  custom?: "bowler-profiles" | "faq" | "resources"
 }
 
 const page = (
@@ -62,16 +62,17 @@ export const EDITOR_PAGES: EditorPage[] = [
   ),
   page("coaches", "Coach profiles", "/our-club#coaches", "full", "Editable", "Public names, roles, and biographies. This does not change who can sign in."),
   page("team-gear", "Team Gear", "/team-gear", "full", "Editable", "Shop wording and the BSN SPORTS links."),
-  page("practices", "Practices", "/practices", "partial", "Partly editable", "Search text and the shared Lakeshore Lanes location. The practice introduction stays in the page layout."),
-  page("tournaments", "Tournaments", "/tournaments", "partial", "Partly editable", "Dates, venues, and search text. The etiquette article on the public page is still in the page layout."),
+  page("practices", "Practices", "/practices", "full", "Editable", "Introduction, instructions, location, and search text. The schedule stays empty until dates are posted."),
+  page("tournaments", "Tournaments", "/tournaments", "full", "Editable", "Dates, venues, etiquette, and the spectator article."),
   page("sponsors", "Sponsors", "/sponsors", "partial", "Partly editable", "Search text and the shared Lakeshore location. Sponsor listings stay empty until the club approves one."),
-  page("fundraisers", "Fundraisers", "/fundraisers", "partial", "Partly editable", "Campaign names, dates, times, and flyer files. The longer how-to instructions stay in the page layout."),
-  page("bowl-a-thon", "Bowl-a-thon", "/bowl-a-thon", "partial", "Partly editable", "Search text only. The pledge form is a preview and does not collect a pledge."),
-  page("resources", "Bowling Resources", "/resources", "partial", "Partly editable", "Search text only. Resource listings are still written in code."),
+  page("donate", "Donate", "/donate", "partial", "Partly editable", "Suggested amounts and the explanation that checkout is not live. Payment activation stays on Donations and Payment Connections."),
+  page("fundraisers", "Fundraisers", "/fundraisers", "full", "Editable", "Campaign records and the public participation instructions."),
+  page("bowl-a-thon", "Bowl-a-thon", "/bowl-a-thon", "full", "Editable", "Public instructions and form labels. The form still does not collect a pledge or a payment."),
+  page("resources", "Bowling Resources", "/resources", "full", "Editable", "Directory listings, descriptions, and links."),
   page("volunteer", "Volunteer Opportunities", "/volunteer", "full", "Editable", "Public volunteer copy and Sterling Volunteers links. Screening results are not stored."),
-  page("faq", "FAQ", "/faq", "partial", "Partly editable", "Search text only. Questions and answers are still written in code."),
-  page("contact", "Contact", "/contact", "partial", "Partly editable", "Search text and the shared registration notice. The contact form does not send mail."),
-  page("sponsor-qr", "Sponsorship QR", "/sponsor-qr", "unavailable", "Not editable yet", "This page is still written in the page component."),
+  page("faq", "FAQ", "/faq", "full", "Editable", "Questions, answers, order, and the ask-a-question labels. The form opens the visitor's email app and does not deliver mail."),
+  page("contact", "Contact", "/contact", "full", "Editable", "Page copy and form labels. The form does not send a message."),
+  page("sponsor-qr", "Sponsorship QR", "/sponsor-qr", "partial", "Partly editable", "Page wording is editable. The QR destination stays on Payment Connections until it is verified."),
   page("sign-in", "Sign in", "/sign-in", "unavailable", "Not a content page", "Account access stays on the sign-in page. It is not website copy."),
   page("family", "Family", "/family", "unavailable", "Not a content page", "Family access is closed. This page is not website copy."),
 ]
@@ -248,20 +249,33 @@ export const EDITOR_SECTIONS: EditorSection[] = [
   {
     id: "navigation",
     pageIds: ["home"],
-    label: "Navigation labels",
-    help: "Changes the words in the menu. The page addresses stay fixed.",
+    label: "Navigation labels and destinations",
+    help: "These labels and paths are used in the header, mobile menu, and footer. Saving a draft does not change the live menu.",
     fields: [
-      field("nav.0.label", "Home"),
-      field("nav.1.label", "Our Club"),
-      field("nav.2.label", "Practices"),
-      field("nav.3.label", "Tournaments"),
-      field("nav.4.label", "Team Gear"),
-      field("nav.5.label", "Sponsors"),
-      field("nav.6.label", "Fundraisers"),
-      field("nav.7.label", "Bowling Resources"),
-      field("nav.8.label", "Volunteer Opportunities"),
-      field("nav.9.label", "FAQ"),
-      field("nav.10.label", "Contact Us"),
+      field("nav.0.label", "Home label"),
+      field("nav.0.to", "Home destination", "internal"),
+      field("nav.1.label", "Our Club label"),
+      field("nav.1.to", "Our Club destination", "internal"),
+      field("nav.2.label", "Practices label"),
+      field("nav.2.to", "Practices destination", "internal"),
+      field("nav.3.label", "Tournaments label"),
+      field("nav.3.to", "Tournaments destination", "internal"),
+      field("nav.4.label", "Meet the Bowlers label"),
+      field("nav.4.to", "Meet the Bowlers destination", "internal"),
+      field("nav.5.label", "Team Gear label"),
+      field("nav.5.to", "Team Gear destination", "internal"),
+      field("nav.6.label", "Sponsors label"),
+      field("nav.6.to", "Sponsors destination", "internal"),
+      field("nav.7.label", "Fundraisers label"),
+      field("nav.7.to", "Fundraisers destination", "internal"),
+      field("nav.8.label", "Bowling Resources label"),
+      field("nav.8.to", "Bowling Resources destination", "internal"),
+      field("nav.9.label", "Volunteer Opportunities label"),
+      field("nav.9.to", "Volunteer destination", "internal"),
+      field("nav.10.label", "FAQ label"),
+      field("nav.10.to", "FAQ destination", "internal"),
+      field("nav.11.label", "Contact Us label"),
+      field("nav.11.to", "Contact destination", "internal"),
     ],
   },
   practiceLocation,
@@ -437,6 +451,7 @@ export const EDITOR_SECTIONS: EditorSection[] = [
     ]),
   },
   seo("sponsors", "sponsors"),
+  seo("donate", "donate"),
   seo("fundraisers", "fundraisers"),
   {
     id: "fundraiser-records",
@@ -500,55 +515,163 @@ export const EDITOR_SECTIONS: EditorSection[] = [
   },
   seo("faq", "faq"),
   seo("contact", "contact"),
-  locked(
-    "practices-body",
-    ["practices"],
-    "Practice introduction",
-    "The practice introduction and FAQ embeds are still written in the page component. The location fields above are the part this editor can save.",
-  ),
+  {
+    id: "practices-body",
+    pageIds: ["practices"],
+    label: "Practice introduction",
+    help: "The introduction and instructions at the top of the public Practices page. This does not post a practice schedule.",
+    fields: [
+      field("library.practices.hero", "Introduction", "textarea"),
+      field("library.practices.scheduleTitle", "Empty schedule title"),
+      field("library.practices.scheduleBody", "Empty schedule explanation", "textarea"),
+      field("library.practices.bringItems", "What to bring", "lines"),
+      field("library.practices.bringNote", "Equipment note", "textarea"),
+      field("library.practices.rosterNote", "Roster note", "textarea"),
+      field("library.practices.faqHeading", "Practice FAQ heading"),
+      field("library.practices.faqIntro", "Practice FAQ introduction", "textarea"),
+    ],
+  },
   locked(
     "sponsors-body",
     ["sponsors"],
     "Sponsor listings",
     "No sponsor is approved for the public list. This editor will not add one.",
   ),
-  locked(
-    "fundraisers-body",
-    ["fundraisers"],
-    "Participation instructions",
-    "The how-to-participate paragraphs for each restaurant are still written in the page layout. Names, dates, times, and flyer files are in Fundraiser cards.",
-  ),
-  locked(
-    "bowlathon-body",
-    ["bowl-a-thon"],
-    "Pledge form",
-    "The Bowl-a-thon form is a preview. It does not send or save a pledge, and this editor does not turn that on.",
-  ),
-  locked(
-    "resources-body",
-    ["resources"],
-    "Resource listings",
-    "Resource descriptions are still written in code, outside the published content file.",
-  ),
-  locked(
-    "tournaments-body",
-    ["tournaments"],
-    "Tournament page article",
-    "Etiquette and format explanations on the public tournaments page are still written in the page layout. Dates and venues are edited above.",
-  ),
-  locked(
-    "faq-body",
-    ["faq"],
-    "Questions and answers",
-    "FAQ entries are still written in code. Saving a question here is not available yet.",
-  ),
-  locked(
-    "contact-body",
-    ["contact"],
-    "Contact form",
-    "The contact form does not send email. Club email delivery is not connected, so this editor cannot store a message inbox.",
-  ),
-  locked("sponsor-qr-body", ["sponsor-qr"], "Sponsorship QR", "This page is still written in the page component."),
+  {
+    id: "donate-body",
+    pageIds: ["donate"],
+    label: "Donation page",
+    help: "Public wording on the Donate page. Saving a draft does not turn on checkout or mark a gift as paid.",
+    fields: [
+      field("library.donations.headline", "Headline"),
+      field("library.donations.intro", "Introduction", "textarea"),
+      field("library.donations.why", "Why gifts help", "textarea"),
+      field("library.donations.suggestedAmounts", "Suggested amounts", "lines", "Whole dollar amounts from 1 to 1000. These are examples, not sponsorship packages."),
+      field("library.donations.unavailable", "Checkout status", "textarea"),
+      field("library.donations.taxNote", "Tax note", "textarea"),
+      field("library.donations.secureNote", "Security note", "textarea"),
+      field("library.donations.donateButton", "Donate button"),
+      field("library.donations.burgervillePrompt", "Burgerville prompt"),
+    ],
+  },
+  {
+    id: "fundraisers-body",
+    pageIds: ["fundraisers"],
+    label: "Participation instructions",
+    help: "The public how-to text for each restaurant. Changing a code here does not create a payment. Flyer files stay in Fundraiser cards.",
+    fields: [
+      field("library.fundraisers.hero", "Page introduction", "textarea"),
+      field("library.fundraisers.activeEvent", "Current public fundraiser", "text", "Use burgerville or panda. The other record stays on file and is not shown as the current event."),
+      field("library.fundraisers.panda.intro", "Panda Express introduction", "textarea"),
+      field("library.fundraisers.panda.stepsIntro", "Panda Express steps introduction", "textarea"),
+      field("library.fundraisers.panda.steps", "Panda Express steps", "lines"),
+      field("library.fundraisers.panda.code", "Panda Express code"),
+      field("library.fundraisers.panda.terms", "Panda Express terms", "textarea"),
+      field("library.fundraisers.burgerville.yearNote", "Burgerville date note", "textarea"),
+      field("library.fundraisers.burgerville.steps", "Burgerville instructions", "textarea"),
+      field("library.fundraisers.burgerville.code", "Burgerville code"),
+      field("library.fundraisers.burgerville.volunteerIntro", "Volunteer introduction", "textarea"),
+      field("library.fundraisers.burgerville.volunteerItems", "Volunteer tasks", "lines"),
+      field("library.fundraisers.shareHeading", "Share heading"),
+      field("library.fundraisers.shareBody", "Share paragraph", "textarea"),
+    ],
+  },
+  {
+    id: "bowlathon-body",
+    pageIds: ["bowl-a-thon"],
+    label: "Bowl-a-thon instructions",
+    help: "Public wording and form labels. The form remains a preview and does not save a pledge or take a payment.",
+    fields: [
+      field("library.bowlathon.hero", "Introduction", "textarea"),
+      field("library.bowlathon.how", "How a pledge works", "lines"),
+      field("library.bowlathon.example", "Example line"),
+      field("library.bowlathon.dateNote", "Event date note", "textarea"),
+      field("library.bowlathon.formNotice", "Form notice", "textarea", "This notice tells visitors the form does not save a pledge."),
+      field("library.bowlathon.labels.bowler", "Bowler name label"),
+      field("library.bowlathon.labels.sponsor", "Sponsor label"),
+      field("library.bowlathon.labels.submit", "Submit button label"),
+      field("library.bowlathon.paymentNote", "Payment note", "textarea", "This explains that payments are not active."),
+    ],
+  },
+  {
+    id: "resources-body",
+    pageIds: ["resources"],
+    label: "Bowling resource listings",
+    help: "Business names, descriptions, and https links on the public Bowling Resources page. Hiding a listing keeps the record but removes it from the public page after publish.",
+    fields: [
+      field("library.resources.hero", "Page introduction", "textarea"),
+      field("library.resources.proShopsIntro", "Pro shop introduction", "textarea"),
+      field("library.resources.centersIntro", "Bowling center introduction", "textarea"),
+    ],
+    custom: "resources",
+  },
+  {
+    id: "tournaments-body",
+    pageIds: ["tournaments"],
+    label: "Etiquette and articles",
+    help: "The spectator note and etiquette article on the public Tournaments page. This does not confirm a start time.",
+    fields: [
+      field("library.tournaments.hero", "Introduction", "textarea"),
+      field("library.tournaments.seasonNote", "Earlier schedule note", "textarea"),
+      field("library.tournaments.arrivalNote", "Arrival note", "textarea"),
+      field("library.tournaments.arrivalFormat", "Format note", "textarea"),
+      field("library.tournaments.attireNote", "Attire note", "textarea"),
+      field("library.tournaments.attire", "Attire rules", "lines"),
+      field("library.tournaments.spectatorIntro", "Spectator paragraphs", "lines"),
+      field("library.tournaments.faqHeading", "Etiquette heading"),
+      field("library.tournaments.faqIntro", "Etiquette introduction", "textarea"),
+    ],
+  },
+  {
+    id: "faq-body",
+    pageIds: ["faq"],
+    label: "Questions and answers",
+    help: "Public FAQ questions, answers, and order. The ask form opens the visitor's own email application. This website does not deliver the message.",
+    fields: [
+      field("library.faq.hero", "Page introduction", "textarea"),
+      field("library.faq.askHeading", "Ask heading"),
+      field("library.faq.askIntro", "Ask introduction", "textarea"),
+      field("library.faq.askNotice", "Ask form notice", "textarea", "Keep the notice that this website does not deliver the message."),
+      field("library.faq.askLabels.name", "Name label"),
+      field("library.faq.askLabels.email", "Email label"),
+      field("library.faq.askLabels.question", "Question label"),
+      field("library.faq.askLabels.submit", "Submit label"),
+    ],
+    custom: "faq",
+  },
+  {
+    id: "contact-body",
+    pageIds: ["contact"],
+    label: "Contact page copy",
+    help: "The public contact introduction and form labels. Submitting the form still does not send email.",
+    fields: [
+      field("library.contact.hero", "Introduction", "textarea"),
+      field("library.contact.formHeading", "Form heading"),
+      field("library.contact.formNotice", "Form notice", "textarea", "Keep the notice that the form is not connected to email."),
+      field("library.contact.labels.name", "Name label"),
+      field("library.contact.labels.email", "Email label"),
+      field("library.contact.labels.topic", "Topic label"),
+      field("library.contact.labels.message", "Message label"),
+      field("library.contact.labels.submit", "Submit label"),
+      field("library.contact.topics", "Topic choices", "lines"),
+      field("library.contact.coachesNote", "Coaches note", "textarea"),
+    ],
+  },
+  {
+    id: "sponsor-qr-body",
+    pageIds: ["sponsor-qr"],
+    label: "Sponsorship QR wording",
+    help: "The public sentences on the QR page. The approved destination is edited under Payment Connections and stays off until it is verified. This screen cannot turn payments on.",
+    fields: [
+      field("library.sponsorQr.title", "Browser title"),
+      field("library.sponsorQr.description", "Search description", "textarea"),
+      field("library.sponsorQr.hero", "Introduction", "textarea"),
+      field("library.sponsorQr.readyHeading", "Ready heading"),
+      field("library.sponsorQr.readyBody", "Ready explanation", "textarea"),
+      field("library.sponsorQr.emptyHeading", "Not ready heading"),
+      field("library.sponsorQr.emptyBody", "Not ready explanation", "textarea"),
+    ],
+  },
   locked("sign-in-body", ["sign-in"], "Sign in", "Sign-in screens are account access, not public page copy."),
   locked("family-body", ["family"], "Family page", "Family access is closed and is not edited as website copy."),
 ]
@@ -615,6 +738,86 @@ export function fieldText(content: SiteContent, item: EditorField): string {
   if (item.kind === "lines" && Array.isArray(value)) return value.map(String).join("\n")
   if (value == null) return ""
   return String(value)
+}
+
+const BOWLER_REVIEW_FIELDS = [
+  "displayName",
+  "school",
+  "logoStyle",
+  "yearsBowling",
+  "grade",
+  "age",
+  "introduction",
+  "photoVisibility",
+  "publicationStatus",
+  "hidden",
+] as const
+
+function reviewValue(value: unknown): string {
+  if (value == null || value === "") return "(empty)"
+  if (typeof value === "boolean") return value ? "yes" : "no"
+  if (Array.isArray(value)) return value.map(String).join(", ") || "(empty)"
+  return String(value)
+}
+
+export type ContentChange = { label: string; before: string; after: string }
+
+/** Plain-language differences between the editor copy and the published file. */
+export function reviewContentChanges(current: SiteContent, baseline: SiteContent): ContentChange[] {
+  const changes: ContentChange[] = []
+  for (const item of FIELDS) {
+    const before = reviewValue(readPath(baseline, item.path))
+    const after = reviewValue(readPath(current, item.path))
+    if (before !== after) changes.push({ label: item.label, before, after })
+  }
+
+  const ids = new Set([
+    ...current.bowlerProfiles.map((profile) => profile.id),
+    ...baseline.bowlerProfiles.map((profile) => profile.id),
+  ])
+  collectLibraryChanges(baseline.library, current.library, "library", changes, new Set(FIELDS.map((item) => item.path)))
+
+  for (const id of ids) {
+    const before = baseline.bowlerProfiles.find((profile) => profile.id === id)
+    const after = current.bowlerProfiles.find((profile) => profile.id === id)
+    if (!before || !after) {
+      changes.push({
+        label: `Bowler ${after?.displayName || before?.displayName || id}`,
+        before: before ? before.displayName : "(not in the published file)",
+        after: after ? after.displayName : "(removed from this editor copy)",
+      })
+      continue
+    }
+    for (const key of BOWLER_REVIEW_FIELDS) {
+      const previous = reviewValue(before[key])
+      const next = reviewValue(after[key])
+      if (previous !== next) changes.push({ label: `${after.displayName}: ${key}`, before: previous, after: next })
+    }
+  }
+  return changes
+}
+
+function collectLibraryChanges(before: unknown, after: unknown, path: string, changes: ContentChange[], skip: Set<string>) {
+  if (skip.has(path)) return
+  if (typeof before === "string" || typeof after === "string" || typeof before === "boolean" || typeof after === "boolean") {
+    const previous = reviewValue(before)
+    const next = reviewValue(after)
+    if (previous !== next) changes.push({ label: path, before: previous, after: next })
+    return
+  }
+  if (Array.isArray(before) || Array.isArray(after)) {
+    const left = Array.isArray(before) ? before : []
+    const right = Array.isArray(after) ? after : []
+    const length = Math.max(left.length, right.length)
+    for (let index = 0; index < length; index += 1) collectLibraryChanges(left[index], right[index], `${path}.${index}`, changes, skip)
+    return
+  }
+  if (isRecord(before) || isRecord(after)) {
+    const keys = new Set([...Object.keys(isRecord(before) ? before : {}), ...Object.keys(isRecord(after) ? after : {})])
+    for (const key of keys) {
+      collectLibraryChanges(isRecord(before) ? before[key] : undefined, isRecord(after) ? after[key] : undefined, `${path}.${key}`, changes, skip)
+    }
+  }
 }
 
 export function editField(content: SiteContent, path: string, raw: string): SiteContent {

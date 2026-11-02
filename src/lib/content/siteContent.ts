@@ -136,10 +136,187 @@ export type PracticeLocationContent = {
   detail: string
 }
 
+export type LibraryLink = { href: string; label: string }
+export type LibraryFaqItem = {
+  question: string
+  paragraphs: string[]
+  points?: string[]
+  links?: LibraryLink[]
+  hidden?: boolean
+}
+export type LibraryFaqCategory = { id: string; title: string; intro?: string; items: LibraryFaqItem[]; hidden?: boolean }
+export type LibraryListing = {
+  id: string
+  name: string
+  city: string
+  venueId?: string
+  address?: string
+  phone?: string
+  phoneNote?: string
+  website?: string
+  hours?: { day: string; text: string }[]
+  hoursNote?: string
+  status?: string
+  points: string[]
+  hidden?: boolean
+}
+export type PublicLibrary = {
+  faq: {
+    hero: string
+    categories: LibraryFaqCategory[]
+    learningIntro: string
+    learningResources: LibraryLink[]
+    etiquetteHeading: string
+    etiquetteParagraphs: string[]
+    bowlerHeading: string
+    bowlerGuidelines: string[]
+    spectatorHeading: string
+    spectatorGuidelines: string[]
+    askHeading: string
+    askIntro: string
+    askNotice: string
+    askLabels: { name: string; email: string; topic: string; question: string; submit: string; chooseTopic: string }
+    topics: string[]
+  }
+  resources: {
+    hero: string
+    disclaimer: string
+    serviceTags: string[]
+    sections: { category: string; title: string; intro: string; emptyTitle: string; empty: string }[]
+    proShopsTitle: string
+    proShopsIntro: string
+    centersTitle: string
+    centersIntro: string
+    proShops: LibraryListing[]
+    bowlingCenters: LibraryListing[]
+  }
+  practices: {
+    hero: string
+    scheduleTitle: string
+    scheduleBody: string
+    bringItems: string[]
+    bringNote: string
+    rosterNote: string
+    faqHeading: string
+    faqIntro: string
+  }
+  tournaments: {
+    hero: string
+    seasonNote: string
+    arrivalNote: string
+    arrivalFormat: string
+    arrival: { label: string; value: string }[]
+    attireNote: string
+    attire: string[]
+    spectatorIntro: string[]
+    spectatorCards: { title: string; text: string }[]
+    guideHeading: string
+    guideItems: { title: string; text: string }[]
+    faqHeading: string
+    faqIntro: string
+    events: { id: string; name: string; detail: string; confirmed: boolean }[]
+  }
+  fundraisers: {
+    hero: string
+    panda: {
+      intro: string
+      placeName: string
+      street: string
+      locality: string
+      phone: string
+      phoneHref: string
+      stepsIntro: string
+      steps: string[]
+      terms: string
+      flyerAlt: string
+      caption: string
+      code: string
+    }
+    burgerville: {
+      yearNote: string
+      placeName: string
+      street: string
+      steps: string
+      flyerAlt: string
+      caption: string
+      volunteerIntro: string
+      volunteerItems: string[]
+      volunteerPosters: string
+      volunteerAsk: string
+      code: string
+    }
+    activeEvent: string
+    shareHeading: string
+    shareBody: string
+    shareQuestions: string
+  }
+  donations: {
+    headline: string
+    intro: string
+    why: string
+    suggestedAmounts: string[]
+    customLabel: string
+    methodsHeading: string
+    secureNote: string
+    taxNote: string
+    unavailable: string
+    businessHeading: string
+    businessBody: string
+    contactNote: string
+    faq: { question: string; answer: string }[]
+    burgervillePrompt: string
+    donateButton: string
+  }
+  bowlathon: {
+    hero: string
+    how: string[]
+    example: string
+    dateNote: string
+    formHeading: string
+    formNotice: string
+    labels: {
+      bowler: string
+      sponsor: string
+      email: string
+      phone: string
+      flat: string
+      perPin: string
+      flatAmount: string
+      perPinAmount: string
+      maximum: string
+      submit: string
+    }
+    paymentHeading: string
+    paymentNote: string
+    faqHeading: string
+    faqs: { question: string; answer: string }[]
+  }
+  contact: {
+    hero: string
+    formHeading: string
+    formNotice: string
+    labels: { name: string; email: string; topic: string; message: string; submit: string }
+    topics: string[]
+    coachesNote: string
+    biographiesLabel: string
+  }
+  sponsorQr: {
+    title: string
+    description: string
+    hero: string
+    readyHeading: string
+    readyBody: string
+    emptyHeading: string
+    emptyBody: string
+    backLabel: string
+  }
+}
+
 export type SiteContent = {
   version: number
   pages: Record<string, PageMetaContent>
-  nav: { to: string; label: string; end: boolean }[]
+  nav: { to: string; label: string; end: boolean; openInNewTab?: boolean; hidden?: boolean }[]
+  library: PublicLibrary
   teamGearShop: { name: string; url: string; teamStoreUrl: string | null }
   practiceLocation: PracticeLocationContent
   seasonRegistrationClosed: {
@@ -244,10 +421,17 @@ function checkText(
   if (MARKUP.test(value)) issues.push({ path, message: "HTML and scripts are not allowed." })
 }
 
+const BLOCKED_INTERNAL = /^\/(admin|coach|team-administrator|staff|api)(\/|$)/
+
 function checkInternal(value: unknown, path: string, issues: SiteContentIssue[]) {
   checkText(value, path, issues, CONTENT_LIMITS.link)
-  if (typeof value === "string" && value && !INTERNAL_PATH.test(value)) {
+  if (typeof value !== "string" || !value) return
+  if (!INTERNAL_PATH.test(value) || /^(javascript|data|vbscript):/i.test(value)) {
     issues.push({ path, message: "Use a site path such as /our-club." })
+    return
+  }
+  if (BLOCKED_INTERNAL.test(value)) {
+    issues.push({ path, message: "Staff, payment, and system paths cannot be used as public links." })
   }
 }
 
@@ -299,6 +483,12 @@ export function validateSiteContent(input: unknown): SiteContentIssue[] {
       checkInternal(item.to, `nav.${index}.to`, issues)
       checkText(item.label, `nav.${index}.label`, issues, CONTENT_LIMITS.label)
       if (typeof item.end !== "boolean") issues.push({ path: `nav.${index}.end`, message: "Expected true or false." })
+      if ("openInNewTab" in item && typeof item.openInNewTab !== "boolean") {
+        issues.push({ path: `nav.${index}.openInNewTab`, message: "Expected true or false." })
+      }
+      if ("hidden" in item && typeof item.hidden !== "boolean") {
+        issues.push({ path: `nav.${index}.hidden`, message: "Expected true or false." })
+      }
     })
   }
 
@@ -417,8 +607,74 @@ export function validateSiteContent(input: unknown): SiteContentIssue[] {
       })
     : []
   validateBowlerRecords(input.bowlerResults, input.bowlerHonors, profileIds, events, issues)
+  validateLibrary(input.library, issues)
 
   return issues
+}
+
+function validateLibrary(value: unknown, issues: SiteContentIssue[]) {
+  if (!isRecord(value)) {
+    issues.push({ path: "library", message: "Public page copy is required." })
+    return
+  }
+  for (const key of ["faq", "resources", "practices", "tournaments", "fundraisers", "bowlathon", "contact", "sponsorQr", "donations"]) {
+    if (!isRecord(value[key])) issues.push({ path: `library.${key}`, message: "This page copy is required." })
+  }
+  walkLibrary(value, "library", issues)
+  const faq = isRecord(value.faq) && Array.isArray(value.faq.categories) ? value.faq.categories : []
+  if (faq.length < 1) issues.push({ path: "library.faq.categories", message: "Add at least one FAQ category." })
+  faq.forEach((category, index) => {
+    if (!isRecord(category) || !Array.isArray(category.items) || category.items.length < 1) {
+      issues.push({ path: `library.faq.categories.${index}.items`, message: "Each FAQ category needs a question." })
+    }
+  })
+  const activeEvent = isRecord(value.fundraisers) ? value.fundraisers.activeEvent : ""
+  if (activeEvent !== "burgerville" && activeEvent !== "panda") {
+    issues.push({ path: "library.fundraisers.activeEvent", message: "Use burgerville or panda." })
+  }
+  const resources = isRecord(value.resources) ? value.resources : null
+  for (const key of ["proShops", "bowlingCenters"] as const) {
+    if (!resources || !Array.isArray(resources[key]) || resources[key].length < 1) {
+      issues.push({ path: `library.resources.${key}`, message: "Keep at least one listing. Hide a listing instead of deleting the directory." })
+    }
+  }
+}
+
+function walkLibrary(value: unknown, path: string, issues: SiteContentIssue[]) {
+  if (typeof value === "string") {
+    checkText(value, path, issues, 1200, path.endsWith(".intro") || path.endsWith(".status") || path.endsWith(".phone") || path.endsWith(".address") || path.endsWith(".hoursNote") || path.endsWith(".phoneNote") || path.endsWith(".website"))
+    return
+  }
+  if (typeof value === "boolean" || typeof value === "number" || value == null) return
+  if (Array.isArray(value)) {
+    if (value.length > 80) issues.push({ path, message: "Use 80 items or fewer." })
+    value.forEach((item, index) => walkLibrary(item, `${path}.${index}`, issues))
+    return
+  }
+  if (!isRecord(value)) {
+    issues.push({ path, message: "Unexpected value." })
+    return
+  }
+  for (const [key, child] of Object.entries(value)) {
+    const childPath = `${path}.${key}`
+    if ((key === "href" || key === "website") && typeof child === "string") {
+      if (!child) continue
+      if (child.startsWith("/")) checkInternal(child, childPath, issues)
+      else if (key === "website" && /^https?:\/\/[^\s]+$/.test(child)) continue
+      else checkHttps(child, childPath, issues)
+      continue
+    }
+    if (key === "phoneHref" && typeof child === "string") {
+      checkText(child, childPath, issues, 40)
+      if (!/^tel:\+[0-9]+$/.test(child)) issues.push({ path: childPath, message: "Use a tel:+ link with digits only." })
+      continue
+    }
+    if (key === "hidden" || key === "confirmed" || key === "openInNewTab") {
+      if (typeof child !== "boolean") issues.push({ path: childPath, message: "Expected true or false." })
+      continue
+    }
+    walkLibrary(child, childPath, issues)
+  }
 }
 
 function validatePracticeLocation(value: unknown, issues: SiteContentIssue[]) {
@@ -622,8 +878,10 @@ function validateFundraisers(records: unknown[], issues: SiteContentIssue[]) {
     for (const key of ["image", "flyer"] as const) {
       const path = `fundraisers.${index}.${key}`
       checkText(record[key], path, issues, CONTENT_LIMITS.link)
-      if (typeof record[key] === "string" && (!PUBLIC_FILE.test(record[key]) || !record[key].startsWith("/flyers/"))) {
-        issues.push({ path, message: "Use an approved file under /flyers/." })
+      const file = record[key]
+      const approved = typeof file === "string" && PUBLIC_FILE.test(file) && (file.startsWith("/flyers/") || file.startsWith("/images/"))
+      if (typeof file === "string" && !approved) {
+        issues.push({ path, message: "Use an approved file under /flyers/ or /images/." })
       }
     }
   })

@@ -44,6 +44,7 @@ describe("visual page editor", () => {
       "/practices",
       "/tournaments",
       "/sponsors",
+      "/donate",
       "/sponsor-qr",
       "/fundraisers",
       "/resources",
@@ -130,7 +131,9 @@ describe("visual page editor", () => {
     assert.match(publish, /approve_publishing/)
     assert.match(drafts, /draftRecordStatus/)
     assert.match(editor, /DRAFT_PREVIEW_LABEL/)
-    assert.match(editor, /Advanced: raw content file/)
+    assert.match(editor, /Review changes/)
+    assert.match(editor, /Approve and publish/)
+    assert.doesNotMatch(editor, /raw content file/)
     assert.doesNotMatch(editor, /Content JSON/)
     assert.match(home, /pageBodies\.home\.hero\.heading/)
     assert.match(club, /pageBodies\.club\.heroTitle/)
@@ -138,6 +141,8 @@ describe("visual page editor", () => {
     assert.equal(rollback.includes("pageBodies"), false)
     assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("Fine-grained")))
     assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("Contents")))
+    assert.ok(GITHUB_SETUP_STEPS.some((step) => step.includes("stellaroskens/WAHSB")))
+    assert.equal(GITHUB_SETUP_STEPS.some((step) => step.includes("stellarkoskens")), false)
   })
 
   it("covers every dashboard section and keeps announcements unsent", () => {

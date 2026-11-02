@@ -5,7 +5,7 @@ import { FundraiserShare } from "../components/FundraiserShare"
 import { PaymentOptions } from "../components/PaymentOptions"
 import { WaysToContribute } from "../components/WaysToContribute"
 import { homeHeroBanner } from "../content/media"
-import { bowlathonEvent, club, pages } from "../content/site"
+import { bowlathonEvent, club, library, pages } from "../content/site"
 
 type PledgeType = "flat" | "per-pin"
 
@@ -30,29 +30,6 @@ const emptyForm: FormState = {
 }
 
 const moneyPattern = /^\d+(\.\d{1,2})?$/
-
-const pledgeFaq = [
-  {
-    question: "What is a per-pin pledge?",
-    answer:
-      "You choose an amount to donate for each pin your bowler knocks down during the Bowl-a-thon. After the event, we multiply your pledge by their confirmed pin total. For example, pledging 10 cents per pin with a total of 500 pins means a $50 donation. The example is illustrative, not a predicted score.",
-  },
-  {
-    question: "When do I pay, and how will I know the total?",
-    answer:
-      "Per-pin pledges are calculated after the event. The club will confirm your bowler’s pin total and send you the amount due with payment instructions. You do not need to guess their score or calculate it yourself.",
-  },
-  {
-    question: "Can I set a limit on my donation?",
-    answer:
-      "Yes. Enter an optional maximum donation with your per-pin pledge. If you pledge 10 cents per pin and set a $30 maximum, your donation will not exceed $30, even if the calculated total is higher.",
-  },
-  {
-    question: "Can I give a fixed amount instead?",
-    answer:
-      "Absolutely. Choose “Flat Donation” to give a set amount regardless of how many pins your bowler knocks down. Both families and businesses can choose either pledge type.",
-  },
-] as const
 
 export function Bowlathon() {
   const formId = useId()
@@ -101,8 +78,7 @@ export function Bowlathon() {
     setNotice("This preview form is not connected. Nothing was sent or saved.")
   }
 
-  const amountLabel =
-    form.pledgeType === "flat" ? "Donation amount (USD)" : "Amount per pin (USD)"
+  const amountLabel = form.pledgeType === "flat" ? library.bowlathon.labels.flatAmount : library.bowlathon.labels.perPinAmount
 
   return (
     <div className="sw-page sw-bowlathon">
@@ -125,10 +101,7 @@ export function Bowlathon() {
           </div>
         }
       >
-        <p>
-          This pledge form is a preview of the paper sheet. It does not send,
-          save, or collect a pledge, and it cannot take a payment.
-        </p>
+        <p>{library.bowlathon.hero}</p>
       </AthleticHero>
 
       <section className="section">
@@ -136,37 +109,27 @@ export function Bowlathon() {
           <div className="stack">
             <article className="card sw-bowlathon__how">
               <h2>How a pledge works</h2>
-              <p>
-                Flat donations can be paid immediately once payments are connected.
-              </p>
-              <p>
-                Per-pin totals are calculated after the event from the bowler’s
-                verified pin total, then the sponsor receives payment instructions.
-              </p>
-              <p>Sponsors do not enter the pin total.</p>
-              <p className="pledge-example">Example: $0.10 per pin × 500 pins = $50.</p>
+              {library.bowlathon.how.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <p className="pledge-example">{library.bowlathon.example}</p>
             </article>
             <article className="card sw-bowlathon__date">
               <h2>Event date</h2>
               <p>{bowlathonEvent.date ?? "Not confirmed yet."}</p>
-              <p className="note">
-                Printed QR cards are planned to open this page. Each card will use
-                a private link for one bowler, without placing a student name in
-                the address. Cards will be made after the club has a permanent
-                website address.
-              </p>
+              <p className="note">{library.bowlathon.dateNote}</p>
             </article>
           </div>
 
           <div className="stack">
             <form className="card form pledge-calculator" onSubmit={onSubmit} noValidate>
-              <h2 className="pledge-calculator__heading">Pledge preview</h2>
+              <h2 className="pledge-calculator__heading">{library.bowlathon.formHeading}</h2>
               <p className="note pledge-calculator__status" id={statusId} role="status">
-                {notice || "This form is a preview. It is not connected, and nothing is saved."}
+                {notice || library.bowlathon.formNotice}
               </p>
 
               <div className="field">
-                <label htmlFor={`${formId}-bowler`}>Bowler name</label>
+                <label htmlFor={`${formId}-bowler`}>{library.bowlathon.labels.bowler}</label>
                 <input
                   id={`${formId}-bowler`}
                   name="bowler"
@@ -180,7 +143,7 @@ export function Bowlathon() {
               </div>
 
               <div className="field">
-                <label htmlFor={`${formId}-sponsor`}>Sponsor name or business</label>
+                <label htmlFor={`${formId}-sponsor`}>{library.bowlathon.labels.sponsor}</label>
                 <input
                   id={`${formId}-sponsor`}
                   name="sponsor"
@@ -194,7 +157,7 @@ export function Bowlathon() {
               </div>
 
               <div className="field">
-                <label htmlFor={`${formId}-email`}>Email</label>
+                <label htmlFor={`${formId}-email`}>{library.bowlathon.labels.email}</label>
                 <input
                   id={`${formId}-email`}
                   name="email"
@@ -208,7 +171,7 @@ export function Bowlathon() {
               </div>
 
               <div className="field">
-                <label htmlFor={`${formId}-phone`}>Phone (optional)</label>
+                <label htmlFor={`${formId}-phone`}>{library.bowlathon.labels.phone}</label>
                 <input
                   id={`${formId}-phone`}
                   name="phone"
@@ -228,7 +191,7 @@ export function Bowlathon() {
                     checked={form.pledgeType === "flat"}
                     onChange={() => chooseType("flat")}
                   />
-                  Flat Donation
+                  {library.bowlathon.labels.flat}
                 </label>
                 <label className="choice">
                   <input
@@ -237,7 +200,7 @@ export function Bowlathon() {
                     checked={form.pledgeType === "per-pin"}
                     onChange={() => chooseType("per-pin")}
                   />
-                  Per-Pin Pledge
+                  {library.bowlathon.labels.perPin}
                 </label>
               </fieldset>
 
@@ -259,7 +222,7 @@ export function Bowlathon() {
               {form.pledgeType === "per-pin" ? (
                 <div className="field">
                   <label htmlFor={`${formId}-maximum`}>
-                    Optional maximum total (USD)
+                    {library.bowlathon.labels.maximum}
                   </label>
                   <input
                     id={`${formId}-maximum`}
@@ -276,7 +239,7 @@ export function Bowlathon() {
               ) : null}
 
               <button className="button button-primary pledge-calculator__action" type="submit">
-                Submit preview
+                {library.bowlathon.labels.submit}
               </button>
             </form>
 
@@ -290,11 +253,8 @@ export function Bowlathon() {
       <section className="section connect-block" aria-labelledby="support-payment-heading">
         <div className="wrap">
           <div className="sw-panel">
-            <h2 id="support-payment-heading">Choose how to support our bowlers</h2>
-            <p>
-              Payment options will become available after the club completes setup and
-              approval.
-            </p>
+            <h2 id="support-payment-heading">{library.bowlathon.paymentHeading}</h2>
+            <p>{library.bowlathon.paymentNote}</p>
             <PaymentOptions />
             <FundraiserShare />
           </div>
@@ -303,9 +263,9 @@ export function Bowlathon() {
 
       <section className="section" aria-labelledby="pledge-faq">
         <div className="wrap">
-          <SectionHeading id="pledge-faq" title="How pledging works" />
+          <SectionHeading id="pledge-faq" title={library.bowlathon.faqHeading} />
           <ol className="sw-bowlathon__faq">
-            {pledgeFaq.map((item) => (
+            {library.bowlathon.faqs.map((item) => (
               <li className="card" key={item.question}>
                 <h3>{item.question}</h3>
                 <p>{item.answer}</p>

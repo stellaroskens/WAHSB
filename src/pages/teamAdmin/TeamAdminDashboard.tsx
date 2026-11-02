@@ -1,54 +1,37 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
+import { StaffHelp } from "../../components/staff/StaffHelp"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { hasPermission } from "../../lib/auth/permissions"
 import { isSuperAdmin } from "../../lib/auth/roles"
 import { rolesFromUser } from "../../lib/auth/session"
 
 export function TeamAdminDashboard() {
-  const { user, username, logout } = useAuth()
+  const { user } = useAuth()
   const roles = rolesFromUser(user)
 
   return (
-    <div className="admin-shell">
-      <header className="admin-topbar">
-        <div className="admin-topbar__brand">
-          <p className="admin-topbar__eyebrow">WAHSB</p>
-          <strong>Team Admin</strong>
-        </div>
-        <nav className="admin-topbar__nav" aria-label="Team administrator">
-          <NavLink to="/team-administrator" end>
-            Dashboard
-          </NavLink>
-        </nav>
-        <div className="admin-topbar__account">
-          <span className="admin-topbar__email">
-            {username ? `@${username}` : user?.email} (display only)
-          </span>
-          <button
-            type="button"
-            className="admin-btn admin-btn--ghost"
-            onClick={async () => {
-              await logout()
-              window.location.assign("/staff/login")
-            }}
-          >
-            Sign out
-          </button>
-        </div>
-      </header>
       <div className="admin-page">
         <PageMeta
           title="Team Administrator | Albany High School Bowling"
           description="Team administrator tools for Albany High School Bowling."
         />
         <div className="admin-page__intro">
-          <h2>Team administrator dashboard</h2>
+          <h2>
+            Club Administrator dashboard
+            <StaffHelp label="Club Administrator dashboard" text="Shows scheduling, announcement, and volunteer tools. Publishing and live payments stay with the super administrator. This screen does not change another person's login." />
+          </h2>
           <p>
             Scheduling, announcements, and volunteer coordination support. Super-admin account management and financial
             payouts are blocked by default.
           </p>
-          {isSuperAdmin(roles) ? <p><Link to="/admin">Return to Main Admin Dashboard</Link></p> : null}
+          {isSuperAdmin(roles) ? (
+            <p>
+              <Link to="/admin/club">Manage Club Administrator Settings</Link>
+              {" · "}
+              <Link to="/admin">Return to Main Admin Dashboard</Link>
+            </p>
+          ) : null}
           <p>
             <Link to="/team-administrator/bowlers">Meet the Bowlers</Link>
           </p>
@@ -95,6 +78,5 @@ export function TeamAdminDashboard() {
           </li>
         </ul>
       </div>
-    </div>
   )
 }

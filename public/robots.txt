@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /coach
+Disallow: /team-administrator
+Disallow: /staff
+Disallow: /sign-in
+Disallow: /family
+Disallow: /api
+
+Sitemap: https://albany-hs-bowling.netlify.app/sitemap.xml

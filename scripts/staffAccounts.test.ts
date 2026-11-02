@@ -48,6 +48,6 @@ describe("admin dashboard staff section", () => {
     const staff = ADMIN_SECTIONS.find((section) => section.id === "staff-accounts")
     assert.ok(staff)
     assert.equal(staff?.status, "available")
-    assert.equal(staff?.href, "/admin/staff")
+    assert.equal(staff?.href, "/admin/coaches")
   })
 })

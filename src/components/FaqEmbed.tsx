@@ -81,7 +81,7 @@ export function FaqEmbed({ id, heading, subtitle, categoryIds }: FaqEmbedProps) 
           {categories.map((category) => (
             <FaqCategory key={category.id} title={category.title}>
               {category.intro ? <p className="faq-group-intro">{category.intro}</p> : null}
-              {category.items.map((item) => (
+              {category.items.filter((item) => !item.hidden).map((item) => (
                 <article className="faq-group-item" key={item.question}>
                   <h3>{item.question}</h3>
                   <div className="faq-answer">
