@@ -30,7 +30,7 @@ export function CoachDashboard() {
             <Link to="/coach/bowlers">Meet the Bowlers</Link>
           </p>
         </div>
-        <ul className="admin-section-list">
+        <ul className="admin-section-list dash-grid">
           <li className="admin-section-list__item">
             <div>
               <h3>Edit designated coaching info</h3>
