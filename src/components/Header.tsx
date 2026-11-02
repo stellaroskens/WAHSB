@@ -72,12 +72,12 @@ export function Header() {
         <SiteSearch />
 
         <div className="topbar__tools">
-          <NavLink className="topbar__donate" to="/bowl-a-thon">
+          <NavLink className="topbar__donate" to="/donate">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.6-7 9-7 9z" />
             </svg>
             <span>
-              Donate<span className="topbar__donate-extra"> or Pledge</span>
+              Donate
             </span>
           </NavLink>
           <AccountButton />

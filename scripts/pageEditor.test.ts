@@ -44,6 +44,7 @@ describe("visual page editor", () => {
       "/practices",
       "/tournaments",
       "/sponsors",
+      "/donate",
       "/sponsor-qr",
       "/fundraisers",
       "/resources",

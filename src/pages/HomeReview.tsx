@@ -5,7 +5,7 @@ import { SiteSearch } from "../components/header/SiteSearch"
 import { PageMeta } from "../components/PageMeta"
 import { fundraisers } from "../content/fundraisers"
 import { clothingLogo, homeHeroBanner, websiteLogo } from "../content/media"
-import { nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
+import { library, nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
 
 const links = nav
 
@@ -95,6 +95,9 @@ export function HomeReview() {
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h12M13 6l6 6-6 6" />
             </svg>
+          </Link>
+          <Link className="review-pledge" to="/donate">
+            {library.donations.donateButton}
           </Link>
         </div>
       </section>

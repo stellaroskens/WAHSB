@@ -21,6 +21,10 @@
       "title": "Sponsors | Albany High School Bowling",
       "description": "Support Albany High School Bowling or preview how a family could look up a bowler. This preview does not take payment."
     },
+    "donate": {
+      "title": "Donate | Albany High School Bowling",
+      "description": "Choose a suggested amount for Albany High School Bowling. Checkout is not live, and this page does not collect card numbers or mark a gift as paid."
+    },
     "resources": {
       "title": "Bowling Resources | Albany High School Bowling",
       "description": "A curated place for local bowling services, suggested equipment, and learning links for Albany High School Bowling."
@@ -2041,7 +2045,8 @@
       ]
     },
     "fundraisers": {
-      "hero": "Two restaurant fundraisers are coming up for Albany High School Bowling. Share the official flyer for each event with friends and relatives, and invite them to participate.",
+      "activeEvent": "burgerville",
+      "hero": "Burgerville is the current restaurant fundraiser for Albany High School Bowling. The date, time, location, and participation terms below come from the club flyer.",
       "panda": {
         "intro": "The fundraiser runs throughout the day at Panda Express in Albany.",
         "placeName": "Panda Express",
@@ -2079,9 +2084,9 @@
         "volunteerAsk": "Families who can help should tell the fundraiser contact what time they can attend and for how long, so coverage can be coordinated throughout the event.",
         "code": "BVGIVES"
       },
-      "shareHeading": "Share the announcements",
-      "shareBody": "Families are encouraged to share each official flyer and invite friends and relatives to participate. Use the flyer links above to open or download the artwork, then send that file.",
-      "shareQuestions": "Questions about either fundraiser, or a Burgerville volunteer time, can go to the fundraiser contact."
+      "shareHeading": "Share the announcement",
+      "shareBody": "Families can share the Burgerville flyer and invite friends and relatives to participate. Earlier fundraiser files stay in the club records and are not listed as the current event.",
+      "shareQuestions": "Questions about the Burgerville fundraiser, or a volunteer time, can go to the fundraiser contact."
     },
     "bowlathon": {
       "hero": "This pledge form is a preview of the paper sheet. It does not send, save, or collect a pledge, and it cannot take a payment.",
@@ -2148,6 +2153,27 @@
       ],
       "coachesNote": "Reach both coaches through the club email.",
       "biographiesLabel": "Read their biographies"
+    },
+    "donations": {
+      "headline": "Support AHSB",
+      "intro": "A gift helps the bowling program. Checkout is not live on this website, and choosing an amount does not charge a card or create a receipt.",
+      "why": "Contributions support the Albany High School Bowling program. The club confirms how a gift is used. This page does not list sponsorship packages, prices, or benefits.",
+      "suggestedAmounts": ["10", "25", "50", "100"],
+      "customLabel": "Other amount",
+      "methodsHeading": "Payment methods",
+      "secureNote": "Card numbers, security codes, and bank details are not typed into AHSB forms. When checkout is approved, it opens on the payment provider.",
+      "taxNote": "This site does not state that a gift is tax deductible. The club has not published a tax status or an EIN.",
+      "unavailable": "Checkout is not live. Nothing was sent, charged, or saved.",
+      "businessHeading": "Business sponsorship",
+      "businessBody": "A business can ask about sponsorship. Sending that question does not publish the business as a sponsor, and it does not confirm a payment.",
+      "contactNote": "Questions can go to the club email. This page does not store a donor name.",
+      "faq": [
+        { "question": "Did my gift go through?", "answer": "No. This page cannot take a payment until a verified checkout and a private donation record are both configured." },
+        { "question": "Is this tax deductible?", "answer": "This site does not say that it is. Ask the club before treating a gift as tax deductible." },
+        { "question": "Can I sponsor as a business?", "answer": "Use the sponsorship inquiry. The club approves any public listing separately from a form or a payment." }
+      ],
+      "burgervillePrompt": "Can't make it to Burgerville? You can still support AHSB!",
+      "donateButton": "Donate to AHSB"
     },
     "sponsorQr": {
       "title": "Sponsorship QR | Albany High School Bowling",

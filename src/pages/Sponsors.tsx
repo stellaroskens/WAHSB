@@ -6,7 +6,7 @@ import { SponsorInquiry } from "../components/SponsorInquiry"
 import { FundraiserShare } from "../components/FundraiserShare"
 import { PaymentOptions } from "../components/PaymentOptions"
 import { WaysToContribute } from "../components/WaysToContribute"
-import { businessSponsors, pages, practiceLocation } from "../content/site"
+import { businessSponsors, library, pages, practiceLocation } from "../content/site"
 
 const publicSponsors = businessSponsors.filter((sponsor) => sponsor.approved === true)
 
@@ -95,7 +95,8 @@ export function Sponsors() {
           </div>
           <p className="sw-sponsors__qr-note">
             <Link to="/sponsor-qr">Sponsorship QR</Link> is available only after staff configure an approved public
-            sponsorship URL. This site does not take payment.
+            sponsorship URL. This site does not take payment.{" "}
+            <Link to="/donate">{library.donations.donateButton}</Link> explains the checkout status.
           </p>
 
           <div className="sw-sponsors__grid">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { fundraiserContact, fundraisers } from "../content/fundraisers"
@@ -15,8 +16,9 @@ function RichStep({ text, code }: { text: string; code: string }) {
   )
 }
 
-const panda = fundraisers[0]
-const burgerville = fundraisers[1]
+const panda = fundraisers.find((item) => item.id === "panda") ?? fundraisers[0]
+const burgerville = fundraisers.find((item) => item.id === "burgerville") ?? fundraisers[1]
+const showPanda = library.fundraisers.activeEvent === "panda"
 
 /** Decorative month/day tab built from the event's own `when` text. */
 function DateTab({ when }: { when: string }) {
@@ -40,22 +42,22 @@ export function Fundraisers() {
         title="Fundraisers"
         subtitle={club.name}
         actions={
-          <>
+          showPanda ? (
             <a className="sw-btn" href={`#${panda.id}`}>
               {panda.business}
             </a>
-            <a className="sw-btn sw-btn--ghost" href={`#${burgerville.id}`}>
+          ) : (
+            <a className="sw-btn" href={`#${burgerville.id}`}>
               {burgerville.business}
             </a>
-          </>
+          )
         }
         art={
           <div className="sw-flyer-fan" aria-hidden="true">
-            <img src={panda.image} width={panda.imageWidth} height={panda.imageHeight} alt="" />
             <img
-              src={burgerville.image}
-              width={burgerville.imageWidth}
-              height={burgerville.imageHeight}
+              src={showPanda ? panda.image : burgerville.image}
+              width={showPanda ? panda.imageWidth : burgerville.imageWidth}
+              height={showPanda ? panda.imageHeight : burgerville.imageHeight}
               alt=""
             />
           </div>
@@ -64,6 +66,7 @@ export function Fundraisers() {
         <p>{library.fundraisers.hero}</p>
       </AthleticHero>
 
+      {showPanda ? (
       <section className="section sw-fundraiser" id={panda.id} aria-labelledby="panda-heading">
         <div className="wrap fundraiser-layout">
           <div className="sw-panel sw-fundraiser__details">
@@ -121,7 +124,9 @@ export function Fundraisers() {
           </figure>
         </div>
       </section>
+      ) : null}
 
+      {showPanda ? null : (
       <section
         className="section sw-fundraiser sw-fundraiser--flip"
         id={burgerville.id}
@@ -204,6 +209,19 @@ export function Fundraisers() {
           </figure>
         </div>
       </section>
+      )}
+
+      {showPanda ? null : (
+        <section className="section">
+          <div className="wrap sw-panel">
+            <h2>{library.donations.burgervillePrompt}</h2>
+            <p>If you cannot attend the Burgerville fundraiser, the donation page explains what is available. Checkout is not live.</p>
+            <p>
+              <Link className="sw-btn" to="/donate">{library.donations.donateButton}</Link>
+            </p>
+          </div>
+        </section>
+      )}
 
       <section className="section" aria-labelledby="share-heading">
         <div className="wrap">

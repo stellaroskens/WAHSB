@@ -123,6 +123,15 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     href: "/admin/connections",
   },
   {
+    id: "donations",
+    group: "Club management",
+    title: "Donations and Sponsorships",
+    description: "Review suggested amounts and payment status. Live checkout stays off until a provider and private records are configured.",
+    status: "available",
+    statusLabel: "Not connected",
+    href: "/admin/donations",
+  },
+  {
     id: "email-announcements",
     group: "Club management",
     title: "Email Announcements",

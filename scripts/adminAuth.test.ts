@@ -116,6 +116,7 @@ describe("admin dashboard foundation", () => {
       "Fundraisers",
       "Sponsors",
       "Payment Connections",
+      "Donations and Sponsorships",
       "Email Announcements",
       "Family Account Management",
       "Guardian Consent",

@@ -46,7 +46,7 @@ describe("super administrator permission coverage", () => {
 
 describe("control center sections", () => {
   it("opens a real screen for every management area", () => {
-    assert.equal(ADMIN_SECTIONS.length, 20)
+    assert.equal(ADMIN_SECTIONS.length, 21)
     assert.equal(ADMIN_SECTIONS.every((section) => section.status === "available" && section.href.startsWith("/admin")), true)
     const coaches = readFileSync(new URL("../src/pages/admin/AdminRoleAccess.tsx", import.meta.url), "utf8")
     assert.match(coaches, /View Coach Dashboard/)

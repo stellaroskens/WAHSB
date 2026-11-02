@@ -11,6 +11,7 @@ import { AdminMedia } from "./pages/admin/AdminMedia"
 import { AdminConnections } from "./pages/admin/AdminConnections"
 import { AdminContent } from "./pages/admin/AdminContent"
 import { AdminDashboard } from "./pages/admin/AdminDashboard"
+import { AdminDonations } from "./pages/admin/AdminDonations"
 import { AdminFamily } from "./pages/admin/AdminFamily"
 import { AdminLayout } from "./pages/admin/AdminLayout"
 import { AdminClub, AdminCoaches } from "./pages/admin/AdminRoleAccess"
@@ -21,6 +22,7 @@ import { AdminTournaments } from "./pages/admin/AdminTournaments"
 import { Bowlathon } from "./pages/Bowlathon"
 import { CoachDashboard } from "./pages/coach/CoachDashboard"
 import { Contact } from "./pages/Contact"
+import { Donate } from "./pages/Donate"
 import { FamilyDashboard } from "./pages/FamilyDashboard"
 import { Faq } from "./pages/Faq"
 import { Fundraisers } from "./pages/Fundraisers"
@@ -64,6 +66,7 @@ export default function App() {
           <Route path="coaches" element={<AdminCoaches />} />
           <Route path="club" element={<AdminClub />} />
           <Route path="connections" element={<AdminConnections />} />
+          <Route path="donations" element={<AdminDonations />} />
           <Route path="announcements" element={<AdminAnnouncements />} />
           <Route path="tournaments" element={<AdminTournaments />} />
           <Route path="settings" element={<AdminSettings />} />
@@ -108,6 +111,7 @@ export default function App() {
           <Route path="practices" element={<Practices />} />
           <Route path="tournaments" element={<Tournaments />} />
           <Route path="sponsors" element={<Sponsors />} />
+          <Route path="donate" element={<Donate />} />
           <Route path="sponsor-qr" element={<SponsorQr />} />
           <Route path="fundraisers" element={<Fundraisers />} />
           <Route path="resources" element={<Resources />} />

@@ -245,9 +245,27 @@ export type PublicLibrary = {
       volunteerAsk: string
       code: string
     }
+    activeEvent: string
     shareHeading: string
     shareBody: string
     shareQuestions: string
+  }
+  donations: {
+    headline: string
+    intro: string
+    why: string
+    suggestedAmounts: string[]
+    customLabel: string
+    methodsHeading: string
+    secureNote: string
+    taxNote: string
+    unavailable: string
+    businessHeading: string
+    businessBody: string
+    contactNote: string
+    faq: { question: string; answer: string }[]
+    burgervillePrompt: string
+    donateButton: string
   }
   bowlathon: {
     hero: string
@@ -599,7 +617,7 @@ function validateLibrary(value: unknown, issues: SiteContentIssue[]) {
     issues.push({ path: "library", message: "Public page copy is required." })
     return
   }
-  for (const key of ["faq", "resources", "practices", "tournaments", "fundraisers", "bowlathon", "contact", "sponsorQr"]) {
+  for (const key of ["faq", "resources", "practices", "tournaments", "fundraisers", "bowlathon", "contact", "sponsorQr", "donations"]) {
     if (!isRecord(value[key])) issues.push({ path: `library.${key}`, message: "This page copy is required." })
   }
   walkLibrary(value, "library", issues)
@@ -610,6 +628,10 @@ function validateLibrary(value: unknown, issues: SiteContentIssue[]) {
       issues.push({ path: `library.faq.categories.${index}.items`, message: "Each FAQ category needs a question." })
     }
   })
+  const activeEvent = isRecord(value.fundraisers) ? value.fundraisers.activeEvent : ""
+  if (activeEvent !== "burgerville" && activeEvent !== "panda") {
+    issues.push({ path: "library.fundraisers.activeEvent", message: "Use burgerville or panda." })
+  }
   const resources = isRecord(value.resources) ? value.resources : null
   for (const key of ["proShops", "bowlingCenters"] as const) {
     if (!resources || !Array.isArray(resources[key]) || resources[key].length < 1) {

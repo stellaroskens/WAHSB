@@ -45,6 +45,9 @@ export function Footer() {
           <p>
             <a href={`mailto:${club.email}`}>{club.email}</a>
           </p>
+          <p>
+            <NavLink to="/donate">Donate to AHSB</NavLink>
+          </p>
           <ul className="footer-links">
             {club.social.map((item) => (
               <li key={item.href}>

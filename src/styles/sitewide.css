@@ -2334,3 +2334,72 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.quick-donate,
+.quick-donate-panel {
+  color: #172033;
+}
+
+.quick-donate {
+  display: grid;
+  gap: 1rem;
+}
+
+.quick-donate fieldset {
+  border: 1px solid #d5dce8;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem;
+}
+
+.quick-donate legend,
+.quick-donate strong,
+.quick-donate label {
+  color: #10203f;
+  font-weight: 700;
+}
+
+.quick-donate small,
+.quick-donate p {
+  color: #243044;
+  font-weight: 500;
+}
+
+.quick-donate__amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: flex-start;
+}
+
+.quick-donate__method {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: start;
+}
+
+.quick-donate__method span,
+.quick-donate__method strong,
+.quick-donate__method small {
+  display: block;
+}
+
+.quick-donate input[type="radio"] {
+  accent-color: #102c8d;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.quick-donate input[type="text"],
+.quick-donate input:not([type="radio"]) {
+  width: min(100%, 12rem);
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #8b97ad;
+  border-radius: 8px;
+  color: #172033;
+  background: #fff;
+  font: inherit;
+}
+

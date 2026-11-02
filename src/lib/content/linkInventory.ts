@@ -26,6 +26,7 @@ export const PUBLIC_ROUTES = [
   "/practices",
   "/tournaments",
   "/sponsors",
+  "/donate",
   "/sponsor-qr",
   "/fundraisers",
   "/resources",
