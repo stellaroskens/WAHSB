@@ -22,13 +22,13 @@ export default async (req: Request, context: Context) => {
   }
 
   const gh = githubConfig()
-  if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
+  if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
   if (req.method === "GET") {
     const id = new URL(req.url).searchParams.get("id")
     if (!id) {
       const listed = await listDraftFiles({ ...gh, branch: gh.branch })
-      if (!listed.ok) return json(400, { error: listed.message })
+      if (!listed.ok) return json(listed.status, { error: listed.message, code: listed.code })
       return json(200, {
         drafts: listed.files
           .filter((file) => file.name.startsWith("announcement-") && file.name.endsWith(".json"))
@@ -38,7 +38,7 @@ export default async (req: Request, context: Context) => {
     }
     const safe = id.replace(/[^a-zA-Z0-9_-]/g, "")
     const file = await getFileContent(gh, `${PREFIX}${safe}.json`)
-    if (!file.ok) return json(file.status === 404 ? 404 : 400, { error: "Draft not found." })
+    if (!file.ok) return json(file.status, { error: "Draft not found.", code: file.code })
     return json(200, { id: safe, draft: JSON.parse(file.content), sending: "disabled" })
   }
 
@@ -62,7 +62,7 @@ export default async (req: Request, context: Context) => {
       `content: save announcement draft ${id}`,
       existing.ok ? existing.sha : undefined,
     )
-    if (!saved.ok) return json(400, { error: saved.message })
+    if (!saved.ok) return json(saved.status, { error: saved.message, code: saved.code })
     return json(200, { ok: true, id, status, commitSha: saved.commitSha, sending: "disabled" })
   }
 

@@ -175,7 +175,7 @@ export function AdminContent() {
 
   const onPublish = async () => {
     const confirmed = window.confirm(
-      "Publish the content in this editor? This writes the public content file in GitHub. The live site changes only after Netlify finishes deploying that commit.",
+      "Publish the content in this editor? This writes the public content file on the review branch only. The live production site stays unchanged.",
     )
     if (!confirmed) return
     setBusy(true)
@@ -376,7 +376,7 @@ export function AdminContent() {
             <StaffAction label="Submit for approval" help="Send this saved draft to an authorized reviewer. This does not publish it." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so the draft cannot be submitted." : undefined} onClick={() => void save(true)} />
             <StaffAction label="Preview" help="See the selected section before publishing. Previewing does not change the public site." onClick={() => setPreviewing(true)} />
             <StaffAction label="Review changes" help="Compare this editor with the published copy. Reviewing does not save or publish." onClick={() => setReviewing(true)} />
-            <StaffAction label="Approve and publish" help="Publish a draft that was submitted for approval. The live site updates only after Netlify deploys the GitHub commit." busy={busy} disabled={githubMissing || draftStatus !== "pending_approval"} disabledReason={githubMissing ? "GitHub publishing is not configured." : "Submit this draft for approval before approving it."} onClick={approveAndPublish} />
+            <StaffAction label="Approve and publish" help="Publish a draft that was submitted for approval. The save stays on the review branch. The live production site stays unchanged." busy={busy} disabled={githubMissing || draftStatus !== "pending_approval"} disabledReason={githubMissing ? "GitHub publishing is not configured." : "Submit this draft for approval before approving it."} onClick={approveAndPublish} />
             <StaffAction label="Publish" help="Make the approved changes available on the public AHSB website after GitHub confirms the commit and Netlify deploys it." busy={busy} disabled={githubMissing} disabledReason={githubMissing ? "GitHub publishing is not configured, so nothing can be published." : undefined} onClick={() => void onPublish()} />
             <StaffAction label="View history" help="Open published content commits. Loading one does not make it live." href="/admin/history" />
             <StaffAction label="Restore previous version" help="Load an older published version into the editor. It is not live again until you publish it and Netlify deploys that commit." href="/admin/history" />

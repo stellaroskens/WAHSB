@@ -52,17 +52,14 @@ export default async (req: Request, context: Context) => {
   }
 
   const gh = githubConfig()
-  const decision = mediaBranchDecision(
-    Netlify.env.get("CONTEXT"),
-    Netlify.env.get("BRANCH") || Netlify.env.get("GITHUB_CONTENT_BRANCH"),
-  )
   if (!gh.ok) {
-    return json(503, {
-      error: "github_token_missing",
-      message: "GitHub publishing is not configured for this deploy. The token stays in Netlify and is not shown here.",
+    return json(gh.status, {
+      error: gh.code,
+      message: gh.message,
       items: [],
     })
   }
+  const decision = mediaBranchDecision(Netlify.env.get("CONTEXT"), gh.branch)
   if (!decision.ok) return json(409, { error: "production_blocked", message: decision.message, items: [] })
   const target = { ...gh, branch: decision.branch }
   const catalog = await readCatalog(target)

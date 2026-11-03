@@ -15,25 +15,25 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`content-drafts:${ip}`, 40, 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const gh = githubConfig()
-  if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
-
   if (req.method === "GET") {
     const auth = await requireEnabledStaffAuth()
     if (!auth.ok) return auth.response
     if (!mayEditSiteDrafts(auth.roles)) return json(403, { error: "forbidden" })
+
+    const gh = githubConfig()
+    if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
     const url = new URL(req.url)
     const id = url.searchParams.get("id")
     if (id) {
       const safe = id.replace(/[^a-zA-Z0-9_-]/g, "")
       const file = await getFileContent(gh, `${DRAFTS_PREFIX}${safe}.json`)
-      if (!file.ok) return json(file.status === 404 ? 404 : 400, { error: file.message })
+      if (!file.ok) return json(file.status, { error: file.message, code: file.code })
       return json(200, { id: safe, draft: JSON.parse(file.content), sha: file.sha, status: "draft" })
     }
 
     const listed = await listDraftFiles(gh)
-    if (!listed.ok) return json(400, { error: listed.message })
+    if (!listed.ok) return json(listed.status, { error: listed.message, code: listed.code })
     return json(200, {
       drafts: listed.files.map((file) => ({
         id: file.name.replace(/\.json$/, ""),
@@ -47,6 +47,9 @@ export default async (req: Request, context: Context) => {
     const auth = await requireEnabledStaffAuth()
     if (!auth.ok) return auth.response
     if (!mayEditSiteDrafts(auth.roles)) return json(403, { error: "forbidden" })
+
+    const gh = githubConfig()
+    if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
     const body = (await req.json()) as { id?: string; content?: unknown; message?: string; submitForApproval?: boolean }
     const id = (body.id || `draft-${Date.now()}`).replace(/[^a-zA-Z0-9_-]/g, "")
@@ -74,8 +77,15 @@ export default async (req: Request, context: Context) => {
       body.message || `content: save draft ${id}`,
       existing.ok ? existing.sha : undefined,
     )
-    if (!saved.ok) return json(400, { error: saved.message })
-    return json(200, { ok: true, id, commitSha: saved.commitSha, status })
+    if (!saved.ok) return json(saved.status, { error: saved.message, code: saved.code })
+    return json(200, {
+      ok: true,
+      id,
+      commitSha: saved.commitSha,
+      status,
+      branch: gh.branch,
+      note: "Draft saved on the review branch. Public production content was not changed.",
+    })
   }
 
   return json(405, { error: "Method not allowed." })

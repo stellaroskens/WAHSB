@@ -95,7 +95,7 @@ export function AdminLinks() {
   }
 
   const publish = async () => {
-    if (!window.confirm("Publish these links? GitHub must confirm the commit. The public site changes only after Netlify deploys that commit.")) return
+    if (!window.confirm("Publish these links? The save stays on the review branch. The live production site stays unchanged.")) return
     setBusy(true)
     setError(null)
     const prepared = prepareContentForSave(content)
@@ -246,7 +246,7 @@ export function AdminLinks() {
         <StaffAction label="Save draft" help="Save these link changes as a draft. The public website will not change." busy={busy} disabled={githubMissing} disabledReason={missingReason} type="button" onClick={() => void save(false)} />
         <StaffAction label="Submit for approval" help="Send this draft to the super administrator. This does not publish it." busy={busy} disabled={githubMissing} disabledReason={missingReason} onClick={() => void save(true)} />
         <StaffAction label="Preview" help="Show the destinations currently in this editor. Previewing does not publish." onClick={() => setPreview(true)} />
-        <StaffAction label="Publish" help="Write the approved links to the public content file. The live site updates only after Netlify deploys the GitHub commit." busy={busy} disabled={githubMissing} disabledReason={missingReason} onClick={() => void publish()} />
+        <StaffAction label="Publish" help="Write the approved links on the review branch. The live production site stays unchanged." busy={busy} disabled={githubMissing} disabledReason={missingReason} onClick={() => void publish()} />
       </div>
       {preview ? (
         <section className="admin-preview" aria-label="Link preview">

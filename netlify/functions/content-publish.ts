@@ -29,14 +29,14 @@ export default async (req: Request, context: Context) => {
   }
 
   const gh = githubConfig()
-  if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
+  if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
   const body = (await req.json()) as { draftId?: string; content?: unknown; message?: string }
   let content = body.content
   if (body.draftId) {
     const safe = body.draftId.replace(/[^a-zA-Z0-9_-]/g, "")
     const draftFile = await getFileContent(gh, `${DRAFTS_PREFIX}${safe}.json`)
-    if (!draftFile.ok) return json(404, { error: "Draft not found." })
+    if (!draftFile.ok) return json(draftFile.status, { error: draftFile.message, code: draftFile.code })
     const parsed = JSON.parse(draftFile.content) as { content?: unknown }
     content = parsed.content
   }
@@ -54,14 +54,15 @@ export default async (req: Request, context: Context) => {
     body.message || `content: publish approved site content`,
     published.ok ? published.sha : undefined,
   )
-  if (!saved.ok) return json(400, { error: saved.message })
+  if (!saved.ok) return json(saved.status, { error: saved.message, code: saved.code })
 
   return json(200, {
     ok: true,
     status: "published",
     commitSha: saved.commitSha,
     path: PUBLISHED_PATH,
-    note: "Netlify will deploy from the GitHub commit. Draft remains until deleted; live site updates after deploy.",
+    branch: gh.branch,
+    note: `Saved on review branch ${gh.branch}. The live production site is unchanged.`,
   })
 }
 

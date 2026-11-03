@@ -987,13 +987,24 @@ export function publishRequestBody(content: SiteContent) {
 }
 
 export function failureMessage(status: number, body: { error?: string; code?: string }): string {
+  const fallback = "The content service could not finish that request. Nothing was changed on the live site."
+  const error = body.error && !/ghp_|github_pat_|bearer\s+\S+|postgres:\/\//i.test(body.error) ? body.error : ""
+  if (body.code === "github_token_rejected") {
+    return "GitHub rejected the content token. It may be expired or missing permission. Nothing was saved. The live site is unchanged."
+  }
+  if (body.code === "github_conflict") {
+    return "GitHub has a newer copy of this file. Nothing was saved. Reload the editor and try again. The live site is unchanged."
+  }
+  if (body.code === "production_write_blocked" || body.code === "preview_branch_required" || body.code === "repository_rejected") {
+    return `${error || "This preview cannot change the live site."} The live site is unchanged.`
+  }
   if (body.code === "github_token_missing" || status === 503) {
-    return `${body.error || "GitHub publishing is not configured."} Nothing was saved. The live site is unchanged.`
+    return `${error || "GitHub publishing is not configured."} Nothing was saved. The live site is unchanged.`
   }
   if (status === 401 || status === 403) {
     return "You are not authorized for that action. Publishing requires the super administrator role. Nothing was changed."
   }
-  return body.error || "The content service could not finish that request. Nothing was changed on the live site."
+  return error || fallback
 }
 
 export function successMessage(
@@ -1005,7 +1016,7 @@ export function successMessage(
   if (intent === "publish") {
     return (
       body.note ||
-      `GitHub commit ${sha} is saved. A commit is not the same as a finished Netlify deploy. The live site updates after that deploy completes.`
+      `GitHub commit ${sha} is saved on the review branch. The live production site is unchanged.`
     )
   }
   if (intent === "approval") {
