@@ -26,6 +26,8 @@ export function githubConfig():
   const target = contentWriteTarget({
     context: Netlify.env.get("CONTEXT"),
     deployBranch: Netlify.env.get("BRANCH"),
+    headBranch: Netlify.env.get("HEAD"),
+    pullRequest: Netlify.env.get("PULL_REQUEST"),
     owner: Netlify.env.get("GITHUB_CONTENT_OWNER"),
     repo: Netlify.env.get("GITHUB_CONTENT_REPO"),
   })

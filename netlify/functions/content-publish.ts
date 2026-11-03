@@ -31,14 +31,25 @@ export default async (req: Request, context: Context) => {
   const gh = githubConfig()
   if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
-  const body = (await req.json()) as { draftId?: string; content?: unknown; message?: string }
+  let body: { draftId?: string; content?: unknown; message?: string }
+  try {
+    const parsed = await req.json()
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json(400, { error: "validation_failed" })
+    body = parsed as typeof body
+  } catch {
+    return json(400, { error: "validation_failed" })
+  }
   let content = body.content
   if (body.draftId) {
     const safe = body.draftId.replace(/[^a-zA-Z0-9_-]/g, "")
     const draftFile = await getFileContent(gh, `${DRAFTS_PREFIX}${safe}.json`)
     if (!draftFile.ok) return json(draftFile.status, { error: draftFile.message, code: draftFile.code })
-    const parsed = JSON.parse(draftFile.content) as { content?: unknown }
-    content = parsed.content
+    try {
+      const parsed = JSON.parse(draftFile.content) as { content?: unknown }
+      content = parsed.content
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
   }
 
   const issues = validateSiteContent(content)

@@ -39,11 +39,24 @@ export default async (req: Request, context: Context) => {
     const safe = id.replace(/[^a-zA-Z0-9_-]/g, "")
     const file = await getFileContent(gh, `${PREFIX}${safe}.json`)
     if (!file.ok) return json(file.status, { error: "Draft not found.", code: file.code })
-    return json(200, { id: safe, draft: JSON.parse(file.content), sending: "disabled" })
+    let draft: unknown
+    try {
+      draft = JSON.parse(file.content)
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
+    return json(200, { id: safe, draft, sending: "disabled" })
   }
 
   if (req.method === "POST") {
-    const body = (await req.json()) as { id?: string; draft?: unknown; submitForApproval?: boolean }
+    let body: { id?: string; draft?: unknown; submitForApproval?: boolean }
+    try {
+      const parsed = await req.json()
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json(400, { error: "validation_failed" })
+      body = parsed as typeof body
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
     const checked = validateAnnouncementDraft(body.draft)
     if (!checked.ok) return json(400, { error: checked.message })
     const id = (body.id || "announcement-draft").replace(/[^a-zA-Z0-9_-]/g, "")

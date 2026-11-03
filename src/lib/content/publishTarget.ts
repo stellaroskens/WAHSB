@@ -13,9 +13,25 @@ export type ContentWriteTarget =
  * Browser input is not accepted. A site-wide branch variable is not accepted.
  * Production and main are refused so a preview cannot change the live site.
  */
+function reviewBranch(value: string | undefined): string | null {
+  const branch = value?.trim() || ""
+  if (!BRANCH_PATTERN.test(branch) || branch.includes("..") || branch === "main" || branch === "master") return null
+  return branch
+}
+
+function serverContext(context: string | undefined, pullRequest: string | undefined): string {
+  const explicit = context?.trim() || ""
+  if (explicit) return explicit
+  const pull = pullRequest?.trim() || ""
+  if (pull === "true" || /^[1-9]\d*$/.test(pull)) return "deploy-preview"
+  return ""
+}
+
 export function contentWriteTarget(input: {
   context: string | undefined
   deployBranch: string | undefined
+  headBranch?: string | undefined
+  pullRequest?: string | undefined
   owner: string | undefined
   repo: string | undefined
 }): ContentWriteTarget {
@@ -29,7 +45,7 @@ export function contentWriteTarget(input: {
     }
   }
 
-  const context = input.context?.trim() || ""
+  const context = serverContext(input.context, input.pullRequest)
   if (context === "production") {
     return {
       ok: false,
@@ -38,14 +54,8 @@ export function contentWriteTarget(input: {
     }
   }
 
-  const branch = input.deployBranch?.trim() || ""
-  const safe =
-    REVIEW_CONTEXTS.has(context) &&
-    BRANCH_PATTERN.test(branch) &&
-    !branch.includes("..") &&
-    branch !== "main" &&
-    branch !== "master"
-  if (!safe) {
+  const branch = reviewBranch(input.deployBranch) ?? reviewBranch(input.headBranch)
+  if (!REVIEW_CONTEXTS.has(context) || !branch) {
     return {
       ok: false,
       code: "preview_branch_required",

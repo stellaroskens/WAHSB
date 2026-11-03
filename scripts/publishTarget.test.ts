@@ -25,6 +25,38 @@ describe("preview publishing target", () => {
     }
   })
 
+  it("uses the deploy-preview head branch when the deploy branch is main", () => {
+    const target = contentWriteTarget({
+      context: "deploy-preview",
+      deployBranch: "main",
+      headBranch: "cursor/portal-visual",
+      pullRequest: "17",
+      owner: "stellaroskens",
+      repo: "WAHSB",
+    })
+    assert.equal(target.ok, true)
+    if (target.ok) assert.equal(target.branch, "cursor/portal-visual")
+    const fromPull = contentWriteTarget({
+      context: undefined,
+      deployBranch: undefined,
+      headBranch: "cursor/portal-visual",
+      pullRequest: "17",
+      owner: undefined,
+      repo: undefined,
+    })
+    assert.equal(fromPull.ok, true)
+    if (fromPull.ok) assert.equal(fromPull.branch, "cursor/portal-visual")
+    const productionHead = contentWriteTarget({
+      context: "production",
+      deployBranch: "main",
+      headBranch: "cursor/portal-visual",
+      owner: "stellaroskens",
+      repo: "WAHSB",
+    })
+    assert.equal(productionHead.ok, false)
+    if (!productionHead.ok) assert.equal(productionHead.code, "production_write_blocked")
+  })
+
   it("refuses production, main, another repository, and a missing review branch", () => {
     assert.equal(contentWriteTarget({ context: "production", deployBranch: "main", owner: "stellaroskens", repo: "WAHSB" }).ok, false)
     assert.equal(contentWriteTarget({ context: "deploy-preview", deployBranch: "main", owner: "stellaroskens", repo: "WAHSB" }).ok, false)
@@ -92,6 +124,9 @@ describe("preview publishing target", () => {
     assert.doesNotMatch(drafts, /PUBLISHED_PATH/)
     assert.doesNotMatch(drafts, /body\.branch/)
     assert.match(github, /contentWriteTarget/)
+    assert.match(github, /Netlify\.env\.get\("HEAD"\)/)
+    assert.match(github, /Netlify\.env\.get\("PULL_REQUEST"\)/)
+    assert.match(github, /github_token_missing/)
     assert.doesNotMatch(github, /GITHUB_CONTENT_BRANCH/)
     assert.doesNotMatch(github, /\|\| "main"/)
     assert.doesNotMatch(github, /console\./)

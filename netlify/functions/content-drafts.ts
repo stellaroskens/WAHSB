@@ -29,7 +29,13 @@ export default async (req: Request, context: Context) => {
       const safe = id.replace(/[^a-zA-Z0-9_-]/g, "")
       const file = await getFileContent(gh, `${DRAFTS_PREFIX}${safe}.json`)
       if (!file.ok) return json(file.status, { error: file.message, code: file.code })
-      return json(200, { id: safe, draft: JSON.parse(file.content), sha: file.sha, status: "draft" })
+      let draft: unknown
+      try {
+        draft = JSON.parse(file.content)
+      } catch {
+        return json(400, { error: "validation_failed" })
+      }
+      return json(200, { id: safe, draft, sha: file.sha, status: "draft" })
     }
 
     const listed = await listDraftFiles(gh)
@@ -51,7 +57,14 @@ export default async (req: Request, context: Context) => {
     const gh = githubConfig()
     if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
-    const body = (await req.json()) as { id?: string; content?: unknown; message?: string; submitForApproval?: boolean }
+    let body: { id?: string; content?: unknown; message?: string; submitForApproval?: boolean }
+    try {
+      const parsed = await req.json()
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json(400, { error: "validation_failed" })
+      body = parsed as typeof body
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
     const id = (body.id || `draft-${Date.now()}`).replace(/[^a-zA-Z0-9_-]/g, "")
     const issues = validateSiteContent(body.content)
     if (issues.length) return json(400, { error: "validation_failed", issues })
