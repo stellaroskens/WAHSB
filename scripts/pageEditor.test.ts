@@ -16,7 +16,7 @@ import {
   publishRequestBody,
   successMessage,
 } from "../src/lib/content/pageEditor.ts"
-import { parseSiteContent, validateSiteContent } from "../src/lib/content/siteContent.ts"
+import { parseSiteContent, validateSiteContent, visibleCommunitySponsors } from "../src/lib/content/siteContent.ts"
 
 const published = JSON.parse(
   readFileSync(new URL("../src/content/published/siteContent.json", import.meta.url), "utf8"),
@@ -170,5 +170,49 @@ describe("visual page editor", () => {
     assert.match(history, /requireSuperAdmin/)
     assert.match(announcements, /sending: "disabled"/)
     assert.doesNotMatch(announcements, /nodemailer|sendMail/)
+  })
+
+  it("edits sponsor, donation, and fundraiser copy without turning payments on", () => {
+    const sponsors = editField(content, "library.sponsorPage.heroTitle", "Support the bowlers")
+    assert.equal(sponsors.library.sponsorPage.heroTitle, "Support the bowlers")
+    assert.equal(validateSiteContent(sponsors).length, 0)
+    const donate = editField(content, "library.donations.contributionHeading", "Give to the club")
+    assert.equal(donate.library.donations.contributionHeading, "Give to the club")
+    assert.equal(donate.library.donations.unavailable, content.library.donations.unavailable)
+    const banner = editField(content, "library.fundraisers.donateBanner", "You can still help.")
+    assert.equal(banner.library.fundraisers.donateBanner, "You can still help.")
+    const saved = prepareContentForSave(sponsors)
+    assert.equal(saved.library.sponsorPage.heroTitle, "Support the bowlers")
+    const withSponsor = structuredClone(content)
+    withSponsor.library.communitySponsors = [
+      { id: "local-lanes", name: "Local Lanes", detail: "Practice host", href: "https://example.com", logoSrc: "/images/example.webp", logoAlt: "Local Lanes", approved: false, hidden: false },
+      { id: "hidden-shop", name: "Hidden Shop", detail: "", href: "", logoSrc: "", logoAlt: "", approved: true, hidden: true },
+      { id: "public-shop", name: "Public Shop", detail: "Listed", href: "", logoSrc: "", logoAlt: "", approved: true, hidden: false },
+    ]
+    assert.equal(validateSiteContent(withSponsor).length, 0)
+    assert.deepEqual(visibleCommunitySponsors(withSponsor.library.communitySponsors).map((item) => item.id), ["public-shop"])
+    const remote = structuredClone(withSponsor)
+    remote.library.communitySponsors[0].logoSrc = "https://example.com/logo.png"
+    assert.ok(validateSiteContent(remote).some((issue) => issue.path.endsWith("logoSrc")))
+    assert.throws(() => editField(content, "payments.secret", "sk_live"))
+    const pages = readFileSync(new URL("../src/pages/Sponsors.tsx", import.meta.url), "utf8")
+    const donatePage = readFileSync(new URL("../src/pages/Donate.tsx", import.meta.url), "utf8")
+    const fundraisers = readFileSync(new URL("../src/pages/Fundraisers.tsx", import.meta.url), "utf8")
+    const css = readFileSync(new URL("../src/styles/portal.css", import.meta.url), "utf8")
+    assert.match(pages, /library\.sponsorPage/)
+    assert.match(pages, /visibleCommunitySponsors/)
+    assert.doesNotMatch(pages, /Sponsor the team/)
+    assert.match(donatePage, /contributionHeading/)
+    assert.doesNotMatch(donatePage, />General contribution</)
+    assert.match(fundraisers, /donateBanner/)
+    assert.match(css, /\.portal-content \.portal-sidepanel header h2[\s\S]*color: #fff/)
+    assert.match(readFileSync(new URL("../src/pages/admin/AdminContent.tsx", import.meta.url), "utf8"), /admin-editor__badge/)
+    const sponsorPage = EDITOR_PAGES.find((page) => page.id === "sponsors")
+    const donateEditor = EDITOR_PAGES.find((page) => page.id === "donate")
+    const qr = EDITOR_PAGES.find((page) => page.id === "sponsor-qr")
+    assert.equal(sponsorPage?.coverage, "full")
+    assert.equal(donateEditor?.coverage, "full")
+    assert.equal(qr?.coverage, "partial")
+    assert.equal(qr?.coverageLabel, "Limited content editing")
   })
 })

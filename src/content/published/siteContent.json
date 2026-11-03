@@ -2084,6 +2084,11 @@
         "volunteerAsk": "Families who can help should tell the fundraiser contact what time they can attend and for how long, so coverage can be coordinated throughout the event.",
         "code": "BVGIVES"
       },
+      "donateBanner": "Can't make it? No problem — you can still donate!",
+      "donateButton": "DONATE NOW",
+      "donateTo": "/donate",
+      "flyerButton": "View the full flyer",
+      "volunteersHeading": "Volunteers",
       "shareHeading": "Share the announcement",
       "shareBody": "Families can share the Burgerville flyer and invite friends and relatives to participate. Earlier fundraiser files stay in the club records and are not listed as the current event.",
       "shareQuestions": "Questions about the Burgerville fundraiser, or a volunteer time, can go to the fundraiser contact."
@@ -2173,7 +2178,11 @@
         { "question": "Can I sponsor as a business?", "answer": "Use the sponsorship inquiry. The club approves any public listing separately from a form or a payment." }
       ],
       "burgervillePrompt": "Can't make it to Burgerville? You can still support AHSB!",
-      "donateButton": "Donate to AHSB"
+      "donateButton": "Donate to AHSB",
+      "contributionHeading": "General contribution",
+      "questionsHeading": "Questions",
+      "inquiryLabel": "Sponsorship inquiry",
+      "inquiryTo": "/sponsors#sponsor-inquiry"
     },
     "sponsorQr": {
       "title": "Sponsorship QR | Albany High School Bowling",
@@ -2184,6 +2193,88 @@
       "emptyHeading": "Not ready yet",
       "emptyBody": "No approved public sponsorship URL is configured. Staff prepare that destination under Payment Connections. This page will not show a QR code or accept payments until that URL is verified and live.",
       "backLabel": "Back to Sponsors"
+    },
+    "sponsorPage": {
+      "heroTitle": "Support",
+      "heroSubtitle": "Albany High School Bowling",
+      "heroBody": "There are two ways to help: support the club, or sponsor a bowler. Every contribution helps create opportunities for local students to learn, grow, and compete. You can support the entire Albany High School Bowling club or direct your support toward a specific bowler. The coaches confirm what that support includes. This website does not take payment, and a gift listed here is not described as tax deductible.",
+      "teamHeading": "Sponsor the team",
+      "teamBody": "Support Albany High School Bowling as a whole.",
+      "teamButton": "Support the team",
+      "bowlerHeading": "Sponsor a bowler",
+      "bowlerBody": "Choose a bowler to direct your support toward.",
+      "bowlerButton": "Find a bowler",
+      "qrLabel": "Sponsorship QR",
+      "qrTo": "/sponsor-qr",
+      "qrBody": "is available only after staff configure an approved public sponsorship URL. This site does not take payment.",
+      "qrTail": "explains the checkout status.",
+      "formHeading": "Sponsorship form",
+      "recognitionHeading": "Sponsor recognition",
+      "recognitionIntro": "Choose how you'd like your support to be recognized. Recognition is private by default, and public recognition requires permission and approval.",
+      "recognitionFollow": "A contribution is not recognized until it is received, the sponsor choices are verified, and the club approves. An email draft is not a verified contribution.",
+      "privateHeading": "Keep your support private",
+      "privateBody": "Your contribution can remain private. Public recognition is optional.",
+      "privateLabel": "Private by default",
+      "privateNote": "Private sponsors are not added to public sponsor lists, the homepage, or shirt printing.",
+      "shirtHeading": "Next-season T-shirt recognition",
+      "shirtAmount": "More than $150",
+      "shirtBody": "Verified contributions greater than $150 may qualify for sponsor-name recognition on next season's team T-shirt, subject to sponsor consent and print approval.",
+      "shirtItems": [
+        "The financial contribution must be received and verified.",
+        "The amount must be more than $150. An exact $150 contribution does not qualify.",
+        "The sponsor must choose public recognition and explicitly consent to shirt printing.",
+        "The club must approve the name.",
+        "Printing applies to the next season, not the current season.",
+        "Placement, production deadlines, printing capacity, and final artwork require club approval.",
+        "Private sponsors are excluded.",
+        "Recognition is not guaranteed."
+      ],
+      "shirtFine": "T-shirt recognition applies to next season only, for verified financial sponsorships over $150, subject to club approval and printing deadlines. It does not include a free shirt, and it does not change the Albany High School Bowling shirt logo.",
+      "homeHeading": "Homepage sponsor recognition",
+      "homeAmount": "More than $200",
+      "homeBody": "Verified contributions greater than $200 may qualify for sponsor-name or logo recognition on the website homepage, subject to permission and approval.",
+      "homeItems": [
+        "The received contribution must be more than $200. An exact $200 contribution does not qualify.",
+        "Public recognition must be selected.",
+        "Separate permission to publish the name or logo must be granted.",
+        "A logo must be reviewed and approved before use.",
+        "The club must approve the listing.",
+        "No sponsor name or logo is published automatically."
+      ],
+      "homeFine": "Amounts and contact details are not shown publicly. A sponsor who contributes more than $200 may qualify for both the shirt and the homepage if every condition is met.",
+      "inKindNote": "In-kind community supporters may receive separately approved recognition. That recognition does not depend on assigning a dollar amount.",
+      "paymentHeading": "Choose how to support our bowlers",
+      "paymentBody": "Payment options will become available after the club completes setup and approval.",
+      "lakeshoreEyebrow": "Community supporter",
+      "lakeshoreHeading": "Thank you, Lakeshore Lanes",
+      "lakeshoreBody": "Albany High School Bowling appreciates Lakeshore Lanes for supporting our bowlers through lane access and practice time. Community support helps give student athletes a place to develop their skills and grow as a team.",
+      "lakeshoreDetail": "Lane access and practice time for Albany High School Bowling.",
+      "lakeshoreLogoAlt": "Lakeshore Lanes logo",
+      "directionsLabel": "Get directions",
+      "websiteLabel": "Visit website",
+      "callLabel": "Call Lakeshore Lanes",
+      "supportersHeading": "Our community supporters",
+      "supportersBody": "We're grateful to the local businesses and community members who help support Albany High School Bowling.",
+      "emptyHeading": "Interested in supporting our bowlers?",
+      "emptyBody": "Local businesses and community members are welcome to learn about sponsorship opportunities.",
+      "emptyButton": "Learn about sponsorship"
+    },
+    "communitySponsors": [],
+    "contributionOptions": {
+      "heading": "Ways to contribute",
+      "intro": "Official payment links will appear here after the club supplies and verifies them. No bank account, routing number, or payment service is connected on this website.",
+      "options": [
+        "Approved bank or credit union payment instructions",
+        "Official donation processor",
+        "Approved online payment service",
+        "Instructions for checks or other contributions"
+      ],
+      "unavailable": "Not available until the club verifies an official destination.",
+      "warning": "Do not send credit card or banking details through this website. This form does not have fields for them.",
+      "sponsorshipNote": "The sponsorship form on this page prepares an email. It does not submit, save, or receive a payment.",
+      "pledgeNote": "The pledge form on this page is a preview. It does not submit, save, or receive a payment.",
+      "contactLabel": "Contact the coaches",
+      "contactTo": "/contact"
     }
   }
 }

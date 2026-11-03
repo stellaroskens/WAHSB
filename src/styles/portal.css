@@ -522,11 +522,33 @@
   color: #fff;
 }
 
+.portal-content .portal-sidepanel header h2,
+.portal-content .portal-sidepanel header a,
+.portal-content .portal-sidepanel header span {
+  color: #fff;
+}
+
+.portal-content .portal-sidepanel header h2 {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.92rem;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+}
+
+.portal-content .portal-sidepanel header svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: #fff;
+}
+
 .portal-sidepanel header a,
 .portal-sidepanel header span {
   color: #fff;
   font-size: 0.78rem;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .portal-sidepanel header span {
@@ -625,9 +647,51 @@
 }
 
 .portal-content .admin-editor__pages {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.65rem;
+  align-items: stretch;
   padding: 0.7rem;
   border-radius: 12px;
   background: var(--portal-navy);
+}
+
+.portal-content .admin-editor__pages button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "title badge" "route badge";
+  align-items: center;
+  column-gap: 0.75rem;
+  row-gap: 0.15rem;
+  min-height: 4.75rem;
+  height: 100%;
+  border-left: 4px solid rgba(255, 255, 255, 0.35);
+}
+
+.portal-content .admin-editor__title {
+  grid-area: title;
+  font-weight: 800;
+}
+
+.portal-content .admin-editor__route {
+  grid-area: route;
+  color: #dbe4f5;
+  font-size: 0.78rem;
+}
+
+.portal-content .admin-editor__badge {
+  grid-area: badge;
+  justify-self: end;
+  align-self: center;
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .portal-content .admin-editor__pages button.is-selected {

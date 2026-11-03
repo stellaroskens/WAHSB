@@ -261,10 +261,10 @@ export function AdminContent() {
     <div className="admin-page">
       <PageMeta title="Website Pages | Albany High School Bowling" description="Authenticated content editor for WAHSB." />
       <div className="admin-page__intro">
-        <h2>Website Pages</h2>
+        <h2>Website management</h2>
         <p>
-          Choose a page, then a section. Saving a draft keeps it separate from the live site. Publishing is limited to
-          the super administrator and writes the existing content file through GitHub.
+          Every public page is listed here. Choose a page, then a section. Saving a draft keeps it separate from the live
+          site. Publishing is limited to the super administrator and writes the existing content file through GitHub.
         </p>
       </div>
 
@@ -288,8 +288,9 @@ export function AdminContent() {
               className={item.id === page.id ? "is-selected" : undefined}
               onClick={() => choosePage(item.id)}
             >
-              <span>{item.label}</span>
-              <small>{item.coverageLabel}</small>
+              <span className="admin-editor__title">{item.label}</span>
+              <span className="admin-editor__route">{item.route}</span>
+              <small className="admin-editor__badge">{item.coverageLabel}</small>
             </button>
           ))}
         </div>
@@ -346,7 +347,7 @@ export function AdminContent() {
                   </label>
                 ))
               )}
-              {section.custom === "faq" || section.custom === "resources" ? (
+              {section.custom === "faq" || section.custom === "resources" || section.custom === "sponsors" || section.custom === "donation-faq" ? (
                 <LibraryEditor mode={section.custom} content={content} onChange={setContent} />
               ) : null}
               {sectionIssues.map((issue) => (

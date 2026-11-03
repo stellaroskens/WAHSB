@@ -110,7 +110,7 @@ export function Fundraisers() {
             <p className="sw-fundraiser__terms">{library.fundraisers.panda.terms}</p>
             <p className="sw-fundraiser__cta">
               <a className="sw-btn" href={panda.flyer}>
-                View the full flyer
+                {library.fundraisers.flyerButton}
               </a>
             </p>
           </div>
@@ -174,17 +174,17 @@ export function Fundraisers() {
             </div>
             <p className="sw-fundraiser__cta">
               <a className="sw-btn" href={burgerville.flyer}>
-                View the full flyer
+                {library.fundraisers.flyerButton}
               </a>
             </p>
             <div className="sw-fundraiser__donate">
-              <p>{"Can't make it? No problem — you can still donate!"}</p>
-              <Link className="sw-btn" to="/donate">
-                DONATE NOW
+              <p>{library.fundraisers.donateBanner}</p>
+              <Link className="sw-btn" to={library.fundraisers.donateTo}>
+                {library.fundraisers.donateButton}
               </Link>
             </div>
             <div className="sw-fundraiser__volunteers">
-              <h3>Volunteers</h3>
+              <h3>{library.fundraisers.volunteersHeading}</h3>
               <p>{library.fundraisers.burgerville.volunteerIntro}</p>
               <ul className="plain-list">
                 {library.fundraisers.burgerville.volunteerItems.map((item) => (

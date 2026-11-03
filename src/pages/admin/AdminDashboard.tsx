@@ -6,7 +6,7 @@ import { useAuth } from "../../lib/auth/AuthProvider"
 import { ADMIN_SECTIONS, adminSectionGroups } from "../../lib/auth/adminSections"
 import { primaryStaffRole } from "../../lib/auth/roles"
 import { rolesFromUser, usernameFromUser } from "../../lib/auth/session"
-import { IconArrow, IconPeople, IconPin, IconShield, IconWhistle } from "../../components/staff/portalIcons"
+import { IconArrow, IconMegaphone, IconPeople, IconPin, IconShield, IconTrophy, IconWhistle } from "../../components/staff/portalIcons"
 
 const ROLE_TITLE = {
   super_admin: "Administrator",
@@ -132,6 +132,7 @@ export function AdminDashboard() {
         <aside>
           <section className="portal-sidepanel">
             <header>
+              <IconMegaphone />
               <h2>Club announcements</h2>
               <Link to="/admin/announcements">View all</Link>
             </header>
@@ -139,6 +140,7 @@ export function AdminDashboard() {
           </section>
           <section className="portal-sidepanel">
             <header>
+              <IconTrophy />
               <h2>Season status</h2>
               <span>Closed</span>
             </header>
