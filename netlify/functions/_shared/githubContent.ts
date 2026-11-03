@@ -1,4 +1,11 @@
-import { contentWriteTarget, githubReadFailure, githubWriteResult } from "../../../src/lib/content/publishTarget.ts"
+import { capturedDeployTarget } from "./deployTarget.generated.ts"
+import {
+  contentWriteTarget,
+  githubReadFailure,
+  githubWriteResult,
+  mergeDeployMetadata,
+  metadataFromCapture,
+} from "../../../src/lib/content/publishTarget.ts"
 
 declare const Netlify: {
   env: {
@@ -11,8 +18,12 @@ const CONNECTIONS_PATH = "src/content/published/siteConnections.json"
 const DRAFTS_PREFIX = "content/drafts/"
 
 function serverValue(name: "CONTEXT" | "BRANCH" | "HEAD" | "PULL_REQUEST" | "REVIEW_ID"): string | undefined {
-  const scoped = Netlify.env.get(name)
-  if (typeof scoped === "string" && scoped.trim()) return scoped
+  try {
+    const scoped = Netlify.env.get(name)
+    if (typeof scoped === "string" && scoped.trim()) return scoped
+  } catch {
+    // The function runtime is the only place Netlify.env exists.
+  }
   const runtime = process.env[name]
   return typeof runtime === "string" && runtime.trim() ? runtime : undefined
 }
@@ -30,12 +41,22 @@ export function githubConfig():
         "GitHub content token is not configured. Set GITHUB_CONTENT_TOKEN in Netlify env (never in Vite/public).",
     }
   }
+  const merged = mergeDeployMetadata(
+    {
+      context: serverValue("CONTEXT"),
+      deployBranch: serverValue("BRANCH"),
+      headBranch: serverValue("HEAD"),
+      pullRequest: serverValue("PULL_REQUEST"),
+      reviewId: serverValue("REVIEW_ID"),
+    },
+    metadataFromCapture(capturedDeployTarget),
+  )
   const target = contentWriteTarget({
-    context: serverValue("CONTEXT"),
-    deployBranch: serverValue("BRANCH"),
-    headBranch: serverValue("HEAD"),
-    pullRequest: serverValue("PULL_REQUEST"),
-    reviewId: serverValue("REVIEW_ID"),
+    context: merged.context,
+    deployBranch: merged.deployBranch,
+    headBranch: merged.headBranch,
+    pullRequest: merged.pullRequest,
+    reviewId: merged.reviewId,
     owner: Netlify.env.get("GITHUB_CONTENT_OWNER"),
     repo: Netlify.env.get("GITHUB_CONTENT_REPO"),
   })

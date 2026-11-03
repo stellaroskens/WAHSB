@@ -1,5 +1,6 @@
 import type { Config, Context } from "@netlify/functions"
 import { draftRecordStatus } from "../../src/lib/content/pageEditor.ts"
+import { reviewDraftPath } from "../../src/lib/content/publishTarget.ts"
 import { parseSiteContent, validateSiteContent } from "../../src/lib/content/siteContent.ts"
 import { DRAFTS_PREFIX, getFileContent, githubConfig, listDraftFiles, putFileContent } from "./_shared/githubContent.ts"
 import { mayEditSiteDrafts } from "./_shared/permissions.ts"
@@ -26,8 +27,11 @@ export default async (req: Request, context: Context) => {
     const url = new URL(req.url)
     const id = url.searchParams.get("id")
     if (id) {
-      const safe = id.replace(/[^a-zA-Z0-9_-]/g, "")
-      const file = await getFileContent(gh, `${DRAFTS_PREFIX}${safe}.json`)
+      const located = reviewDraftPath(id)
+      if (!located.path.startsWith(DRAFTS_PREFIX) || located.path.includes("..")) {
+        return json(400, { error: "validation_failed" })
+      }
+      const file = await getFileContent(gh, located.path)
       if (!file.ok) return json(file.status, { error: file.message, code: file.code })
       let draft: unknown
       try {
@@ -35,7 +39,7 @@ export default async (req: Request, context: Context) => {
       } catch {
         return json(400, { error: "validation_failed" })
       }
-      return json(200, { id: safe, draft, sha: file.sha, status: "draft" })
+      return json(200, { id: located.id, draft, sha: file.sha, status: "draft" })
     }
 
     const listed = await listDraftFiles(gh)
@@ -65,13 +69,17 @@ export default async (req: Request, context: Context) => {
     } catch {
       return json(400, { error: "validation_failed" })
     }
-    const id = (body.id || `draft-${Date.now()}`).replace(/[^a-zA-Z0-9_-]/g, "")
+    const located = reviewDraftPath(body.id || `draft-${Date.now()}`)
+    if (!located.id || !located.path.startsWith(DRAFTS_PREFIX) || located.path.includes("..")) {
+      return json(400, { error: "validation_failed" })
+    }
+    const id = located.id
     const issues = validateSiteContent(body.content)
     if (issues.length) return json(400, { error: "validation_failed", issues })
     parseSiteContent(body.content)
     const status = draftRecordStatus(body.submitForApproval === true)
 
-    const path = `${DRAFTS_PREFIX}${id}.json`
+    const path = located.path
     const existing = await getFileContent(gh, path)
     const payload = JSON.stringify(
       {
