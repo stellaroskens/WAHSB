@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { fundraiserContact, fundraisers } from "../content/fundraisers"
+import { placedImage } from "../content/publicImages"
 import { club, library, pages } from "../content/site"
 import { fundraiserStatusLabel, fundraiserSupportNote, fundraiserTiming } from "../lib/events/fundraiserTiming"
 
@@ -58,7 +59,7 @@ export function Fundraisers() {
         art={
           <div className="sw-flyer-fan" aria-hidden="true">
             <img
-              src={showPanda ? panda.image : burgerville.image}
+              src={placedImage(showPanda ? `fundraiser:${panda.id}` : `fundraiser:${burgerville.id}`, showPanda ? panda.image : burgerville.image).src}
               width={showPanda ? panda.imageWidth : burgerville.imageWidth}
               height={showPanda ? panda.imageHeight : burgerville.imageHeight}
               alt=""
@@ -116,7 +117,7 @@ export function Fundraisers() {
           </div>
           <figure className="fundraiser-flyer sw-fundraiser__poster">
             <img
-              src={panda.image}
+              src={placedImage(`fundraiser:${panda.id}`, panda.image).src}
               width={panda.imageWidth}
               height={panda.imageHeight}
               alt={library.fundraisers.panda.flyerAlt}
@@ -207,7 +208,7 @@ export function Fundraisers() {
           </div>
           <figure className="fundraiser-flyer sw-fundraiser__poster">
             <img
-              src={burgerville.image}
+              src={placedImage(`fundraiser:${burgerville.id}`, burgerville.image).src}
               width={burgerville.imageWidth}
               height={burgerville.imageHeight}
               alt={library.fundraisers.burgerville.flyerAlt}

@@ -11,7 +11,8 @@ import {
   homeFundraiserTitle,
   matchesActiveFundraiser,
 } from "../lib/events/fundraiserTiming"
-import { clothingLogo, homeHeroBanner, websiteLogo, websiteLogoTransparent } from "../content/media"
+import { clothingLogo, websiteLogo, websiteLogoTransparent } from "../content/media"
+import { homeHeroImage, placedImage } from "../content/publicImages"
 import { library, nav, pageBodies, pages, practiceLocation, seasonRegistrationClosed } from "../content/site"
 
 export function HomeReview() {
@@ -55,13 +56,14 @@ export function HomeReview() {
       <section className="review-hero" aria-labelledby="review-hero-heading">
         <img
           className="review-hero-art"
-          src={homeHeroBanner.src}
-          srcSet={homeHeroBanner.srcSet}
+          src={homeHeroImage().src}
+          srcSet={homeHeroImage().srcSet}
           sizes="(max-width: 1280px) 100vw, 1280px"
-          width={homeHeroBanner.width}
-          height={homeHeroBanner.height}
+          width={2176}
+          height={1025}
           fetchPriority="high"
           alt={pageBodies.home.hero.imageAlt}
+          style={{ objectPosition: homeHeroImage().objectPosition }}
         />
         <h1 id="review-hero-heading" className="review-hero__title">
           {pageBodies.home.hero.heading}
@@ -142,7 +144,7 @@ export function HomeReview() {
           <div className="review-cards__grid">
             <article className="review-cards__card">
               <div className="review-cards__visual review-cards__visual--lanes">
-                <img src="/images/home-card-practices.png" width={510} height={185} alt={pageBodies.home.cards[0].imageAlt} />
+                <img src={placedImage("home-card-practices", "/images/home-card-practices.png").src} width={510} height={185} alt={pageBodies.home.cards[0].imageAlt} style={{ objectPosition: placedImage("home-card-practices", "/images/home-card-practices.png").objectPosition }} />
               </div>
               <div className="review-cards__body">
                 <h2>{pageBodies.home.cards[0].heading}</h2>
@@ -156,7 +158,7 @@ export function HomeReview() {
             <article className="review-cards__card">
               <div className="review-cards__visual review-cards__visual--shirt">
                 <img
-                  src={clothingLogo.src}
+                  src={placedImage("home-card-gear", clothingLogo.src).src}
                   width={clothingLogo.width}
                   height={clothingLogo.height}
                   loading="lazy"
@@ -174,7 +176,7 @@ export function HomeReview() {
 
             <article className="review-cards__card">
               <div className="review-cards__visual review-cards__visual--ball">
-                <img src="/images/home-card-tournaments.png" width={175} height={145} alt={pageBodies.home.cards[2].imageAlt} />
+                <img src={placedImage("home-card-tournaments", "/images/home-card-tournaments.png").src} width={175} height={145} alt={pageBodies.home.cards[2].imageAlt} style={{ objectPosition: placedImage("home-card-tournaments", "/images/home-card-tournaments.png").objectPosition }} />
               </div>
               <div className="review-cards__body">
                 <h2>{pageBodies.home.cards[2].heading}</h2>
@@ -216,7 +218,7 @@ export function HomeReview() {
       <section className="review-thanks" aria-labelledby="review-thanks-title">
         <div className="review-thanks__inner">
           <img
-            src={practiceLocation.logoSrc}
+            src={placedImage("lakeshore-logo", practiceLocation.logoSrc).src}
             width={practiceLocation.logoWidth}
             height={practiceLocation.logoHeight}
             alt={`${practiceLocation.name} logo`}

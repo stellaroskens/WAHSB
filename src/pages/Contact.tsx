@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits } from "../content/media"
+import { placedImage } from "../content/publicImages"
 import { club, coaches, library, pages, seasonRegistrationClosed } from "../content/site"
 
 type FormState = {
@@ -171,7 +172,7 @@ export function Contact() {
                 {coaches.map((coach) => (
                   <li key={coach.id}>
                     <img
-                      src={coachPortraits[coach.id].src}
+                      src={placedImage(`coach:${coach.id}`, coachPortraits[coach.id].src).src}
                       width={640}
                       height={640}
                       alt=""

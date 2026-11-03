@@ -162,7 +162,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     id: "media-library",
     group: "Content",
     title: "Media Library",
-    description: "Review approved public files. New uploads are not configured.",
+    description: "Upload and choose public images. Student and family photographs are not accepted.",
     status: "available",
     statusLabel: "Open",
     href: "/admin/media",

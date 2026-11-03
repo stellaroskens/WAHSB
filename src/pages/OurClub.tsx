@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { AthleticHero, SectionHeading } from "../components/AthleticHero"
 import { PageMeta } from "../components/PageMeta"
 import { coachPortraits, websiteLogo } from "../content/media"
+import { placedImage } from "../content/publicImages"
 import { bakerFrames, club, coaches, pageBodies, pages, seasonRegistrationClosed } from "../content/site"
 
 export function OurClub() {
@@ -56,8 +57,8 @@ export function OurClub() {
                 <div className="sw-coach__head">
                   <img
                     className="sw-coach__photo"
-                    src={coachPortraits[coach.id].src}
-                    srcSet={coachPortraits[coach.id].srcSet}
+                    src={placedImage(`coach:${coach.id}`, coachPortraits[coach.id].src).src}
+                    srcSet={placedImage(`coach:${coach.id}`, coachPortraits[coach.id].src).src === coachPortraits[coach.id].src ? coachPortraits[coach.id].srcSet : undefined}
                     sizes="(max-width: 700px) 40vw, 220px"
                     width={1254}
                     height={1254}

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { StaffHelp } from "../../components/staff/StaffHelp"
 import { validateLinkDestination } from "../../lib/content/linkInventory"
+import { publicMediaItems } from "../../content/publicImages"
 import type { CommunitySponsor, LibraryFaqItem, LibraryListing, SiteContent } from "../../lib/content/siteContent"
 
 const help = "Visitors see this only after an approved publish and a finished Netlify deploy. Saving a draft does not change the live site. This does not send email or turn on payments."
@@ -73,7 +74,13 @@ function SponsorListEditor({ content, onChange }: { content: SiteContent; onChan
             }} />
           </label>
           <label>
-            <span className="admin-label">Logo file <StaffHelp label="Logo file" text="Use a file already on this site, such as /images/example.webp. Uploading a new file is not available, and a remote address is rejected." /></span>
+            <span className="admin-label">Logo file <StaffHelp label="Logo file" text="Choose an image already on the site or one uploaded in Media. Remote addresses are rejected. Upload new public images from Media, not from this field." /></span>
+            <select value={sponsor.logoSrc} onChange={(event) => update({ logoSrc: event.target.value })}>
+              <option value="">No logo file</option>
+              {publicMediaItems.map((item) => (
+                <option key={item.id} value={item.path}>{item.alt}</option>
+              ))}
+            </select>
             <input value={sponsor.logoSrc} onChange={(event) => {
               const value = event.target.value.trim()
               if (value && (!value.startsWith("/") || value.includes("..") || value.includes("://"))) {

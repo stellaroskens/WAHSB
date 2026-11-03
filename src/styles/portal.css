@@ -646,6 +646,14 @@
   color: #fff;
 }
 
+.portal-content .media-preview {
+  width: min(100%, 360px);
+  height: 160px;
+  object-fit: cover;
+  border: 1px solid var(--portal-line);
+  border-radius: 8px;
+}
+
 .portal-content .admin-editor__pages {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

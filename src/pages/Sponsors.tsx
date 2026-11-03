@@ -7,6 +7,7 @@ import { FundraiserShare } from "../components/FundraiserShare"
 import { PaymentOptions } from "../components/PaymentOptions"
 import { WaysToContribute } from "../components/WaysToContribute"
 import { library, pages, practiceLocation } from "../content/site"
+import { placedImage } from "../content/publicImages"
 import { visibleCommunitySponsors } from "../lib/content/siteContent"
 
 const publicSponsors = visibleCommunitySponsors(library.communitySponsors)
@@ -158,7 +159,7 @@ export function Sponsors() {
           <article className="sw-panel community-lakeshore__panel" aria-labelledby="community-lakeshore-heading">
             <div className="community-lakeshore__art">
               <img
-                src={practiceLocation.logoSrc}
+                src={placedImage("lakeshore-logo", practiceLocation.logoSrc).src}
                 width={practiceLocation.logoWidth}
                 height={practiceLocation.logoHeight}
                 alt={copy.lakeshoreLogoAlt}

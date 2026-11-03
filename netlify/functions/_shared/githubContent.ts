@@ -65,6 +65,37 @@ export async function getFileContent(
   return { ok: true, content, sha: result.data.sha }
 }
 
+export async function putBinaryContent(
+  config: { token: string; owner: string; repo: string; branch: string },
+  path: string,
+  base64: string,
+  message: string,
+  sha?: string,
+): Promise<{ ok: true; commitSha: string } | { ok: false; status: number; message: string }> {
+  const body: Record<string, unknown> = { message, content: base64, branch: config.branch }
+  if (sha) body.sha = sha
+  const result = await gh<{ commit?: { sha?: string } }>(config, `/contents/${path}`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  })
+  if (!result.ok) return { ok: false, status: result.status, message: "GitHub did not save the image." }
+  return { ok: true, commitSha: result.data.commit?.sha ?? "" }
+}
+
+export async function deleteRepoFile(
+  config: { token: string; owner: string; repo: string; branch: string },
+  path: string,
+  message: string,
+  sha: string,
+): Promise<{ ok: true; commitSha: string } | { ok: false; status: number; message: string }> {
+  const result = await gh<{ commit?: { sha?: string } }>(config, `/contents/${path}`, {
+    method: "DELETE",
+    body: JSON.stringify({ message, sha, branch: config.branch }),
+  })
+  if (!result.ok) return { ok: false, status: result.status, message: "GitHub did not remove the image." }
+  return { ok: true, commitSha: result.data.commit?.sha ?? "" }
+}
+
 export async function putFileContent(
   config: { token: string; owner: string; repo: string; branch: string },
   path: string,

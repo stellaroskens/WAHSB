@@ -818,10 +818,11 @@ function validatePracticeLocation(value: unknown, issues: SiteContentIssue[]) {
   }
   checkHttps(value.website, "practiceLocation.website", issues)
   checkHttps(value.directions, "practiceLocation.directions", issues)
-  if (value.logoSrc !== "/lakeshore-lanes.avif") {
+  const libraryLogo = typeof value.logoSrc === "string" && /^\/media\/library\/[a-z0-9-]+\.(jpg|png|webp|gif|avif)$/.test(value.logoSrc)
+  if (value.logoSrc !== "/lakeshore-lanes.avif" && !libraryLogo) {
     issues.push({
       path: "practiceLocation.logoSrc",
-      message: "The practice logo file stays /lakeshore-lanes.avif until a media library is configured.",
+      message: "Use /lakeshore-lanes.avif or a public image from /media/library/.",
     })
   }
   if (value.logoWidth !== 324) issues.push({ path: "practiceLocation.logoWidth", message: "Logo width stays 324." })
@@ -1004,9 +1005,10 @@ function validateFundraisers(records: unknown[], issues: SiteContentIssue[]) {
       const path = `fundraisers.${index}.${key}`
       checkText(record[key], path, issues, CONTENT_LIMITS.link)
       const file = record[key]
-      const approved = typeof file === "string" && PUBLIC_FILE.test(file) && (file.startsWith("/flyers/") || file.startsWith("/images/"))
+      const libraryFile = typeof file === "string" && /^\/media\/library\/[a-z0-9-]+\.(jpg|png|webp|gif|avif)$/.test(file)
+      const approved = typeof file === "string" && PUBLIC_FILE.test(file) && (file.startsWith("/flyers/") || file.startsWith("/images/") || libraryFile)
       if (typeof file === "string" && !approved) {
-        issues.push({ path, message: "Use an approved file under /flyers/ or /images/." })
+        issues.push({ path, message: "Use an approved file under /flyers/, /images/, or /media/library/." })
       }
     }
   })

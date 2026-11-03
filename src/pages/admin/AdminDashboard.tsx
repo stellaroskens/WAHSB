@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { PageMeta } from "../../components/PageMeta"
-import { homeHeroBanner } from "../../content/media"
+import { homeHeroImage } from "../../content/publicImages"
 import { seasonRegistrationClosed } from "../../content/site"
 import { useAuth } from "../../lib/auth/AuthProvider"
 import { ADMIN_SECTIONS, adminSectionGroups } from "../../lib/auth/adminSections"
@@ -31,11 +31,12 @@ export function AdminDashboard() {
       <PageMeta title="Admin | Albany High School Bowling" description="Super administrator control center for Albany High School Bowling." />
       <section className="portal-hero" aria-label="Bowl-A-Thon">
         <img
-          src={homeHeroBanner.src}
-          srcSet={homeHeroBanner.srcSet}
+          src={homeHeroImage().src}
+          srcSet={homeHeroImage().srcSet}
           alt="Bowl-A-Thon. Strike up support for our bowlers."
-          width={homeHeroBanner.width}
-          height={homeHeroBanner.height}
+          width={2176}
+          height={1025}
+          style={{ objectPosition: homeHeroImage().objectPosition }}
         />
       </section>
       <section className="portal-welcome">

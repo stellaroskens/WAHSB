@@ -88,7 +88,7 @@ export function systemStatusReport(input: SystemStatusInput) {
     },
     mediaStorage: {
       configured: false,
-      detail: "New uploads are not configured. Student photographs stay off this site.",
+      detail: "Public images publish through the review preview. Student and family photographs stay off this library.",
     },
     familyAccess: {
       open: input.familyAccessOpen,
