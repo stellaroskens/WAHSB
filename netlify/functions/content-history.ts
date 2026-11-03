@@ -10,17 +10,17 @@ function json(status: number, body: unknown): Response {
 export default async (req: Request, _context: Context) => {
   if (req.method !== "GET") return json(405, { error: "Method not allowed." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
 
   const gh = githubConfig()
-  if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
+  if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
   const sha = new URL(req.url).searchParams.get("sha")
   if (sha) {
     if (!/^[a-f0-9]{7,40}$/i.test(sha)) return json(400, { error: "That version id is not valid." })
     const file = await getFileContent(gh, PUBLISHED_PATH, sha)
-    if (!file.ok) return json(file.status === 404 ? 404 : 400, { error: "That version could not be read." })
+    if (!file.ok) return json(file.status === 404 ? 404 : file.status, { error: "That version could not be read.", code: file.code })
     let content: unknown
     try {
       content = JSON.parse(file.content)
@@ -34,7 +34,7 @@ export default async (req: Request, _context: Context) => {
   }
 
   const listed = await listPathCommits(gh, PUBLISHED_PATH)
-  if (!listed.ok) return json(400, { error: listed.message })
+  if (!listed.ok) return json(listed.status, { error: listed.message, code: listed.code })
   return json(200, { commits: listed.commits, status: "history" })
 }
 

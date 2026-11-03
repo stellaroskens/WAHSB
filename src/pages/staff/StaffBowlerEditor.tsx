@@ -67,7 +67,7 @@ export function StaffBowlerEditor() {
 
   const publish = async () => {
     if (!canPublish) return
-    if (!window.confirm("Publish the content file? The live site updates only after Netlify deploys the GitHub commit.")) return
+    if (!window.confirm("Publish the content file on the review branch? The live production site stays unchanged.")) return
     setBusy(true)
     setError(null)
     const prepared = prepareContentForSave(content)

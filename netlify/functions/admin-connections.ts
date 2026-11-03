@@ -13,7 +13,7 @@ import {
   putFileContent,
 } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 import { isSuperAdmin } from "./_shared/roles.ts"
 
@@ -56,47 +56,55 @@ export default async (req: Request, context: Context) => {
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
   if (req.method === "GET") {
-    const auth = await requireEnabledStaffAuth()
+    const auth = await requireEnabledStaffAuth(context)
     if (!auth.ok) return auth.response
     if (!hasPermission(auth.roles, "prepare_connections") && !hasPermission(auth.roles, "manage_payments")) {
-      return json(403, { error: "forbidden" })
+      return deniedResponse(403, "Staff role required.", "forbidden")
     }
 
     const gh = githubConfig()
-    const history = gh.ok ? await listPathCommits(gh, CONNECTIONS_PATH) : { ok: false as const }
+    if (!gh.ok) {
+      return json(200, {
+        connections: parseSiteConnections(bundledConnections),
+        canApprovePayments: hasPermission(auth.roles, "manage_payments"),
+        githubConfigured: false,
+        history: [],
+        code: gh.code,
+        note: gh.message,
+      })
+    }
+
+    const history = await listPathCommits(gh, CONNECTIONS_PATH)
     const commits = history.ok ? history.commits : []
-    if (gh.ok) {
-      const file = await getFileContent(gh, CONNECTIONS_PATH)
-      if (file.ok) {
-        try {
-          const config = parseSiteConnections(JSON.parse(file.content))
-          return json(200, {
-            connections: config,
-            canApprovePayments: hasPermission(auth.roles, "manage_payments"),
-            githubConfigured: true,
-            history: commits,
-          })
-        } catch (error) {
-          return json(500, { error: error instanceof Error ? error.message : "Invalid connections file." })
-        }
+    const file = await getFileContent(gh, CONNECTIONS_PATH)
+    if (file.ok) {
+      try {
+        const config = parseSiteConnections(JSON.parse(file.content))
+        return json(200, {
+          connections: config,
+          canApprovePayments: hasPermission(auth.roles, "manage_payments"),
+          githubConfigured: true,
+          history: commits,
+        })
+      } catch {
+        return json(502, { error: "The connections file could not be read. Nothing was changed." })
       }
     }
 
-    // Fall back to bundled published file when GitHub is not configured.
     return json(200, {
       connections: parseSiteConnections(bundledConnections),
       canApprovePayments: hasPermission(auth.roles, "manage_payments"),
       githubConfigured: false,
       history: commits,
-      note: "GITHUB_CONTENT_TOKEN not set — showing bundled connections; saves require GitHub.",
+      note: file.message,
     })
   }
 
   if (req.method === "PUT") {
-    const auth = await requireEnabledStaffAuth()
+    const auth = await requireEnabledStaffAuth(context)
     if (!auth.ok) return auth.response
     if (!hasPermission(auth.roles, "prepare_connections") && !hasPermission(auth.roles, "manage_payments")) {
-      return json(403, { error: "forbidden" })
+      return deniedResponse(403, "Staff role required.", "forbidden")
     }
 
     const body = (await req.json()) as { connections?: unknown; message?: string }
@@ -126,7 +134,7 @@ export default async (req: Request, context: Context) => {
     }
 
     const gh = githubConfig()
-    if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
+    if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
     const existing = await getFileContent(gh, CONNECTIONS_PATH)
     const saved = await putFileContent(
@@ -136,13 +144,14 @@ export default async (req: Request, context: Context) => {
       body.message || "content: update site connections",
       existing.ok ? existing.sha : undefined,
     )
-    if (!saved.ok) return json(400, { error: saved.message })
+    if (!saved.ok) return json(saved.status, { error: saved.message, code: saved.code })
 
     return json(200, {
       ok: true,
       connections: next,
       commitSha: saved.commitSha,
-      note: "Saved to GitHub. Live site updates after Netlify deploy. Payments stay off unless verified + liveEnabled.",
+      branch: gh.branch,
+      note: `Saved on review branch ${gh.branch}. The live production site is unchanged. Payments stay off unless a provider is verified and explicitly enabled.`,
     })
   }
 

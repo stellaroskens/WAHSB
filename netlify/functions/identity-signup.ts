@@ -1,5 +1,6 @@
 import type { Handler, HandlerContext, HandlerEvent } from "@netlify/functions"
 import { findPlannedStaffByUsername } from "./_shared/plannedStaff.ts"
+import { deniedHook } from "./_shared/requireAuth.ts"
 import { parseEmailAllowlist } from "./_shared/roles.ts"
 import { resolveSignupRoles } from "./_shared/signupRoles.ts"
 
@@ -19,14 +20,24 @@ function readAllowlist(): string[] {
  * Typing an email alone never grants access.
  */
 const handler: Handler = async (event: HandlerEvent, _context: HandlerContext) => {
-  const payload = JSON.parse(event.body || "{}") as {
+  let payload: {
     user?: {
       email?: string
       app_metadata?: Record<string, unknown>
       user_metadata?: Record<string, unknown>
     }
   }
-  const user = payload.user ?? {}
+  try {
+    const parsed = JSON.parse(event.body || "{}") as unknown
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return deniedHook(400, "The identity event was not valid. No role was assigned.", "invalid_identity_event")
+    }
+    payload = parsed as typeof payload
+  } catch {
+    return deniedHook(400, "The identity event was not valid. No role was assigned.", "invalid_identity_event")
+  }
+  const record = payload.user
+  const user = record && typeof record === "object" ? record : {}
   const existingApp = user.app_metadata ?? {}
   const existingMeta = user.user_metadata ?? {}
 

@@ -4,7 +4,7 @@ import { PageMeta } from "../components/PageMeta"
 import { FundraiserShare } from "../components/FundraiserShare"
 import { PaymentOptions } from "../components/PaymentOptions"
 import { WaysToContribute } from "../components/WaysToContribute"
-import { homeHeroBanner } from "../content/media"
+import { homeHeroImage } from "../content/publicImages"
 import { bowlathonEvent, club, library, pages } from "../content/site"
 
 type PledgeType = "flat" | "per-pin"
@@ -90,11 +90,11 @@ export function Bowlathon() {
         art={
           <div className="sw-bowlathon__banner">
             <img
-              src={homeHeroBanner.src}
-              srcSet={homeHeroBanner.srcSet}
+              src={homeHeroImage().src}
+              srcSet={homeHeroImage().srcSet}
               sizes="(max-width: 899px) 90vw, 560px"
-              width={homeHeroBanner.width}
-              height={homeHeroBanner.height}
+              width={2176}
+              height={1025}
               alt=""
               fetchPriority="high"
             />

@@ -23,7 +23,7 @@ export default async (req: Request, context: Context) => {
     return Response.json({ error: "Too many requests." }, { status: 429, headers: { "Cache-Control": "no-store" } })
   }
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
 
   const connections = parseSiteConnections(bundledConnections)

@@ -7,6 +7,7 @@ import "./styles/global.css"
 import "./styles/sitewide.css"
 import "./styles/header.css"
 import "./styles/admin.css"
+import "./styles/portal.css"
 import "./styles/signin.css"
 import "./styles/bowlers.css"
 

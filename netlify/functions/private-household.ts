@@ -1,9 +1,8 @@
 import type { Config, Context } from "@netlify/functions"
-import { getUser } from "@netlify/identity"
 import { databaseUnavailable, withPrivateDatabase } from "./_shared/privateDb.ts"
 import { HOUSEHOLD_PLAYERS_SQL, householdQuery } from "./_shared/privateRoster.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
-import { isAdminAuthEnabledServer } from "./_shared/requireAuth.ts"
+import { requireIdentityUser } from "./_shared/requireAuth.ts"
 import { rolesFromUser } from "./_shared/roles.ts"
 
 export default async (req: Request, context: Context) => {
@@ -16,17 +15,9 @@ export default async (req: Request, context: Context) => {
     return Response.json({ error: "Too many requests. Try again shortly." }, { status: 429, headers: { "Cache-Control": "no-store" } })
   }
 
-  if (!isAdminAuthEnabledServer()) {
-    return Response.json(
-      { error: "unavailable", code: "admin_auth_disabled", message: "Administrator authentication is not enabled." },
-      { status: 503, headers: { "Cache-Control": "no-store" } },
-    )
-  }
-
-  const user = await getUser()
-  if (!user?.id) {
-    return Response.json({ error: "unauthorized", message: "Sign in required." }, { status: 401, headers: { "Cache-Control": "no-store" } })
-  }
+  const auth = await requireIdentityUser(context)
+  if (!auth.ok) return auth.response
+  const user = auth.user
 
   const requested = new URL(req.url).searchParams.get("playerId")
   const query = householdQuery(user.id, requested)

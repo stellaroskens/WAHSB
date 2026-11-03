@@ -8,7 +8,7 @@ import {
   putFileContent,
 } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 
 function json(status: number, body: unknown): Response {
@@ -22,23 +22,34 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`content-publish:${ip}`, 10, 15 * 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "approve_publishing")) {
-    return json(403, { error: "forbidden", message: "Publishing approval requires super_admin." })
+    return deniedResponse(403, "Publishing approval requires super_admin.", "forbidden")
   }
 
   const gh = githubConfig()
-  if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
+  if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
-  const body = (await req.json()) as { draftId?: string; content?: unknown; message?: string }
+  let body: { draftId?: string; content?: unknown; message?: string }
+  try {
+    const parsed = await req.json()
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json(400, { error: "validation_failed" })
+    body = parsed as typeof body
+  } catch {
+    return json(400, { error: "validation_failed" })
+  }
   let content = body.content
   if (body.draftId) {
     const safe = body.draftId.replace(/[^a-zA-Z0-9_-]/g, "")
     const draftFile = await getFileContent(gh, `${DRAFTS_PREFIX}${safe}.json`)
-    if (!draftFile.ok) return json(404, { error: "Draft not found." })
-    const parsed = JSON.parse(draftFile.content) as { content?: unknown }
-    content = parsed.content
+    if (!draftFile.ok) return json(draftFile.status, { error: draftFile.message, code: draftFile.code })
+    try {
+      const parsed = JSON.parse(draftFile.content) as { content?: unknown }
+      content = parsed.content
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
   }
 
   const issues = validateSiteContent(content)
@@ -54,14 +65,15 @@ export default async (req: Request, context: Context) => {
     body.message || `content: publish approved site content`,
     published.ok ? published.sha : undefined,
   )
-  if (!saved.ok) return json(400, { error: saved.message })
+  if (!saved.ok) return json(saved.status, { error: saved.message, code: saved.code })
 
   return json(200, {
     ok: true,
     status: "published",
     commitSha: saved.commitSha,
     path: PUBLISHED_PATH,
-    note: "Netlify will deploy from the GitHub commit. Draft remains until deleted; live site updates after deploy.",
+    branch: gh.branch,
+    note: `Saved on review branch ${gh.branch}. The live production site is unchanged.`,
   })
 }
 

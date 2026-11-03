@@ -6,9 +6,11 @@ import { SponsorInquiry } from "../components/SponsorInquiry"
 import { FundraiserShare } from "../components/FundraiserShare"
 import { PaymentOptions } from "../components/PaymentOptions"
 import { WaysToContribute } from "../components/WaysToContribute"
-import { businessSponsors, library, pages, practiceLocation } from "../content/site"
+import { library, pages, practiceLocation } from "../content/site"
+import { placedImage } from "../content/publicImages"
+import { visibleCommunitySponsors } from "../lib/content/siteContent"
 
-const publicSponsors = businessSponsors.filter((sponsor) => sponsor.approved === true)
+const publicSponsors = visibleCommunitySponsors(library.communitySponsors)
 
 function approvedLocalLogo(src: string | undefined): src is string {
   return Boolean(src && src.startsWith("/") && !src.includes("://"))
@@ -46,23 +48,17 @@ function BowlerIcon() {
 }
 
 export function Sponsors() {
+  const copy = library.sponsorPage
   return (
     <div className="sw-page sw-sponsors">
       <PageMeta title={pages.sponsors.title} description={pages.sponsors.description} />
       <AthleticHero
         scene="sponsors"
         headingId="sponsor-options-heading"
-        title="Support"
-        subtitle="Albany High School Bowling"
+        title={copy.heroTitle}
+        subtitle={copy.heroSubtitle}
       >
-        <p>
-          There are two ways to help: support the club, or sponsor a bowler. Every
-          contribution helps create opportunities for local students to learn, grow,
-          and compete. You can support the entire Albany High School Bowling club or
-          direct your support toward a specific bowler. The coaches confirm what
-          that support includes. This website does not take payment, and a gift
-          listed here is not described as tax deductible.
-        </p>
+        <p>{copy.heroBody}</p>
       </AthleticHero>
 
       <section className="section sponsor-options" aria-labelledby="sponsor-options-heading">
@@ -73,10 +69,10 @@ export function Sponsors() {
                 <TeamIcon />
               </span>
               <div>
-                <h2>Sponsor the team</h2>
-                <p>Support Albany High School Bowling as a whole.</p>
+                <h2>{copy.teamHeading}</h2>
+                <p>{copy.teamBody}</p>
                 <a className="sw-btn" href="#sponsor-inquiry" onClick={openAnchor}>
-                  Support the team
+                  {copy.teamButton}
                 </a>
               </div>
             </article>
@@ -85,103 +81,63 @@ export function Sponsors() {
                 <BowlerIcon />
               </span>
               <div>
-                <h2>Sponsor a bowler</h2>
-                <p>Choose a bowler to direct your support toward.</p>
+                <h2>{copy.bowlerHeading}</h2>
+                <p>{copy.bowlerBody}</p>
                 <a className="sw-btn" href="#bowler-lookup" onClick={openAnchor}>
-                  Find a bowler
+                  {copy.bowlerButton}
                 </a>
               </div>
             </article>
           </div>
           <p className="sw-sponsors__qr-note">
-            <Link to="/sponsor-qr">Sponsorship QR</Link> is available only after staff configure an approved public
-            sponsorship URL. This site does not take payment.{" "}
-            <Link to="/donate">{library.donations.donateButton}</Link> explains the checkout status.
+            <Link to={copy.qrTo}>{copy.qrLabel}</Link> {copy.qrBody}{" "}
+            <Link to="/donate">{library.donations.donateButton}</Link> {copy.qrTail}
           </p>
 
           <div className="sw-sponsors__grid">
             <div className="sw-panel sw-sponsors__form">
-              <h2 id="sponsor-form-heading">Sponsorship form</h2>
+              <h2 id="sponsor-form-heading">{copy.formHeading}</h2>
               <SponsorInquiry />
             </div>
 
             <div className="sw-sponsors__side">
               <section className="sw-panel sponsor-recognition" aria-labelledby="recognition-heading">
                 <div className="sponsor-recognition__intro">
-                  <h2 id="recognition-heading">Sponsor recognition</h2>
-                  <p>
-                    Choose how you&apos;d like your support to be recognized. Recognition is
-                    private by default, and public recognition requires permission and
-                    approval.
-                  </p>
-                  <p>
-                    A contribution is not recognized until it is received, the sponsor
-                    choices are verified, and the club approves. An email draft is not a
-                    verified contribution.
-                  </p>
+                  <h2 id="recognition-heading">{copy.recognitionHeading}</h2>
+                  <p>{copy.recognitionIntro}</p>
+                  <p>{copy.recognitionFollow}</p>
                 </div>
                 <div className="sponsor-recognition__cards">
                   <article className="sponsor-recognition__card sponsor-recognition__card--private">
-                    <h3>Keep your support private</h3>
-                    <p>Your contribution can remain private. Public recognition is optional.</p>
-                    <p className="sponsor-recognition__label">Private by default</p>
-                    <p>
-                      Private sponsors are not added to public sponsor lists, the homepage,
-                      or shirt printing.
-                    </p>
+                    <h3>{copy.privateHeading}</h3>
+                    <p>{copy.privateBody}</p>
+                    <p className="sponsor-recognition__label">{copy.privateLabel}</p>
+                    <p>{copy.privateNote}</p>
                   </article>
                   <article className="sponsor-recognition__card">
-                    <h3>Next-season T-shirt recognition</h3>
-                    <p className="sponsor-recognition__amount">More than $150</p>
-                    <p>
-                      Verified contributions greater than $150 may qualify for sponsor-name
-                      recognition on next season&apos;s team T-shirt, subject to sponsor
-                      consent and print approval.
-                    </p>
+                    <h3>{copy.shirtHeading}</h3>
+                    <p className="sponsor-recognition__amount">{copy.shirtAmount}</p>
+                    <p>{copy.shirtBody}</p>
                     <ul className="plain-list">
-                      <li>The financial contribution must be received and verified.</li>
-                      <li>The amount must be more than $150. An exact $150 contribution does not qualify.</li>
-                      <li>The sponsor must choose public recognition and explicitly consent to shirt printing.</li>
-                      <li>The club must approve the name.</li>
-                      <li>Printing applies to the next season, not the current season.</li>
-                      <li>Placement, production deadlines, printing capacity, and final artwork require club approval.</li>
-                      <li>Private sponsors are excluded.</li>
-                      <li>Recognition is not guaranteed.</li>
+                      {copy.shirtItems.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
                     </ul>
-                    <p className="sponsor-recognition__fine">
-                      T-shirt recognition applies to next season only, for verified
-                      financial sponsorships over $150, subject to club approval and
-                      printing deadlines. It does not include a free shirt, and it does
-                      not change the Albany High School Bowling shirt logo.
-                    </p>
+                    <p className="sponsor-recognition__fine">{copy.shirtFine}</p>
                   </article>
                   <article className="sponsor-recognition__card">
-                    <h3>Homepage sponsor recognition</h3>
-                    <p className="sponsor-recognition__amount">More than $200</p>
-                    <p>
-                      Verified contributions greater than $200 may qualify for sponsor-name
-                      or logo recognition on the website homepage, subject to permission
-                      and approval.
-                    </p>
+                    <h3>{copy.homeHeading}</h3>
+                    <p className="sponsor-recognition__amount">{copy.homeAmount}</p>
+                    <p>{copy.homeBody}</p>
                     <ul className="plain-list">
-                      <li>The received contribution must be more than $200. An exact $200 contribution does not qualify.</li>
-                      <li>Public recognition must be selected.</li>
-                      <li>Separate permission to publish the name or logo must be granted.</li>
-                      <li>A logo must be reviewed and approved before use.</li>
-                      <li>The club must approve the listing.</li>
-                      <li>No sponsor name or logo is published automatically.</li>
+                      {copy.homeItems.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
                     </ul>
-                    <p className="sponsor-recognition__fine">
-                      Amounts and contact details are not shown publicly. A sponsor who
-                      contributes more than $200 may qualify for both the shirt and the
-                      homepage if every condition is met.
-                    </p>
+                    <p className="sponsor-recognition__fine">{copy.homeFine}</p>
                   </article>
                 </div>
-                <p className="sponsor-recognition__note">
-                  In-kind community supporters may receive separately approved recognition.
-                  That recognition does not depend on assigning a dollar amount.
-                </p>
+                <p className="sponsor-recognition__note">{copy.inKindNote}</p>
               </section>
             </div>
           </div>
@@ -189,11 +145,8 @@ export function Sponsors() {
           <section className="sw-panel sponsor-contribute" aria-labelledby="ways-to-contribute-heading">
             <WaysToContribute preview="sponsorship" />
             <div className="connect-block connect-block--nested">
-              <h2 id="support-payment-heading">Choose how to support our bowlers</h2>
-              <p>
-                Payment options will become available after the club completes setup and
-                approval.
-              </p>
+              <h2 id="support-payment-heading">{copy.paymentHeading}</h2>
+              <p>{copy.paymentBody}</p>
               <PaymentOptions />
               <FundraiserShare />
             </div>
@@ -206,23 +159,18 @@ export function Sponsors() {
           <article className="sw-panel community-lakeshore__panel" aria-labelledby="community-lakeshore-heading">
             <div className="community-lakeshore__art">
               <img
-                src={practiceLocation.logoSrc}
+                src={placedImage("lakeshore-logo", practiceLocation.logoSrc).src}
                 width={practiceLocation.logoWidth}
                 height={practiceLocation.logoHeight}
-                alt="Lakeshore Lanes logo"
+                alt={copy.lakeshoreLogoAlt}
                 loading="lazy"
               />
             </div>
             <div className="community-lakeshore__copy">
-              <p className="community-lakeshore__eyebrow">Community supporter</p>
-              <h2 id="community-lakeshore-heading">Thank you, Lakeshore Lanes</h2>
-              <p>
-                Albany High School Bowling appreciates Lakeshore Lanes for supporting
-                our bowlers through lane access and practice time. Community support
-                helps give student athletes a place to develop their skills and grow
-                as a team.
-              </p>
-              <h3>Lakeshore Lanes</h3>
+              <p className="community-lakeshore__eyebrow">{copy.lakeshoreEyebrow}</p>
+              <h2 id="community-lakeshore-heading">{copy.lakeshoreHeading}</h2>
+              <p>{copy.lakeshoreBody}</p>
+              <h3>{practiceLocation.name}</h3>
               <p>
                 {practiceLocation.street}
                 <br />
@@ -231,7 +179,7 @@ export function Sponsors() {
               <p>
                 <a href={practiceLocation.phoneHref}>{practiceLocation.phone}</a>
               </p>
-              <p>Lane access and practice time for Albany High School Bowling.</p>
+              <p>{copy.lakeshoreDetail}</p>
               <div className="community-lakeshore__actions">
                 <a
                   className="sw-btn sw-btn--outline sw-btn--plain"
@@ -239,7 +187,7 @@ export function Sponsors() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Get directions
+                  {copy.directionsLabel}
                   <span className="visually-hidden"> (opens in a new tab)</span>
                 </a>
                 <a
@@ -248,11 +196,11 @@ export function Sponsors() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Visit website
+                  {copy.websiteLabel}
                   <span className="visually-hidden"> (opens in a new tab)</span>
                 </a>
                 <a className="sw-btn sw-btn--outline sw-btn--plain" href={practiceLocation.phoneHref}>
-                  Call Lakeshore Lanes
+                  {copy.callLabel}
                 </a>
               </div>
             </div>
@@ -260,21 +208,15 @@ export function Sponsors() {
 
           <div className="sw-panel community-sponsor-grid" aria-labelledby="community-sponsor-grid-heading" role="region">
             <div className="community-sponsor-grid__intro">
-              <h2 id="community-sponsor-grid-heading">Our community supporters</h2>
-              <p>
-                We&apos;re grateful to the local businesses and community members who help
-                support Albany High School Bowling.
-              </p>
+              <h2 id="community-sponsor-grid-heading">{copy.supportersHeading}</h2>
+              <p>{copy.supportersBody}</p>
             </div>
             {publicSponsors.length === 0 ? (
               <div className="community-sponsor-grid__empty">
-                <h3>Interested in supporting our bowlers?</h3>
-                <p>
-                  Local businesses and community members are welcome to learn about
-                  sponsorship opportunities.
-                </p>
+                <h3>{copy.emptyHeading}</h3>
+                <p>{copy.emptyBody}</p>
                 <a className="sw-btn community-sponsor-grid__action" href="#sponsor-options-heading">
-                  Learn about sponsorship
+                  {copy.emptyButton}
                 </a>
               </div>
             ) : (

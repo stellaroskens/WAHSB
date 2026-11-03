@@ -16,7 +16,7 @@ export default async (req: Request, context: Context) => {
     )
   }
 
-  const auth = await requireEnabledStaffAuth()
+  const auth = await requireEnabledStaffAuth(context)
   if (!auth.ok) return auth.response
 
   const username =

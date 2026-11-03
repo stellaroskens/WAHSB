@@ -2,7 +2,7 @@ import type { Config, Context } from "@netlify/functions"
 import { announcementRecordStatus, validateAnnouncementDraft } from "../../src/lib/content/announcementDraft.ts"
 import { DRAFTS_PREFIX, getFileContent, githubConfig, listDraftFiles, putFileContent } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 
 const PREFIX = `${DRAFTS_PREFIX}announcement-`
@@ -15,20 +15,20 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`announcements:${context.ip || "unknown"}`, 30, 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "propose_announcements") && !hasPermission(auth.roles, "approve_publishing")) {
-    return json(403, { error: "forbidden" })
+    return deniedResponse(403, "Staff role required.", "forbidden")
   }
 
   const gh = githubConfig()
-  if (!gh.ok) return json(503, { error: gh.message, code: "github_token_missing" })
+  if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
 
   if (req.method === "GET") {
     const id = new URL(req.url).searchParams.get("id")
     if (!id) {
       const listed = await listDraftFiles({ ...gh, branch: gh.branch })
-      if (!listed.ok) return json(400, { error: listed.message })
+      if (!listed.ok) return json(listed.status, { error: listed.message, code: listed.code })
       return json(200, {
         drafts: listed.files
           .filter((file) => file.name.startsWith("announcement-") && file.name.endsWith(".json"))
@@ -38,12 +38,25 @@ export default async (req: Request, context: Context) => {
     }
     const safe = id.replace(/[^a-zA-Z0-9_-]/g, "")
     const file = await getFileContent(gh, `${PREFIX}${safe}.json`)
-    if (!file.ok) return json(file.status === 404 ? 404 : 400, { error: "Draft not found." })
-    return json(200, { id: safe, draft: JSON.parse(file.content), sending: "disabled" })
+    if (!file.ok) return json(file.status, { error: "Draft not found.", code: file.code })
+    let draft: unknown
+    try {
+      draft = JSON.parse(file.content)
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
+    return json(200, { id: safe, draft, sending: "disabled" })
   }
 
   if (req.method === "POST") {
-    const body = (await req.json()) as { id?: string; draft?: unknown; submitForApproval?: boolean }
+    let body: { id?: string; draft?: unknown; submitForApproval?: boolean }
+    try {
+      const parsed = await req.json()
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return json(400, { error: "validation_failed" })
+      body = parsed as typeof body
+    } catch {
+      return json(400, { error: "validation_failed" })
+    }
     const checked = validateAnnouncementDraft(body.draft)
     if (!checked.ok) return json(400, { error: checked.message })
     const id = (body.id || "announcement-draft").replace(/[^a-zA-Z0-9_-]/g, "")
@@ -62,7 +75,7 @@ export default async (req: Request, context: Context) => {
       `content: save announcement draft ${id}`,
       existing.ok ? existing.sha : undefined,
     )
-    if (!saved.ok) return json(400, { error: saved.message })
+    if (!saved.ok) return json(saved.status, { error: saved.message, code: saved.code })
     return json(200, { ok: true, id, status, commitSha: saved.commitSha, sending: "disabled" })
   }
 

@@ -18,7 +18,7 @@ export function Donate() {
           {result === "returned" ? (
             <p role="status">Returning from a provider does not confirm a payment. This site has no verified receipt for this visit.</p>
           ) : null}
-          <h2>General contribution</h2>
+          <h2>{library.donations.contributionHeading}</h2>
           <p>{library.donations.why}</p>
           <QuickDonate />
           <p>{library.donations.secureNote}</p>
@@ -30,9 +30,9 @@ export function Donate() {
           <h2>{library.donations.businessHeading}</h2>
           <p>{library.donations.businessBody}</p>
           <p>
-            <Link className="sw-btn" to="/sponsors#sponsor-inquiry">Sponsorship inquiry</Link>
+            <Link className="sw-btn" to={library.donations.inquiryTo}>{library.donations.inquiryLabel}</Link>
           </p>
-          <h2>Questions</h2>
+          <h2>{library.donations.questionsHeading}</h2>
           {library.donations.faq.map((item) => (
             <details key={item.question}>
               <summary>{item.question}</summary>

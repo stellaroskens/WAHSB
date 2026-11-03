@@ -160,6 +160,21 @@ export type LibraryListing = {
   points: string[]
   hidden?: boolean
 }
+export type CommunitySponsor = {
+  id: string
+  name: string
+  detail: string
+  href: string
+  logoSrc: string
+  logoAlt: string
+  approved: boolean
+  hidden: boolean
+}
+
+export function visibleCommunitySponsors(sponsors: CommunitySponsor[]): CommunitySponsor[] {
+  return sponsors.filter((sponsor) => sponsor.approved && !sponsor.hidden)
+}
+
 export type PublicLibrary = {
   faq: {
     hero: string
@@ -249,6 +264,11 @@ export type PublicLibrary = {
     shareHeading: string
     shareBody: string
     shareQuestions: string
+    donateBanner: string
+    donateButton: string
+    donateTo: string
+    flyerButton: string
+    volunteersHeading: string
   }
   donations: {
     headline: string
@@ -266,6 +286,71 @@ export type PublicLibrary = {
     faq: { question: string; answer: string }[]
     burgervillePrompt: string
     donateButton: string
+    contributionHeading: string
+    questionsHeading: string
+    inquiryLabel: string
+    inquiryTo: string
+  }
+  sponsorPage: {
+    heroTitle: string
+    heroSubtitle: string
+    heroBody: string
+    teamHeading: string
+    teamBody: string
+    teamButton: string
+    bowlerHeading: string
+    bowlerBody: string
+    bowlerButton: string
+    qrLabel: string
+    qrTo: string
+    qrBody: string
+    qrTail: string
+    formHeading: string
+    recognitionHeading: string
+    recognitionIntro: string
+    recognitionFollow: string
+    privateHeading: string
+    privateBody: string
+    privateLabel: string
+    privateNote: string
+    shirtHeading: string
+    shirtAmount: string
+    shirtBody: string
+    shirtItems: string[]
+    shirtFine: string
+    homeHeading: string
+    homeAmount: string
+    homeBody: string
+    homeItems: string[]
+    homeFine: string
+    inKindNote: string
+    paymentHeading: string
+    paymentBody: string
+    lakeshoreEyebrow: string
+    lakeshoreHeading: string
+    lakeshoreBody: string
+    lakeshoreDetail: string
+    lakeshoreLogoAlt: string
+    directionsLabel: string
+    websiteLabel: string
+    callLabel: string
+    supportersHeading: string
+    supportersBody: string
+    emptyHeading: string
+    emptyBody: string
+    emptyButton: string
+  }
+  communitySponsors: CommunitySponsor[]
+  contributionOptions: {
+    heading: string
+    intro: string
+    options: string[]
+    unavailable: string
+    warning: string
+    sponsorshipNote: string
+    pledgeNote: string
+    contactLabel: string
+    contactTo: string
   }
   bowlathon: {
     hero: string
@@ -612,15 +697,44 @@ export function validateSiteContent(input: unknown): SiteContentIssue[] {
   return issues
 }
 
+function validateCommunitySponsors(value: unknown, issues: SiteContentIssue[]) {
+  if (!Array.isArray(value)) return
+  const ids = new Set<string>()
+  value.forEach((sponsor, index) => {
+    const path = `library.communitySponsors.${index}`
+    if (!isRecord(sponsor)) {
+      issues.push({ path, message: "Each sponsor needs a name and an approval choice." })
+      return
+    }
+    if (typeof sponsor.id !== "string" || !/^[a-z0-9-]{2,40}$/.test(sponsor.id) || ids.has(sponsor.id)) {
+      issues.push({ path: `${path}.id`, message: "Use a unique lowercase id with letters, numbers, or hyphens." })
+    } else ids.add(sponsor.id)
+    if (typeof sponsor.approved !== "boolean" || typeof sponsor.hidden !== "boolean") {
+      issues.push({ path, message: "Approval and visibility must be true or false." })
+    }
+    if (typeof sponsor.logoSrc === "string" && sponsor.logoSrc && (!/^\/[A-Za-z0-9/_.-]+$/.test(sponsor.logoSrc) || sponsor.logoSrc.includes(".."))) {
+      issues.push({ path: `${path}.logoSrc`, message: "Use a file already on this site, such as /images/example.webp. Remote logo addresses are not accepted." })
+    }
+  })
+}
+
 function validateLibrary(value: unknown, issues: SiteContentIssue[]) {
   if (!isRecord(value)) {
     issues.push({ path: "library", message: "Public page copy is required." })
     return
   }
-  for (const key of ["faq", "resources", "practices", "tournaments", "fundraisers", "bowlathon", "contact", "sponsorQr", "donations"]) {
+  for (const key of ["faq", "resources", "practices", "tournaments", "fundraisers", "bowlathon", "contact", "sponsorQr", "donations", "sponsorPage", "contributionOptions"]) {
     if (!isRecord(value[key])) issues.push({ path: `library.${key}`, message: "This page copy is required." })
   }
+  if (!Array.isArray(value.communitySponsors)) {
+    issues.push({ path: "library.communitySponsors", message: "Community sponsors must be a list. An empty list is allowed." })
+  }
   walkLibrary(value, "library", issues)
+  validateCommunitySponsors(value.communitySponsors, issues)
+  for (const path of ["library.donations.inquiryTo", "library.fundraisers.donateTo", "library.sponsorPage.qrTo", "library.contributionOptions.contactTo"]) {
+    const record = path.split(".").slice(1).reduce<unknown>((current, key) => (isRecord(current) ? current[key] : undefined), value)
+    if (typeof record === "string") checkInternal(record, path, issues)
+  }
   const faq = isRecord(value.faq) && Array.isArray(value.faq.categories) ? value.faq.categories : []
   if (faq.length < 1) issues.push({ path: "library.faq.categories", message: "Add at least one FAQ category." })
   faq.forEach((category, index) => {
@@ -642,7 +756,18 @@ function validateLibrary(value: unknown, issues: SiteContentIssue[]) {
 
 function walkLibrary(value: unknown, path: string, issues: SiteContentIssue[]) {
   if (typeof value === "string") {
-    checkText(value, path, issues, 1200, path.endsWith(".intro") || path.endsWith(".status") || path.endsWith(".phone") || path.endsWith(".address") || path.endsWith(".hoursNote") || path.endsWith(".phoneNote") || path.endsWith(".website"))
+    const optional =
+      path.endsWith(".intro") ||
+      path.endsWith(".status") ||
+      path.endsWith(".phone") ||
+      path.endsWith(".address") ||
+      path.endsWith(".hoursNote") ||
+      path.endsWith(".phoneNote") ||
+      path.endsWith(".website") ||
+      path.endsWith(".detail") ||
+      path.endsWith(".logoSrc") ||
+      path.endsWith(".logoAlt")
+    checkText(value, path, issues, 1200, optional)
     return
   }
   if (typeof value === "boolean" || typeof value === "number" || value == null) return
@@ -693,10 +818,11 @@ function validatePracticeLocation(value: unknown, issues: SiteContentIssue[]) {
   }
   checkHttps(value.website, "practiceLocation.website", issues)
   checkHttps(value.directions, "practiceLocation.directions", issues)
-  if (value.logoSrc !== "/lakeshore-lanes.avif") {
+  const libraryLogo = typeof value.logoSrc === "string" && /^\/media\/library\/[a-z0-9-]+\.(jpg|png|webp|gif|avif)$/.test(value.logoSrc)
+  if (value.logoSrc !== "/lakeshore-lanes.avif" && !libraryLogo) {
     issues.push({
       path: "practiceLocation.logoSrc",
-      message: "The practice logo file stays /lakeshore-lanes.avif until a media library is configured.",
+      message: "Use /lakeshore-lanes.avif or a public image from /media/library/.",
     })
   }
   if (value.logoWidth !== 324) issues.push({ path: "practiceLocation.logoWidth", message: "Logo width stays 324." })
@@ -879,9 +1005,10 @@ function validateFundraisers(records: unknown[], issues: SiteContentIssue[]) {
       const path = `fundraisers.${index}.${key}`
       checkText(record[key], path, issues, CONTENT_LIMITS.link)
       const file = record[key]
-      const approved = typeof file === "string" && PUBLIC_FILE.test(file) && (file.startsWith("/flyers/") || file.startsWith("/images/"))
+      const libraryFile = typeof file === "string" && /^\/media\/library\/[a-z0-9-]+\.(jpg|png|webp|gif|avif)$/.test(file)
+      const approved = typeof file === "string" && PUBLIC_FILE.test(file) && (file.startsWith("/flyers/") || file.startsWith("/images/") || libraryFile)
       if (typeof file === "string" && !approved) {
-        issues.push({ path, message: "Use an approved file under /flyers/ or /images/." })
+        issues.push({ path, message: "Use an approved file under /flyers/, /images/, or /media/library/." })
       }
     }
   })
