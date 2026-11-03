@@ -13,7 +13,7 @@ import {
   putFileContent,
 } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 import { isSuperAdmin } from "./_shared/roles.ts"
 
@@ -56,10 +56,10 @@ export default async (req: Request, context: Context) => {
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
   if (req.method === "GET") {
-    const auth = await requireEnabledStaffAuth()
+    const auth = await requireEnabledStaffAuth(context)
     if (!auth.ok) return auth.response
     if (!hasPermission(auth.roles, "prepare_connections") && !hasPermission(auth.roles, "manage_payments")) {
-      return json(403, { error: "forbidden" })
+      return deniedResponse(403, "Staff role required.", "forbidden")
     }
 
     const gh = githubConfig()
@@ -101,10 +101,10 @@ export default async (req: Request, context: Context) => {
   }
 
   if (req.method === "PUT") {
-    const auth = await requireEnabledStaffAuth()
+    const auth = await requireEnabledStaffAuth(context)
     if (!auth.ok) return auth.response
     if (!hasPermission(auth.roles, "prepare_connections") && !hasPermission(auth.roles, "manage_payments")) {
-      return json(403, { error: "forbidden" })
+      return deniedResponse(403, "Staff role required.", "forbidden")
     }
 
     const body = (await req.json()) as { connections?: unknown; message?: string }

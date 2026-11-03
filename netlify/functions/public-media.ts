@@ -13,7 +13,7 @@ import {
 import { deleteRepoFile, getFileContent, githubConfig, putBinaryContent, putFileContent } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 
 const CATALOG_PATH = "src/content/published/publicMedia.json"
 
@@ -45,10 +45,10 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`public-media:${context.ip || "unknown"}`, 8, 15 * 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "approve_publishing")) {
-    return json(403, { error: "forbidden", message: "Only a super administrator can publish public images." })
+    return deniedResponse(403, "Only a super administrator can publish public images.", "forbidden")
   }
 
   const gh = githubConfig()

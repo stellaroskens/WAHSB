@@ -33,7 +33,7 @@ export default async (req: Request, context: Context) => {
     return Response.json({ error: "Too many requests. Try again shortly." }, { status: 429, headers: { "Cache-Control": "no-store" } })
   }
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
 
   if (req.method === "GET") {
@@ -72,7 +72,7 @@ export default async (req: Request, context: Context) => {
       publicDisplayName: typeof body.publicDisplayName === "string" ? body.publicDisplayName : "",
     })
     if (!plan.ok) {
-      return Response.json({ error: plan.code, code: plan.code, message: "The player name is not valid." }, { status: plan.status, headers: { "Cache-Control": "no-store" } })
+      return Response.json({ error: plan.code, code: plan.code, message: "The player name is not valid.", commitSha: null }, { status: plan.status, headers: { "Cache-Control": "no-store" } })
     }
     const created = await withPrivateDatabase({ userId: auth.user.id, role: "super_admin" }, async (client) => {
       const inserted = await client.query<{ id: string }>(
@@ -102,7 +102,7 @@ export default async (req: Request, context: Context) => {
   })
   if (!plan.ok) {
     return Response.json(
-      { error: plan.code, code: plan.code, message: "The guardian link is not valid." },
+      { error: plan.code, code: plan.code, message: "The guardian link is not valid.", commitSha: null },
       { status: plan.status, headers: { "Cache-Control": "no-store" } },
     )
   }

@@ -8,7 +8,7 @@ import {
   putFileContent,
 } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 
 function json(status: number, body: unknown): Response {
@@ -22,10 +22,10 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`content-publish:${ip}`, 10, 15 * 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "approve_publishing")) {
-    return json(403, { error: "forbidden", message: "Publishing approval requires super_admin." })
+    return deniedResponse(403, "Publishing approval requires super_admin.", "forbidden")
   }
 
   const gh = githubConfig()

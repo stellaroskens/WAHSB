@@ -16,7 +16,7 @@ export default async (req: Request, context: Context) => {
     )
   }
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
 
   return Response.json(

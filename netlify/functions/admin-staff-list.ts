@@ -2,7 +2,7 @@ import type { Config, Context } from "@netlify/functions"
 import { admin } from "@netlify/identity"
 import { PLANNED_STAFF } from "./_shared/plannedStaff.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 import { primaryStaffRole, rolesFromUser } from "./_shared/roles.ts"
 
@@ -20,10 +20,10 @@ export default async (req: Request, context: Context) => {
     )
   }
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "manage_staff_invites")) {
-    return Response.json({ error: "forbidden" }, { status: 403 })
+    return deniedResponse(403, "Staff invite permission required.", "forbidden")
   }
 
   let users: Awaited<ReturnType<typeof admin.listUsers>> = []

@@ -3,7 +3,7 @@ import { draftRecordStatus } from "../../src/lib/content/pageEditor.ts"
 import { parseSiteContent, validateSiteContent } from "../../src/lib/content/siteContent.ts"
 import { DRAFTS_PREFIX, getFileContent, githubConfig, listDraftFiles, putFileContent } from "./_shared/githubContent.ts"
 import { mayEditSiteDrafts } from "./_shared/permissions.ts"
-import { requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireEnabledStaffAuth } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 
 function json(status: number, body: unknown): Response {
@@ -16,9 +16,9 @@ export default async (req: Request, context: Context) => {
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
   if (req.method === "GET") {
-    const auth = await requireEnabledStaffAuth()
+    const auth = await requireEnabledStaffAuth(context)
     if (!auth.ok) return auth.response
-    if (!mayEditSiteDrafts(auth.roles)) return json(403, { error: "forbidden" })
+    if (!mayEditSiteDrafts(auth.roles)) return deniedResponse(403, "Staff role required.", "forbidden")
 
     const gh = githubConfig()
     if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })
@@ -44,9 +44,9 @@ export default async (req: Request, context: Context) => {
   }
 
   if (req.method === "POST") {
-    const auth = await requireEnabledStaffAuth()
+    const auth = await requireEnabledStaffAuth(context)
     if (!auth.ok) return auth.response
-    if (!mayEditSiteDrafts(auth.roles)) return json(403, { error: "forbidden" })
+    if (!mayEditSiteDrafts(auth.roles)) return deniedResponse(403, "Staff role required.", "forbidden")
 
     const gh = githubConfig()
     if (!gh.ok) return json(gh.status, { error: gh.message, code: gh.code })

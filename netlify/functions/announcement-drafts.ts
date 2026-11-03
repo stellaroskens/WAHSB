@@ -2,7 +2,7 @@ import type { Config, Context } from "@netlify/functions"
 import { announcementRecordStatus, validateAnnouncementDraft } from "../../src/lib/content/announcementDraft.ts"
 import { DRAFTS_PREFIX, getFileContent, githubConfig, listDraftFiles, putFileContent } from "./_shared/githubContent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
 
 const PREFIX = `${DRAFTS_PREFIX}announcement-`
@@ -15,10 +15,10 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`announcements:${context.ip || "unknown"}`, 30, 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "propose_announcements") && !hasPermission(auth.roles, "approve_publishing")) {
-    return json(403, { error: "forbidden" })
+    return deniedResponse(403, "Staff role required.", "forbidden")
   }
 
   const gh = githubConfig()

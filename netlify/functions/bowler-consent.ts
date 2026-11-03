@@ -2,7 +2,7 @@ import type { Config, Context } from "@netlify/functions"
 import { CONSENT_NOT_SAVED, CONSENT_STORE_SETUP, consentAllowsPublication, readConsentRecord } from "../../src/lib/content/bowlerConsent.ts"
 import { hasPermission } from "./_shared/permissions.ts"
 import { consumeRateLimit } from "./_shared/rateLimit.ts"
-import { requireSuperAdmin } from "./_shared/requireAuth.ts"
+import { deniedResponse, requireSuperAdmin } from "./_shared/requireAuth.ts"
 
 function json(status: number, body: unknown): Response {
   return Response.json(body, { status, headers: { "Cache-Control": "no-store" } })
@@ -19,10 +19,10 @@ export default async (req: Request, context: Context) => {
   const limit = consumeRateLimit(`bowler-consent:${ip}`, 20, 60_000)
   if (!limit.allowed) return json(429, { error: "Too many requests." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
   if (!hasPermission(auth.roles, "edit_public_content")) {
-    return json(403, { error: "Only a super administrator can prepare bowler consent." })
+    return deniedResponse(403, "Only a super administrator can prepare bowler consent.", "forbidden")
   }
 
   const parsed = readConsentRecord(await req.json().catch(() => null))

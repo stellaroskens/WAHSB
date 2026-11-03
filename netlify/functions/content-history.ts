@@ -10,7 +10,7 @@ function json(status: number, body: unknown): Response {
 export default async (req: Request, _context: Context) => {
   if (req.method !== "GET") return json(405, { error: "Method not allowed." })
 
-  const auth = await requireSuperAdmin()
+  const auth = await requireSuperAdmin(context)
   if (!auth.ok) return auth.response
 
   const gh = githubConfig()
