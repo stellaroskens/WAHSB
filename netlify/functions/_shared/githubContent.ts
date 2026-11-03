@@ -10,6 +10,13 @@ const PUBLISHED_PATH = "src/content/published/siteContent.json"
 const CONNECTIONS_PATH = "src/content/published/siteConnections.json"
 const DRAFTS_PREFIX = "content/drafts/"
 
+function serverValue(name: "CONTEXT" | "BRANCH" | "HEAD" | "PULL_REQUEST" | "REVIEW_ID"): string | undefined {
+  const scoped = Netlify.env.get(name)
+  if (typeof scoped === "string" && scoped.trim()) return scoped
+  const runtime = process.env[name]
+  return typeof runtime === "string" && runtime.trim() ? runtime : undefined
+}
+
 export function githubConfig():
   | { ok: true; token: string; owner: string; repo: string; branch: string }
   | { ok: false; status: number; code: string; message: string } {
@@ -24,10 +31,11 @@ export function githubConfig():
     }
   }
   const target = contentWriteTarget({
-    context: Netlify.env.get("CONTEXT"),
-    deployBranch: Netlify.env.get("BRANCH"),
-    headBranch: Netlify.env.get("HEAD"),
-    pullRequest: Netlify.env.get("PULL_REQUEST"),
+    context: serverValue("CONTEXT"),
+    deployBranch: serverValue("BRANCH"),
+    headBranch: serverValue("HEAD"),
+    pullRequest: serverValue("PULL_REQUEST"),
+    reviewId: serverValue("REVIEW_ID"),
     owner: Netlify.env.get("GITHUB_CONTENT_OWNER"),
     repo: Netlify.env.get("GITHUB_CONTENT_REPO"),
   })

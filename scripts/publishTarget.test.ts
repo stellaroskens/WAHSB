@@ -46,6 +46,15 @@ describe("preview publishing target", () => {
     })
     assert.equal(fromPull.ok, true)
     if (fromPull.ok) assert.equal(fromPull.branch, "cursor/portal-visual")
+    const fromReview = contentWriteTarget({
+      context: undefined,
+      deployBranch: "refs/heads/cursor/portal-visual",
+      reviewId: "17",
+      owner: undefined,
+      repo: undefined,
+    })
+    assert.equal(fromReview.ok, true)
+    if (fromReview.ok) assert.equal(fromReview.branch, "cursor/portal-visual")
     const productionHead = contentWriteTarget({
       context: "production",
       deployBranch: "main",
@@ -124,9 +133,17 @@ describe("preview publishing target", () => {
     assert.doesNotMatch(drafts, /PUBLISHED_PATH/)
     assert.doesNotMatch(drafts, /body\.branch/)
     assert.match(github, /contentWriteTarget/)
-    assert.match(github, /Netlify\.env\.get\("HEAD"\)/)
-    assert.match(github, /Netlify\.env\.get\("PULL_REQUEST"\)/)
+    assert.match(github, /serverValue\("HEAD"\)/)
+    assert.match(github, /serverValue\("PULL_REQUEST"\)/)
+    assert.match(github, /serverValue\("REVIEW_ID"\)/)
+    assert.match(github, /process\.env\[name\]/)
+    assert.doesNotMatch(github, /process\.env\.GITHUB/)
     assert.match(github, /github_token_missing/)
+    assert.match(drafts, /catch/)
+    assert.match(publish, /catch/)
+    const announcements = readFileSync(new URL("../netlify/functions/announcement-drafts.ts", import.meta.url), "utf8")
+    assert.match(announcements, /catch/)
+    assert.match(announcements, /validation_failed/)
     assert.doesNotMatch(github, /GITHUB_CONTENT_BRANCH/)
     assert.doesNotMatch(github, /\|\| "main"/)
     assert.doesNotMatch(github, /console\./)

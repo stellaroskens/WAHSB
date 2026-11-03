@@ -14,16 +14,21 @@ export type ContentWriteTarget =
  * Production and main are refused so a preview cannot change the live site.
  */
 function reviewBranch(value: string | undefined): string | null {
-  const branch = value?.trim() || ""
+  let branch = value?.trim() || ""
+  if (branch.startsWith("refs/heads/")) branch = branch.slice("refs/heads/".length)
   if (!BRANCH_PATTERN.test(branch) || branch.includes("..") || branch === "main" || branch === "master") return null
   return branch
 }
 
-function serverContext(context: string | undefined, pullRequest: string | undefined): string {
+function isReviewSignal(value: string | undefined): boolean {
+  const signal = value?.trim() || ""
+  return signal === "true" || /^[1-9]\d*$/.test(signal)
+}
+
+function serverContext(context: string | undefined, pullRequest: string | undefined, reviewId: string | undefined): string {
   const explicit = context?.trim() || ""
   if (explicit) return explicit
-  const pull = pullRequest?.trim() || ""
-  if (pull === "true" || /^[1-9]\d*$/.test(pull)) return "deploy-preview"
+  if (isReviewSignal(pullRequest) || isReviewSignal(reviewId)) return "deploy-preview"
   return ""
 }
 
@@ -32,6 +37,7 @@ export function contentWriteTarget(input: {
   deployBranch: string | undefined
   headBranch?: string | undefined
   pullRequest?: string | undefined
+  reviewId?: string | undefined
   owner: string | undefined
   repo: string | undefined
 }): ContentWriteTarget {
@@ -45,7 +51,7 @@ export function contentWriteTarget(input: {
     }
   }
 
-  const context = serverContext(input.context, input.pullRequest)
+  const context = serverContext(input.context, input.pullRequest, input.reviewId)
   if (context === "production") {
     return {
       ok: false,
